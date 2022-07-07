@@ -1,0 +1,41 @@
+import React, { useEffect } from "react";
+import { ActivityIndicator, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
+import { registerDevice } from "../redux/actions/auth.actions";
+import { Device } from "../../../common/entities/device.entity";
+import { ActionState } from "../../../common/redux/entity.state.interface";
+import { RouteProp } from "@react-navigation/native";
+import { ParamList } from "../../../common/param.list";
+import { StackNavigationProp } from "@react-navigation/stack";
+
+type Props = {
+    route: RouteProp<ParamList, "register">;
+    navigation: StackNavigationProp<ParamList, "register">;
+};
+
+export const RegisterDeviceScreen: React.FC<Props> = ({ navigation }) => {
+    const authState = useSelector(
+        (state: ApplicationStateInterface) => state.authState,
+    );
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        (async () => {
+            const device = await Device.toLatest();
+            dispatch(registerDevice(device));
+        })();
+    }, []);
+
+    return (
+        <View
+            style={{
+                backgroundColor: "#BCD979",
+                justifyContent: "center",
+                flex: 1,
+            }}
+        >
+            <ActivityIndicator size={"large"} />
+        </View>
+    );
+};
