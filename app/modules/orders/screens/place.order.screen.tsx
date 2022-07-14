@@ -19,11 +19,17 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
     const cartState = useSelector(
         (state: ApplicationStateInterface) => state.cartState,
     );
-    const [customer, setCustomer] = useState<User | undefined>();
+    const [customer, setCustomer] = useState<User | undefined>(
+        route.params.customer,
+    );
 
     return (
         <View style={{ flex: 1 }}>
-            <ListItem bottomDivider>
+            <ListItem
+                bottomDivider
+                hasTVPreferredFocus={undefined}
+                tvParallaxProperties={undefined}
+            >
                 <ListItem.Content>
                     <ListItem.Title>
                         {customer ? customer.name : "Not selected"}

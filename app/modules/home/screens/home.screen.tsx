@@ -42,13 +42,13 @@ export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
                         backgroundColor={"#BCD979"}
                         title={"Orders"}
                         subtitle={""}
-                        onPress={() => navigation.push("orders")}
+                        onPress={() => navigation.push("ordersNavigator")}
                     />
                     <MenuBox
                         backgroundColor={"#6D98BA"}
                         title={"Payments"}
                         subtitle={""}
-                        onPress={() => navigation.push("orders")}
+                        onPress={() => navigation.push("ordersNavigator")}
                     />
                 </View>
                 <View style={{ flexDirection: "row" }}>
@@ -56,13 +56,13 @@ export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
                         backgroundColor={"#EF8354"}
                         title={"Customers"}
                         subtitle={""}
-                        onPress={() => null}
+                        onPress={() => navigation.push("customersNavigator")}
                     />
                     <MenuBox
                         backgroundColor={"#D9AE61"}
                         title={"Products"}
                         subtitle={""}
-                        onPress={() => null}
+                        onPress={() => navigation.push("productsNavigator")}
                     />
                 </View>
             </View>

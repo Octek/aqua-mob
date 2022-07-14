@@ -9,7 +9,12 @@ export class User {
         public mobileVerified: boolean,
         public whatsapp: string,
         public whatsappVerified: boolean,
+        public address: string,
     ) {}
+
+    get mobileWithoutPrefix(): string {
+        return this.mobile.substring(3);
+    }
 
     get initials(): string {
         const components = this.name.split(" ");

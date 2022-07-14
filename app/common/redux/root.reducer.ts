@@ -5,10 +5,12 @@ import { errorReducer } from "./error.reducer";
 import { ordersReducer } from "../../modules/orders/redux/reducers/orders.reducer";
 import { productsReducer } from "../../modules/products/redux/reducers/products.reducer";
 import { cartReducer } from "../../modules/orders/redux/reducers/cart.reducer";
+import { customersReducer } from "../../modules/customers/redux/reducers/customers.reducer";
 
 const appReducer = combineReducers<ApplicationStateInterface>({
     authState: authReducer,
     ordersState: ordersReducer,
+    customersState: customersReducer,
     productsState: productsReducer,
     cartState: cartReducer,
     errorState: errorReducer,

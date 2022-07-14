@@ -13,9 +13,10 @@ import { navigationRef, replace } from "./common/root.navigation";
 import { showMessage } from "react-native-flash-message";
 import { clearError } from "./common/redux/error.actions";
 import { HomeNavigator } from "./modules/home/screens/home.navigator";
-// import { CompaniesNavigator } from "./companies/screens/companies.navigator";
 import { unauthorize } from "./modules/auth/redux/actions/auth.actions";
 import { OrdersNavigator } from "./modules/orders/screens/orders.navigator";
+import { CustomersNavigator } from "./modules/customers/screens/customers.navigator";
+import { ProductsNavigator } from "./modules/products/screens/products.navigator";
 
 enableScreens();
 
@@ -45,15 +46,21 @@ export const RootContainer = () => {
 
     useEffect(() => {
         if (authState.deviceState === ActionState.done) {
-            replace("login", {});
+            if (authState.loggedInUser) {
+                replace("homeNavigator", {});
+            } else {
+                replace("authNavigator", { screen: "login" });
+            }
         }
-    }, [authState.deviceState]);
+    }, [authState.deviceState, authState.authState]);
 
-    useEffect(() => {
-        if (authState.loggedInUser) {
-            replace("home", {});
-        }
-    }, [authState.authState]);
+    // useEffect(() => {
+    //     if (authState.loggedInUser) {
+    //         replace("homeNavigator", {});
+    //     } else {
+    //         replace("authNavigator", { screen: "login" });
+    //     }
+    // }, [authState.authState]);
 
     // useEffect(() => {
     //     // dispatch(resetError());
@@ -192,10 +199,24 @@ export const RootContainer = () => {
     return (
         <NavigationContainer ref={navigationRef}>
             <StatusBar translucent backgroundColor="transparent" />
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="auth" component={AuthNavigator} />
-                <Stack.Screen name="home" component={HomeNavigator} />
-                <Stack.Screen name="orders" component={OrdersNavigator} />
+            <Stack.Navigator
+                initialRouteName={"authNavigator"}
+                screenOptions={{ headerShown: false }}
+            >
+                <Stack.Screen name="authNavigator" component={AuthNavigator} />
+                <Stack.Screen name="homeNavigator" component={HomeNavigator} />
+                <Stack.Screen
+                    name="productsNavigator"
+                    component={ProductsNavigator}
+                />
+                <Stack.Screen
+                    name="ordersNavigator"
+                    component={OrdersNavigator}
+                />
+                <Stack.Screen
+                    name="customersNavigator"
+                    component={CustomersNavigator}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );
