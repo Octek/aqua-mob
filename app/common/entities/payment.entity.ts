@@ -1,3 +1,5 @@
+import { User } from "./user.entity";
+
 export class Payment {
     constructor(
         public id: number,
@@ -5,5 +7,6 @@ export class Payment {
         public updatedAt: string,
         public amount: number,
         public mode: number,
+        public customer: User,
     ) {}
 }

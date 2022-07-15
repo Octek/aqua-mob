@@ -8,6 +8,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { fetchPayments } from "../redux/actions/payment.action";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { Payment } from "../../../common/entities/payment.entity";
+import { PaymentItemComponent } from "./components/payment.item.component";
 
 type Props = {
     route: RouteProp<ParamList, "paymentsNavigator">;
@@ -33,7 +34,6 @@ export const PaymentsListScreen: React.FC<Props> = ({ route, navigation }) => {
             ),
         });
     });
-
     useEffect(() => {
         dispatch(fetchPayments());
     }, []);
@@ -42,13 +42,7 @@ export const PaymentsListScreen: React.FC<Props> = ({ route, navigation }) => {
         <FlatList<Payment>
             style={{ flex: 1 }}
             data={paymentState.entities}
-            renderItem={({ item }) => (
-                <View>
-                    <Text>
-                        {item.amount}, {item.createdAt}
-                    </Text>
-                </View>
-            )}
+            renderItem={({ item }) => <PaymentItemComponent payment={item} />}
         />
     );
 };
