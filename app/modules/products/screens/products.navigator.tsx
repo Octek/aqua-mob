@@ -17,7 +17,7 @@ export const ProductsNavigator = (_: any) => {
         >
             <Stack.Screen
                 name="products.list"
-                options={{ title: "Products", headerBackTitle: " " }}
+                options={{ title: "Productss", headerBackTitle: " " }}
                 component={ProductsListScreen}
             />
             <Stack.Screen

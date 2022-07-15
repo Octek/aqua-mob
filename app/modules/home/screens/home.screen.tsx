@@ -48,7 +48,7 @@ export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
                         backgroundColor={"#6D98BA"}
                         title={"Payments"}
                         subtitle={""}
-                        onPress={() => navigation.push("ordersNavigator")}
+                        onPress={() => navigation.push("paymentNavigator")}
                     />
                 </View>
                 <View style={{ flexDirection: "row" }}>

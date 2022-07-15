@@ -30,7 +30,7 @@ export const OrdersListScreen: React.FC<Props> = ({ route, navigation }) => {
                     name="add-circle"
                     color="black"
                     tvParallaxProperties={undefined}
-                    onPress={() => navigation.push("placeOrder")}
+                   onPress={() => navigation.push("placeOrder")}
                 />
             ),
         });
