@@ -1,5 +1,6 @@
 import React from "react";
-import { Avatar, ListItem } from "react-native-elements";
+import { View, Text } from "react-native";
+import { Avatar, Badge, ListItem } from "react-native-elements";
 import { Payment } from "../../../../common/entities/payment.entity";
 import moment from "moment";
 type Props = {
@@ -16,19 +17,35 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
                         alignItems: "center",
                         margin: 0,
                         flexDirection: "row",
+                        justifyContent: "space-between",
                     }}
                 >
                     <ListItem.Content style={{ marginLeft: 10 }}>
                         <ListItem.Title>
-                            {props.payment.customer.name}
+                            <Text style={{ justifyContent: "flex-start" }}>
+                                {props.payment.customer.name}{" "}
+                            </Text>
+                            <Badge
+                                value={
+                                    props.payment.mode == 0 ? "Cash" : "Online"
+                                }
+                                status={
+                                    props.payment.mode == 0
+                                        ? "success"
+                                        : "primary"
+                                }
+                            />
                         </ListItem.Title>
                         <ListItem.Subtitle>
                             {moment(props.payment.createdAt).format(
-                                "YYYY-MM-DD",
+                                // "YYYY-MM-DD",
+                                "DD MMMM YYYY",
                             )}
                         </ListItem.Subtitle>
                     </ListItem.Content>
-                    <ListItem.Title>Rs {props.payment.amount}</ListItem.Title>
+                    <ListItem.Title>
+                        Rs. {props.payment.amount}/-
+                    </ListItem.Title>
                 </ListItem.Content>
             </ListItem.Content>
         </ListItem>

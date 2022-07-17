@@ -1,12 +1,15 @@
-import * as Type from "../types/payment.types";
+import { PaymentItemDto } from "../../dtos/payment.item.dto";
+import * as Types from "../types/payment.types";
+import { instanceToPlain } from "class-transformer";
 
-export const fetchPayments = () => {
+export const addPayment = (paymentItems: PaymentItemDto) => {
     return {
-        type: Type.FETCH_PAYMENTS,
+        type: Types.ADD_PAYMENT,
         payload: {
             request: {
-                method: "GET",
+                method: "POST",
                 url: "/payments",
+                data: instanceToPlain(paymentItems),
             },
         },
     };

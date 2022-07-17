@@ -5,7 +5,7 @@ import { View, Text, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { fetchPayments } from "../redux/actions/payment.action";
+import { fetchPayments } from "../redux/actions/payment.orders.action";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { Payment } from "../../../common/entities/payment.entity";
 import { PaymentItemComponent } from "./components/payment.item.component";

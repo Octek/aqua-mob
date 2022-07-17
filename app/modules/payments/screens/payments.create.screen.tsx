@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import { Icon, ListItem } from "react-native-elements";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { PaymentMode } from "../dtos/payment.item.dto";
+import { PaymentItemDto, PaymentMode } from "../dtos/payment.item.dto";
+import { useDispatch } from "react-redux";
+import { addPayment } from "../redux/actions/payment.action";
+
 type Props = {
     route: RouteProp<ParamList, "createPayments">;
     navigation: StackNavigationProp<ParamList, "createPayments">;
@@ -15,6 +18,18 @@ export const PaymentsCreateScreen: React.FC<Props> = ({ navigation }) => {
     const [mode, setMode] = useState<PaymentMode>(PaymentMode.Cash);
     const [currentIndex, setCurrentIndex] = useState(0);
     const buttons = ["Cash", "Online"];
+
+    const dispatch = useDispatch();
+
+    const selectPaymetMode = (selected: any) => {
+        setCurrentIndex(selected);
+        if (selected == 0) {
+            setMode(PaymentMode.Cash);
+        } else {
+            setMode(PaymentMode.Online);
+        }
+    };
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -24,7 +39,17 @@ export const PaymentsCreateScreen: React.FC<Props> = ({ navigation }) => {
                     name="save"
                     color="black"
                     tvParallaxProperties={undefined}
-                    onPress={() => console.log("save button pressed")}
+                    onPress={() =>
+                        dispatch(
+                            addPayment(
+                                new PaymentItemDto(
+                                    parseInt(amount) || 0,
+                                    mode,
+                                    22,
+                                ),
+                            ),
+                        )
+                    }
                 />
             ),
         });
@@ -64,7 +89,7 @@ export const PaymentsCreateScreen: React.FC<Props> = ({ navigation }) => {
                 <ListItem.ButtonGroup
                     buttons={buttons}
                     selectedIndex={currentIndex}
-                    onPress={(selected) => setCurrentIndex(selected)}
+                    onPress={(selected) => selectPaymetMode(selected)}
                     containerStyle={{ maxWidth: 140 }}
                 />
                 <ListItem.Title />
