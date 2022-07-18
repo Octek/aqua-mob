@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { Avatar, Badge, ListItem } from "react-native-elements";
+import { Text } from "react-native";
+import { Badge, ListItem } from "react-native-elements";
 import { Payment } from "../../../../common/entities/payment.entity";
 import moment from "moment";
 type Props = {

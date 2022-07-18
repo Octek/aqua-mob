@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { Icon, ListItem } from "react-native-elements";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PaymentItemDto, PaymentMode } from "../dtos/payment.item.dto";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addPayment } from "../redux/actions/payment.action";
+import { ActionState } from "../../../common/redux/entity.state.interface";
+import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 
 type Props = {
     route: RouteProp<ParamList, "createPayments">;
@@ -17,6 +19,9 @@ export const PaymentsCreateScreen: React.FC<Props> = ({ navigation }) => {
     const [amount, setAmount] = useState("0");
     const [mode, setMode] = useState<PaymentMode>(PaymentMode.Cash);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const paymentsState = useSelector(
+        (state: ApplicationStateInterface) => state.paymentsState,
+    );
     const buttons = ["Cash", "Online"];
 
     const dispatch = useDispatch();
@@ -32,28 +37,40 @@ export const PaymentsCreateScreen: React.FC<Props> = ({ navigation }) => {
 
     useEffect(() => {
         navigation.setOptions({
-            headerRight: () => (
-                <Icon
-                    style={{ marginRight: 10 }}
-                    size={28}
-                    name="save"
-                    color="black"
-                    tvParallaxProperties={undefined}
-                    onPress={() =>
-                        dispatch(
-                            addPayment(
-                                new PaymentItemDto(
-                                    parseInt(amount) || 0,
-                                    mode,
-                                    22,
+            headerRight: () =>
+                paymentsState.addState === ActionState.inProgress ? (
+                    <ActivityIndicator
+                        style={{ marginRight: 10 }}
+                        color={"black"}
+                    />
+                ) : (
+                    <Icon
+                        style={{ marginRight: 10 }}
+                        size={28}
+                        name="save"
+                        color="black"
+                        tvParallaxProperties={undefined}
+                        onPress={() =>
+                            dispatch(
+                                addPayment(
+                                    new PaymentItemDto(
+                                        parseInt(amount) || 0,
+                                        mode,
+                                        22,
+                                    ),
                                 ),
-                            ),
-                        )
-                    }
-                />
-            ),
+                            )
+                        }
+                    />
+                ),
         });
     });
+
+    useEffect(() => {
+        if (paymentsState.addState === ActionState.done) {
+            navigation.goBack();
+        }
+    }, [paymentsState.addState]);
 
     const rows = [
         // @ts-ignore

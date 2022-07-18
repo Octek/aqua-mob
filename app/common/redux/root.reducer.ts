@@ -6,13 +6,13 @@ import { ordersReducer } from "../../modules/orders/redux/reducers/orders.reduce
 import { productsReducer } from "../../modules/products/redux/reducers/products.reducer";
 import { cartReducer } from "../../modules/orders/redux/reducers/cart.reducer";
 import { customersReducer } from "../../modules/customers/redux/reducers/customers.reducer";
-import { paymentOrdersReducer } from "../../modules/payments/redux/reducers/payment.orders.reducer";
+import { paymentReducer } from "../../modules/payments/redux/reducers/payments.reducer";
 
 const appReducer = combineReducers<ApplicationStateInterface>({
     authState: authReducer,
     ordersState: ordersReducer,
     customersState: customersReducer,
-    paymentsState: paymentOrdersReducer,
+    paymentsState: paymentReducer,
     productsState: productsReducer,
     cartState: cartReducer,
     errorState: errorReducer,
