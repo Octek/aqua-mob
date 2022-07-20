@@ -7,6 +7,14 @@ export const cleanupPayments = () => {
         type: Types.CLEANUP_PAYMENTS,
     };
 };
+export const cleanupNewPayments = () => {
+    return {
+        type: Types.CLEANUP_NEW_PAYMENTS,
+        payload: {
+            payment: undefined,
+        },
+    };
+};
 
 export const addPayment = (paymentItems: PaymentItemDto) => {
     return {

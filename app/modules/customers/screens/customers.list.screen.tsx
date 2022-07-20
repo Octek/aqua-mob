@@ -79,7 +79,11 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                         if (route.params && route.params.selectable) {
                             dispatch(setCustomer(customer));
                             navigation.goBack();
-                        } else {
+                        }
+                        // else if (route.params.isPayment == true) {
+                        //     console.log("printed");
+                        // }
+                        else {
                             navigation.push("showCustomer", {
                                 customer: customer,
                             });

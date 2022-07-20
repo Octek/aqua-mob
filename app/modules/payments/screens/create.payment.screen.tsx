@@ -9,8 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addPayment, cleanupPayments } from "../redux/actions/payments.action";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
-import { cleanupCustomers } from "../../customers/redux/actions/customer.actions";
-import { cleanUPCustomer } from "../../orders/redux/actions/cart.actions";
+import { cleanupNewPayments } from "../redux/actions/payments.action";
 
 type Props = {
     route: RouteProp<ParamList, "createPayments">;
@@ -24,7 +23,7 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
     const paymentsState = useSelector(
         (state: ApplicationStateInterface) => state.paymentsState,
     );
-    const cartState = useSelector(
+    const paymentState = useSelector(
         (state: ApplicationStateInterface) => state.cartState,
     );
     const buttons = ["Cash", "Online"];
@@ -61,7 +60,7 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
                                     new PaymentItemDto(
                                         parseInt(amount) || 0,
                                         mode,
-                                        cartState.customer.id || 0,
+                                        paymentState.customer.id || 0,
                                     ),
                                 ),
                             )
@@ -74,7 +73,7 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
     useEffect(() => {
         if (paymentsState.addState === ActionState.done) {
             dispatch(cleanupPayments());
-            dispatch(cleanUPCustomer());
+            dispatch(cleanupNewPayments());
             navigation.goBack();
         }
     }, [paymentsState.addState]);
@@ -83,7 +82,11 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
         // @ts-ignore
         <ListItem
             onPress={() =>
-                navigation.navigate("selectCustomer", { selectable: true })
+                navigation.navigate(
+                    "selectCustomer",
+                    // { selectable: false },
+                    { isPayment: true },
+                )
             }
             bottomDivider
             hasTVPreferredFocus={undefined}
@@ -91,8 +94,8 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
         >
             <ListItem.Content>
                 <ListItem.Title>
-                    {cartState.customer
-                        ? cartState.customer.name
+                    {paymentState.customer
+                        ? paymentState.customer.name
                         : "Not selected"}
                 </ListItem.Title>
                 <ListItem.Subtitle>Customer</ListItem.Subtitle>
