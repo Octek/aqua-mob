@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StackActions } from "@react-navigation/native";
 import { PaymentsListScreen } from "./payments.list.screen";
-import { PaymentsCreateScreen } from "./payments.create.screen";
+import { CreatePaymentScreen } from "./create.payment.screen";
 
 const Stack = createStackNavigator();
 
@@ -24,7 +24,7 @@ export const PaymentNavigator = () => {
             <Stack.Screen
                 name="addPayment"
                 options={{ title: "Add Payment", headerBackTitle: " " }}
-                component={PaymentsCreateScreen}
+                component={CreatePaymentScreen}
             />
         </Stack.Navigator>
     );

@@ -6,7 +6,7 @@ import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PaymentItemDto, PaymentMode } from "../dtos/payment.item.dto";
 import { useDispatch, useSelector } from "react-redux";
-import { addPayment } from "../redux/actions/payment.action";
+import { addPayment, cleanupPayments } from "../redux/actions/payments.action";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 
@@ -15,7 +15,7 @@ type Props = {
     navigation: StackNavigationProp<ParamList, "createPayments">;
 };
 
-export const PaymentsCreateScreen: React.FC<Props> = ({ navigation }) => {
+export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
     const [amount, setAmount] = useState("0");
     const [mode, setMode] = useState<PaymentMode>(PaymentMode.Cash);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -68,6 +68,7 @@ export const PaymentsCreateScreen: React.FC<Props> = ({ navigation }) => {
 
     useEffect(() => {
         if (paymentsState.addState === ActionState.done) {
+            dispatch(cleanupPayments());
             navigation.goBack();
         }
     }, [paymentsState.addState]);
@@ -109,6 +110,7 @@ export const PaymentsCreateScreen: React.FC<Props> = ({ navigation }) => {
                     onPress={(selected) => selectPaymetMode(selected)}
                     containerStyle={{ maxWidth: 140 }}
                 />
+
                 <ListItem.Title />
                 <ListItem.Subtitle>Payment Mode</ListItem.Subtitle>
             </ListItem.Content>

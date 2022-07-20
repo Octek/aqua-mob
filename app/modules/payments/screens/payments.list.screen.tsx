@@ -5,10 +5,11 @@ import { View, Text, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { fetchPayments } from "../redux/actions/payment.orders.action";
+import { fetchPayments } from "../redux/actions/payments.action";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { Payment } from "../../../common/entities/payment.entity";
 import { PaymentItemComponent } from "./components/payment.item.component";
+import { cleanupCustomers } from "../../customers/redux/actions/customer.actions";
 
 type Props = {
     route: RouteProp<ParamList, "paymentsNavigator">;
