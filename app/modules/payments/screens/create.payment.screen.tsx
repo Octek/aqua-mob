@@ -59,7 +59,7 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
                                     new PaymentItemDto(
                                         parseInt(amount) || 0,
                                         mode,
-                                        22,
+                                        cartState.customer.id || 0,
                                     ),
                                 ),
                             )
