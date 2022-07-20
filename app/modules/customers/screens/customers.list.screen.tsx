@@ -9,6 +9,7 @@ import { Icon } from "react-native-elements";
 import { User } from "../../../common/entities/user.entity";
 import { fetchCustomers } from "../redux/actions/customer.actions";
 import { CustomerItemComponent } from "./components/customer.item.component";
+import { setCustomer } from "../../orders/redux/actions/cart.actions";
 
 type Props = {
     route: RouteProp<ParamList, "customersNavigator">;
@@ -51,9 +52,19 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
             renderItem={({ item }) => (
                 <CustomerItemComponent
                     customer={item}
-                    onPress={(customer) =>
-                        navigation.push("showCustomer", { customer: customer })
-                    }
+                    // onPress={(customer) =>
+                    //     navigation.push("showCustomer", { customer: customer })
+                    // }
+                    onPress={(customer) => {
+                        if (route.params && route.params.selectable) {
+                            dispatch(setCustomer(customer));
+                            navigation.goBack();
+                        } else {
+                            navigation.push("showCustomer", {
+                                customer: customer,
+                            });
+                        }
+                    }}
                 />
             )}
         />
