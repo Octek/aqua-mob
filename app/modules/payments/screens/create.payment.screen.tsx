@@ -22,6 +22,9 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
     const paymentsState = useSelector(
         (state: ApplicationStateInterface) => state.paymentsState,
     );
+    const cartState = useSelector(
+        (state: ApplicationStateInterface) => state.cartState,
+    );
     const buttons = ["Cash", "Online"];
 
     const dispatch = useDispatch();
@@ -74,6 +77,25 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
     }, [paymentsState.addState]);
 
     const rows = [
+        // @ts-ignore
+        <ListItem
+            onPress={() =>
+                navigation.navigate("selectCustomer", { selectable: true })
+            }
+            bottomDivider
+            hasTVPreferredFocus={undefined}
+            tvParallaxProperties={undefined}
+        >
+            <ListItem.Content>
+                <ListItem.Title>
+                    {cartState.customer
+                        ? cartState.customer.name
+                        : "Not selected"}
+                </ListItem.Title>
+                <ListItem.Subtitle>Customer</ListItem.Subtitle>
+            </ListItem.Content>
+            <ListItem.Chevron tvParallaxProperties={undefined} />
+        </ListItem>,
         // @ts-ignore
         <ListItem bottomDivider>
             <ListItem.Content
