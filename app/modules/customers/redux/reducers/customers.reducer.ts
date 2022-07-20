@@ -97,6 +97,7 @@ export const customersReducer = (
                 ...state,
                 updateState: ActionState.failed,
             };
+
         default:
             return state;
     }

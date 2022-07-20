@@ -6,6 +6,9 @@ import { UpdateCustomerDto } from "../../dtos/update.customer.dto";
 export const cleanupCustomers = () => {
     return {
         type: Types.CLEANUP_CUSTOMERS,
+        payload: {
+            customer: undefined,
+        },
     };
 };
 

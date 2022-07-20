@@ -19,3 +19,12 @@ export const setCustomer = (customer: User) => {
         },
     };
 };
+
+export const cleanUPCustomer = () => {
+    return {
+        type: Types.CLEANUP_CUSTOMER,
+        payload: {
+            customer: undefined,
+        },
+    };
+};

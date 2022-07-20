@@ -21,6 +21,9 @@ export const cartReducer = (
             return { ...state, items };
         case Types.SET_CUSTOMER:
             return { ...state, customer: action.payload.customer };
+        case Types.CLEANUP_CUSTOMER:
+            console.log("cleanup===", action.payload);
+            return { ...state, customer: action.payload.customer };
         default:
             return state;
     }

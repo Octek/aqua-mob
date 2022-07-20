@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addPayment, cleanupPayments } from "../redux/actions/payments.action";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
+import { cleanupCustomers } from "../../customers/redux/actions/customer.actions";
+import { cleanUPCustomer } from "../../orders/redux/actions/cart.actions";
 
 type Props = {
     route: RouteProp<ParamList, "createPayments">;
@@ -72,6 +74,7 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
     useEffect(() => {
         if (paymentsState.addState === ActionState.done) {
             dispatch(cleanupPayments());
+            dispatch(cleanUPCustomer());
             navigation.goBack();
         }
     }, [paymentsState.addState]);
