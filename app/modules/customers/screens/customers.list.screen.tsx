@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -9,6 +9,9 @@ import { Icon } from "react-native-elements";
 import { User } from "../../../common/entities/user.entity";
 import { fetchCustomers } from "../redux/actions/customer.actions";
 import { CustomerItemComponent } from "./components/customer.item.component";
+import { setCustomer } from "../../orders/redux/actions/cart.actions";
+import { fetchProducts } from "../../products/redux/actions/product.actions";
+import { ActionState } from "../../../common/redux/entity.state.interface";
 
 type Props = {
     route: RouteProp<ParamList, "customersNavigator">;
@@ -16,6 +19,7 @@ type Props = {
 };
 
 export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
+    const [page, setPage] = useState(0);
     const customersState = useSelector(
         (state: ApplicationStateInterface) => state.customersState,
     );
@@ -40,20 +44,48 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
         });
     });
 
+    useEffect(() => setPage(1), []);
+
     useEffect(() => {
-        dispatch(fetchCustomers());
-    }, []);
+        if (page > 0) {
+            fetch();
+        }
+    }, [page]);
+
+    const fetch = () => {
+        dispatch(fetchCustomers(page));
+    };
+
+    const fetchNext = () => {
+        if (customersState.page && page < customersState.page.totalPages) {
+            setPage(page + 1);
+        }
+    };
 
     return (
         <FlatList<User>
             style={{ flex: 1 }}
             data={customersState.entities}
+            onRefresh={() => {
+                setPage(0);
+                setPage(1);
+            }}
+            refreshing={customersState.fetchState === ActionState.inProgress}
+            onEndReachedThreshold={0.7}
+            onEndReached={() => fetchNext()}
             renderItem={({ item }) => (
                 <CustomerItemComponent
                     customer={item}
-                    onPress={(customer) =>
-                        navigation.push("showCustomer", { customer: customer })
-                    }
+                    onPress={(customer) => {
+                        if (route.params && route.params.selectable) {
+                            dispatch(setCustomer(customer));
+                            navigation.goBack();
+                        } else {
+                            navigation.push("showCustomer", {
+                                customer: customer,
+                            });
+                        }
+                    }}
                 />
             )}
         />

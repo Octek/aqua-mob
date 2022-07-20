@@ -8,8 +8,9 @@ export type ParamList = {
     login: any;
     home: any;
     ordersNavigator: any;
-    productsNavigator: any;
-    selectProduct: any;
+    productsNavigator: { selectable: boolean };
+    selectProduct: { selectable: boolean };
+    selectCustomer: { selectable: boolean };
     addCompany: any;
     placeOrder: {
         customer?: User;

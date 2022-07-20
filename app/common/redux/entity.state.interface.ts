@@ -1,4 +1,4 @@
-import { Page } from "../entities/page.entity";
+import { PageInfo } from "../entities/page.info.entity";
 
 export enum ActionState {
     failed = -1,
@@ -19,6 +19,6 @@ export interface EntityStateInterface<T> extends CommonInterface {
 }
 
 export interface MultipleEntitiesStateInterface<T> extends CommonInterface {
-    page?: Page;
+    page?: PageInfo;
     entities: T[];
 }

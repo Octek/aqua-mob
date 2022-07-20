@@ -3,22 +3,22 @@ import { Avatar, Button, ListItem } from "react-native-elements";
 import { OrderItemDto } from "../../dtos/order.item.dto";
 
 type Props = {
-    item: OrderItemDto;
+    items: OrderItemDto[];
 };
 
-export const CartItemComponent: React.FC<Props> = (props) => {
+export const CartItemTotalComponent: React.FC<Props> = (props) => {
+    const total = () =>
+        props.items.reduce(
+            (previous, current) => previous + current.quantity * current.price,
+            0,
+        );
+
     return (
         // @ts-ignore
         <ListItem bottomDivider={true}>
             <ListItem.Content style={{ flex: 0.5 }}>
                 <ListItem.Content style={{ flex: 1, flexDirection: "row" }}>
-                    <ListItem.Title style={{ fontWeight: "bold" }}>
-                        {props.item.quantity}
-                    </ListItem.Title>
-                    <ListItem.Title>
-                        {" "}
-                        x {props.item.product.name}
-                    </ListItem.Title>
+                    <ListItem.Title>Total</ListItem.Title>
                 </ListItem.Content>
             </ListItem.Content>
             <ListItem.Content
@@ -28,7 +28,7 @@ export const CartItemComponent: React.FC<Props> = (props) => {
                 }}
             >
                 <ListItem.Title style={{ textAlign: "right" }}>
-                    Rs. {props.item.price * props.item.quantity}/-
+                    Rs. {total()}/-
                 </ListItem.Title>
             </ListItem.Content>
         </ListItem>

@@ -10,7 +10,7 @@ export const ProductsNavigator = (_: any) => {
         <Stack.Navigator
             initialRouteName={"products.list"}
             screenOptions={{
-                headerStyle: { backgroundColor: "#BCD979" },
+                headerStyle: { backgroundColor: "#cadcf0" },
                 headerTintColor: "black",
                 headerShown: true,
             }}

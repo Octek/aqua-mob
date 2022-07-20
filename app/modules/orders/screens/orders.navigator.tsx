@@ -3,6 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { OrdersListScreen } from "./orders.list.screen";
 import { PlaceOrderScreen } from "./place.order.screen";
 import { ProductsListScreen } from "../../products/screens/products.list.screen";
+import { CustomersListScreen } from "../../customers/screens/customers.list.screen";
+import { ShowOrderScreen } from "./show.order.screen";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +28,11 @@ export const OrdersNavigator = (_: any) => {
                 component={PlaceOrderScreen}
             />
             <Stack.Screen
+                name="showOrder"
+                options={{ title: "Order Details", headerBackTitle: " " }}
+                component={ShowOrderScreen}
+            />
+            <Stack.Screen
                 name="selectProduct"
                 options={{
                     title: "Select",
@@ -33,6 +40,15 @@ export const OrdersNavigator = (_: any) => {
                     presentation: "modal",
                 }}
                 component={ProductsListScreen}
+            />
+            <Stack.Screen
+                name="selectCustomer"
+                options={{
+                    title: "Select",
+                    headerBackTitle: " ",
+                    presentation: "modal",
+                }}
+                component={CustomersListScreen}
             />
         </Stack.Navigator>
     );

@@ -32,7 +32,7 @@ export const CustomerItemComponent: React.FC<Props> = (props) => {
                     <ListItem.Content style={{ marginLeft: 10 }}>
                         <ListItem.Title>{props.customer.name}</ListItem.Title>
                         <ListItem.Subtitle>
-                            {props.customer.username}
+                            {props.customer.mobile}
                         </ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem.Content>

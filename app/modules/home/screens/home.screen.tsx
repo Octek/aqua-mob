@@ -62,7 +62,11 @@ export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
                         backgroundColor={"#D9AE61"}
                         title={"Products"}
                         subtitle={""}
-                        onPress={() => navigation.push("productsNavigator")}
+                        onPress={() =>
+                            navigation.push("productsNavigator", {
+                                selectable: false,
+                            })
+                        }
                     />
                 </View>
             </View>

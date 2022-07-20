@@ -1,6 +1,27 @@
 import { PlaceOrderDto } from "../../dtos/place.order.dto";
 import * as Types from "../types/order.types";
-import { instanceToPlain } from "class-transformer";
+import { Order } from "../../../../common/entities/order.entity";
+
+export const cleanupOrders = () => {
+    return {
+        type: Types.CLEANUP_ORDERS,
+    };
+};
+
+export const cleanupOrder = () => {
+    return {
+        type: Types.CLEANUP_ORDER,
+    };
+};
+
+export const refreshOrder = (order: Order) => {
+    return {
+        type: Types.REFRESH_ORDER,
+        payload: {
+            order: order,
+        },
+    };
+};
 
 export const placeOrder = (orderDto: PlaceOrderDto) => {
     return {
@@ -9,19 +30,31 @@ export const placeOrder = (orderDto: PlaceOrderDto) => {
             request: {
                 method: "POST",
                 url: "/orders",
-                data: instanceToPlain(orderDto),
+                data: orderDto.toJson(),
             },
         },
     };
 };
 
-export const getOrders = () => {
+export const getOrders = (page = 1) => {
     return {
         type: Types.GET_ORDERS,
         payload: {
             request: {
                 method: "GET",
-                url: "/orders",
+                url: `/orders?page=${page}`,
+            },
+        },
+    };
+};
+
+export const getOrderDetails = (orderId: number) => {
+    return {
+        type: Types.GET_ORDER,
+        payload: {
+            request: {
+                method: "GET",
+                url: `/orders/${orderId}`,
             },
         },
     };
@@ -29,20 +62,36 @@ export const getOrders = () => {
 
 export const fulfilOrder = (orderId: number) => {
     return {
-        types: Types.FULFIL_ORDER,
+        type: Types.FULFIL_ORDER,
         payload: {
-            method: "PATCH",
-            url: `/orders/${orderId}/fulfil`,
+            request: {
+                method: "PATCH",
+                url: `/orders/${orderId}/fulfil`,
+            },
+        },
+    };
+};
+
+export const dispatchOrder = (orderId: number) => {
+    return {
+        type: Types.DISPATCH_ORDER,
+        payload: {
+            request: {
+                method: "PATCH",
+                url: `/orders/${orderId}/dispatch`,
+            },
         },
     };
 };
 
 export const cancelOrder = (orderId: number) => {
     return {
-        types: Types.CANCEL_ORDER,
+        type: Types.CANCEL_ORDER,
         payload: {
-            method: "PATCH",
-            url: `/orders/${orderId}/cancel`,
+            request: {
+                method: "PATCH",
+                url: `/orders/${orderId}/cancel`,
+            },
         },
     };
 };

@@ -6,10 +6,12 @@ import { ordersReducer } from "../../modules/orders/redux/reducers/orders.reduce
 import { productsReducer } from "../../modules/products/redux/reducers/products.reducer";
 import { cartReducer } from "../../modules/orders/redux/reducers/cart.reducer";
 import { customersReducer } from "../../modules/customers/redux/reducers/customers.reducer";
+import { orderReducer } from "../../modules/orders/redux/reducers/order.reducer";
 
 const appReducer = combineReducers<ApplicationStateInterface>({
     authState: authReducer,
     ordersState: ordersReducer,
+    orderState: orderReducer,
     customersState: customersReducer,
     productsState: productsReducer,
     cartState: cartReducer,
