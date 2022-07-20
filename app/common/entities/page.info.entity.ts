@@ -1,4 +1,4 @@
-export class Page {
+export class PageInfo {
     constructor(
         public currentPage: number,
         public itemsPerPage: number,

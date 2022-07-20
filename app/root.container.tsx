@@ -48,7 +48,7 @@ export const RootContainer = () => {
     useEffect(() => {
         if (authState.deviceState === ActionState.done) {
             if (authState.loggedInUser) {
-                replace("homeNavigator", {});
+                replace("homeNavigator", { selectable: false });
             } else {
                 replace("authNavigator", { screen: "login" });
             }

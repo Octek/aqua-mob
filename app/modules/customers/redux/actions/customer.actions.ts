@@ -12,13 +12,13 @@ export const cleanupCustomers = () => {
     };
 };
 
-export const fetchCustomers = () => {
+export const fetchCustomers = (page = 1) => {
     return {
         type: Types.FETCH_CUSTOMERS,
         payload: {
             request: {
                 method: "GET",
-                url: "/customers",
+                url: `/customers?page=${page}`,
             },
         },
     };

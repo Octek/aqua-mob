@@ -5,6 +5,7 @@ import {
 import { User } from "../../../../common/entities/user.entity";
 import * as Types from "../types/customer.types";
 import { plainToInstance } from "class-transformer";
+import { PageInfo } from "../../../../common/entities/page.info.entity";
 
 const initialState: MultipleEntitiesStateInterface<User> = {
     fetchState: ActionState.notStarted,
@@ -31,10 +32,22 @@ export const customersReducer = (
         case Types.FETCH_CUSTOMERS:
             return { ...state, fetchState: ActionState.inProgress };
         case Types.FETCH_CUSTOMERS_SUCCESS:
+            const page = plainToInstance(
+                PageInfo,
+                <PageInfo>action.payload.data.meta,
+            );
+            const customers = plainToInstance(
+                User,
+                <User[]>action.payload.data.data,
+            );
             return {
                 ...state,
                 fetchState: ActionState.done,
-                entities: plainToInstance(User, action.payload.data.data),
+                page: page,
+                entities:
+                    page.currentPage === 1
+                        ? customers
+                        : [...state.entities, ...customers],
             };
         case Types.FETCH_CUSTOMERS_FAIL:
             return {
@@ -69,7 +82,6 @@ export const customersReducer = (
                 addState: ActionState.failed,
             };
         case Types.UPDATE_CUSTOMER:
-            console.log("1");
             return {
                 ...state,
                 updateState: ActionState.inProgress,
@@ -79,7 +91,6 @@ export const customersReducer = (
                 User,
                 action.payload.data as User,
             );
-            console.log("2");
             return {
                 ...state,
                 updateState: ActionState.done,
@@ -92,7 +103,6 @@ export const customersReducer = (
                 ],
             };
         case Types.UPDATE_CUSTOMER_FAIL:
-            console.log("3");
             return {
                 ...state,
                 updateState: ActionState.failed,

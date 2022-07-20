@@ -38,7 +38,10 @@ export const UpsertCustomerScreen: React.FC<Props> = ({
             headerRight: () =>
                 customersState.addState === ActionState.inProgress ||
                 customersState.updateState === ActionState.inProgress ? (
-                    <ActivityIndicator />
+                    <ActivityIndicator
+                        style={{ marginRight: 10 }}
+                        color={"black"}
+                    />
                 ) : (
                     <Icon
                         style={{ marginRight: 10 }}
@@ -95,7 +98,8 @@ export const UpsertCustomerScreen: React.FC<Props> = ({
             >
                 <ListItem.Input
                     style={{ fontSize: 17 }}
-                    autoCompleteType={""}
+                    autoCorrect={false}
+                    autoCompleteType={"none"}
                     textAlign="left"
                     placeholder={"Name"}
                     value={name}
@@ -118,7 +122,7 @@ export const UpsertCustomerScreen: React.FC<Props> = ({
                     style={{ fontSize: 17 }}
                     autoCompleteType={""}
                     textAlign="left"
-                    placeholder={"Mobile #"}
+                    placeholder={"3339666222"}
                     value={mobile}
                     maxLength={10}
                     onChangeText={(value) => setMobile(value)}
@@ -136,7 +140,8 @@ export const UpsertCustomerScreen: React.FC<Props> = ({
             >
                 <ListItem.Input
                     style={{ fontSize: 17 }}
-                    autoCompleteType={""}
+                    autoCompleteType={"none"}
+                    autoCorrect={false}
                     textAlign="left"
                     placeholder={"Address"}
                     value={address}

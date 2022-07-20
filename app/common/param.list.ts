@@ -2,7 +2,6 @@ import { Company } from "./entities/company.entity";
 import { Order } from "./entities/order.entity";
 import { Product } from "./entities/product.entity";
 import { User } from "./entities/user.entity";
-import { PaymentItemDto } from "../modules/payments/dtos/payment.item.dto";
 
 export type ParamList = {
     register: any;
@@ -10,9 +9,10 @@ export type ParamList = {
     home: any;
     ordersNavigator: any;
     createPayments: any;
-    productsNavigator: any;
     paymentsNavigator: any;
-    selectProduct: any;
+    productsNavigator: { selectable: boolean };
+    selectProduct: { selectable: boolean };
+    selectCustomer: { selectable: boolean };
     addCompany: any;
     placeOrder: {
         customer?: User;

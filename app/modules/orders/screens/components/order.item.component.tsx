@@ -1,6 +1,8 @@
 import React from "react";
-import { Avatar, Button, ListItem } from "react-native-elements";
+import { Avatar, Badge, Button, ListItem } from "react-native-elements";
 import { Order } from "../../../../common/entities/order.entity";
+import moment from "moment";
+import { Text } from "react-native";
 
 type Props = {
     order: Order;
@@ -22,18 +24,23 @@ export const OrderItemComponent: React.FC<Props> = (props) => {
                         flexDirection: "row",
                     }}
                 >
-                    <Avatar
-                        size={32}
-                        rounded
-                        containerStyle={{ backgroundColor: "red" }}
-                        title={props.order.customer.initials}
-                    />
                     <ListItem.Content style={{ marginLeft: 10 }}>
                         <ListItem.Title>
-                            {props.order.customer.name}
+                            <Text>{props.order.customer.name}</Text>
+                            <Badge
+                                containerStyle={{ padding: 1, marginLeft: 5 }}
+                                textStyle={{
+                                    color: props.order.statusInfo.textColor,
+                                }}
+                                value={props.order.statusInfo.text}
+                                badgeStyle={{
+                                    backgroundColor:
+                                        props.order.statusInfo.backgroundColor,
+                                }}
+                            />
                         </ListItem.Title>
                         <ListItem.Subtitle>
-                            {props.order.status}
+                            {moment(props.order.createdAt).fromNow()}
                         </ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem.Content>

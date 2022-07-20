@@ -7,10 +7,12 @@ import { productsReducer } from "../../modules/products/redux/reducers/products.
 import { cartReducer } from "../../modules/orders/redux/reducers/cart.reducer";
 import { customersReducer } from "../../modules/customers/redux/reducers/customers.reducer";
 import { paymentReducer } from "../../modules/payments/redux/reducers/payments.reducer";
+import { orderReducer } from "../../modules/orders/redux/reducers/order.reducer";
 
 const appReducer = combineReducers<ApplicationStateInterface>({
     authState: authReducer,
     ordersState: ordersReducer,
+    orderState: orderReducer,
     customersState: customersReducer,
     paymentsState: paymentReducer,
     productsState: productsReducer,

@@ -1,6 +1,9 @@
 import { AuthStateInterface } from "../../modules/auth/redux/reducers/auth.reducer";
 import { ErrorStateInterface } from "./error.reducer";
-import { MultipleEntitiesStateInterface } from "./entity.state.interface";
+import {
+    EntityStateInterface,
+    MultipleEntitiesStateInterface,
+} from "./entity.state.interface";
 import { Order } from "../entities/order.entity";
 import { Product } from "../entities/product.entity";
 import { CartItemInterface } from "../../modules/orders/redux/reducers/cart.reducer";
@@ -9,6 +12,7 @@ import { Payment } from "../entities/payment.entity";
 
 export interface ApplicationStateInterface {
     authState: AuthStateInterface;
+    orderState: EntityStateInterface<Order>;
     ordersState: MultipleEntitiesStateInterface<Order>;
     customersState: MultipleEntitiesStateInterface<User>;
     paymentsState: MultipleEntitiesStateInterface<Payment>;
