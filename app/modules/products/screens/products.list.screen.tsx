@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { FlatList, View } from "react-native";
+import { FlatList, Platform } from "react-native";
 import { Product } from "../../../common/entities/product.entity";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
@@ -10,9 +10,9 @@ import { ProductItemComponent } from "./components/product.item.component";
 import { fetchProducts } from "../redux/actions/product.actions";
 import { addItem } from "../../orders/redux/actions/cart.actions";
 import { OrderItemDto } from "../../orders/dtos/order.item.dto";
-import { Icon, ListItem } from "react-native-elements";
+import { Icon } from "react-native-elements";
 import { ActionState } from "../../../common/redux/entity.state.interface";
-import debouce from "lodash.debounce";
+import { SearchBar } from "react-native-elements";
 
 type Props = {
     route: RouteProp<ParamList, "productsNavigator">;
@@ -20,8 +20,11 @@ type Props = {
 };
 
 export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
+    const [timeoutHandle, setTimeoutHandle] = useState(0);
+    const [showRefreshControl, setShowRefreshControl] = useState(true);
     const [page, setPage] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
+    const [text, setText] = useState("");
     const productsState = useSelector(
         (state: ApplicationStateInterface) => state.productsState,
     );
@@ -30,18 +33,25 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
     useEffect(() => {
         navigation.setOptions({
             headerTitle: "Products",
-            headerRight: () => (
-                <Icon
-                    style={{ marginRight: 10 }}
-                    size={28}
-                    name="add-circle"
-                    color="black"
-                    tvParallaxProperties={undefined}
-                    onPress={() =>
-                        navigation.push("upsertProduct", { product: undefined })
-                    }
-                />
-            ),
+            headerRight: () =>
+                route.params && route.params.selectable ? null : (
+                    <Icon
+                        style={
+                            Platform.OS === "ios"
+                                ? { marginRight: 10 }
+                                : { marginRight: 20 }
+                        }
+                        size={28}
+                        name="add-circle"
+                        color="black"
+                        tvParallaxProperties={undefined}
+                        onPress={() =>
+                            navigation.push("upsertProduct", {
+                                product: undefined,
+                            })
+                        }
+                    />
+                ),
         });
     });
 
@@ -51,7 +61,7 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
         if (page > 0) {
             fetch();
         }
-    }, [page]);
+    }, [page, searchTerm]);
 
     useEffect(() => {
         console.log("hello");
@@ -70,16 +80,6 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
         }
     };
 
-    // const debouncedResults = useMemo(() => {
-    //     console.log("debouncing");
-    //     return _.debounce(handleChange, 1);
-    // }, []);
-
-    const handleChange = (e: any) => {
-        console.log("text:", e.target.value);
-        setSearchTerm(e.target.value);
-    };
-
     return (
         <FlatList<Product>
             style={{ flex: 1 }}
@@ -87,36 +87,29 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
             onRefresh={() => {
                 setPage(0);
                 setPage(1);
+                setShowRefreshControl(true);
             }}
-            refreshing={productsState.fetchState === ActionState.inProgress}
+            refreshing={
+                productsState.fetchState === ActionState.inProgress &&
+                showRefreshControl
+            }
             onEndReachedThreshold={0.7}
             onEndReached={() => fetchNext()}
-            ListHeaderComponent={() => (
-                <View
-                    style={{
-                        alignItems: "center",
-                        flexDirection: "row",
-                        height: 40,
-                        paddingLeft: 10,
+            ListHeaderComponent={
+                <SearchBar
+                    autoCapitalize={"none"}
+                    onChangeText={(t: string) => {
+                        setShowRefreshControl(false);
+                        setText(t);
+                        clearTimeout(timeoutHandle);
+                        setTimeoutHandle(
+                            setTimeout(() => setSearchTerm(text), 300),
+                        );
                     }}
-                >
-                    <Icon name={"search"} />
-                    <ListItem.Input
-                        onChang
-                        eText={(text: string) => {
-                            console.log("helele", text);
-                            debouce(() => {
-                                console.log("asdfadf");
-                                setSearchTerm(text);
-                            }, 0);
-                        }}
-                        autoCorrect={false}
-                        placeholder={"Search"}
-                        textAlign={"left"}
-                        style={{ flex: 1 }}
-                    />
-                </View>
-            )}
+                    value={text}
+                    placeholder={"Search"}
+                />
+            }
             renderItem={({ item }) => (
                 <ProductItemComponent
                     product={item}

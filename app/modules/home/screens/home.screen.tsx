@@ -18,7 +18,7 @@ type Props = {
 
 export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
     return (
-        <View
+        <SafeAreaView
             style={{
                 justifyContent: "flex-end",
                 flex: 1,
@@ -36,7 +36,7 @@ export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
                     position: "absolute",
                 }}
             />
-            <View style={{ paddingBottom: 40 }}>
+            <View style={{ paddingBottom: 10 }}>
                 <View style={{ flexDirection: "row" }}>
                     <MenuBox
                         backgroundColor={"#BCD979"}
@@ -70,6 +70,6 @@ export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
                     />
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
