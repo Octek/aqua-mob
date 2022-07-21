@@ -9,6 +9,7 @@ export const cleanupProducts = () => {
 };
 
 export const fetchProducts = (page = 1, search = "") => {
+    console.log("search:", search);
     return {
         type: Types.FETCH_PRODUCTS,
         payload: {
