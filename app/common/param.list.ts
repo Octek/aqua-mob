@@ -12,7 +12,7 @@ export type ParamList = {
     paymentsNavigator: any;
     productsNavigator: { selectable: boolean };
     selectProduct: { selectable: boolean };
-    selectCustomer: { selectable: boolean };
+    selectCustomer: { selectable: boolean; isPayment: boolean };
     addCompany: any;
     placeOrder: {
         customer?: User;

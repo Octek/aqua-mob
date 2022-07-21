@@ -11,6 +11,7 @@ import { fetchCustomers } from "../redux/actions/customer.actions";
 import { CustomerItemComponent } from "./components/customer.item.component";
 import { setCustomer } from "../../orders/redux/actions/cart.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import { setPaymentsCustomer } from "../../payments/redux/actions/new.payment.action";
 
 type Props = {
     route: RouteProp<ParamList, "customersNavigator">;
@@ -79,11 +80,11 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                         if (route.params && route.params.selectable) {
                             dispatch(setCustomer(customer));
                             navigation.goBack();
-                        }
-                        // else if (route.params.isPayment == true) {
-                        //     console.log("printed");
-                        // }
-                        else {
+                        } else if (route.params && route.params.isPayment) {
+                            console.log("printed");
+                            dispatch(setPaymentsCustomer(customer));
+                            navigation.goBack();
+                        } else {
                             navigation.push("showCustomer", {
                                 customer: customer,
                             });

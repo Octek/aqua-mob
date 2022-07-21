@@ -1,4 +1,4 @@
-import { PaymentItemDto } from "../../dtos/payment.item.dto";
+import { PaymentDto } from "../../dtos/payment.dto";
 import * as Types from "../types/payment.types";
 import { instanceToPlain } from "class-transformer";
 
@@ -16,7 +16,7 @@ export const cleanupNewPayments = () => {
     };
 };
 
-export const addPayment = (paymentItems: PaymentItemDto) => {
+export const addPayment = (paymentItems: PaymentDto) => {
     return {
         type: Types.ADD_PAYMENT,
         payload: {

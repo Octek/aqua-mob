@@ -2,7 +2,7 @@ export enum PaymentMode {
     Cash,
     Online,
 }
-export class PaymentItemDto {
+export class PaymentDto {
     constructor(
         public amount: number,
         public mode: PaymentMode,

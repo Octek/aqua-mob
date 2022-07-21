@@ -16,7 +16,7 @@ const appReducer = combineReducers<ApplicationStateInterface>({
     orderState: orderReducer,
     customersState: customersReducer,
     paymentsState: paymentReducer,
-    paymetsState: newPaymentReducer,
+    newPaymentState: newPaymentReducer,
     productsState: productsReducer,
     cartState: cartReducer,
     errorState: errorReducer,

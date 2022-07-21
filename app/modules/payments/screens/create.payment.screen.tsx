@@ -4,7 +4,7 @@ import { Icon, ListItem } from "react-native-elements";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { PaymentItemDto, PaymentMode } from "../dtos/payment.item.dto";
+import { PaymentDto, PaymentMode } from "../dtos/payment.dto";
 import { useDispatch, useSelector } from "react-redux";
 import { addPayment, cleanupPayments } from "../redux/actions/payments.action";
 import { ActionState } from "../../../common/redux/entity.state.interface";
@@ -24,7 +24,7 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
         (state: ApplicationStateInterface) => state.paymentsState,
     );
     const paymentState = useSelector(
-        (state: ApplicationStateInterface) => state.cartState,
+        (state: ApplicationStateInterface) => state.newPaymentState,
     );
     const buttons = ["Cash", "Online"];
 
@@ -49,6 +49,11 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
                     />
                 ) : (
                     <Icon
+                        disabled={
+                            paymentState.customer == undefined || amount == "0"
+                                ? true
+                                : false
+                        }
                         style={{ marginRight: 10 }}
                         size={28}
                         name="save"
@@ -57,10 +62,10 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
                         onPress={() =>
                             dispatch(
                                 addPayment(
-                                    new PaymentItemDto(
+                                    new PaymentDto(
                                         parseInt(amount) || 0,
                                         mode,
-                                        paymentState.customer.id || 0,
+                                        paymentState.customer?.id || 0,
                                     ),
                                 ),
                             )
@@ -82,11 +87,10 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
         // @ts-ignore
         <ListItem
             onPress={() =>
-                navigation.navigate(
-                    "selectCustomer",
-                    // { selectable: false },
-                    { isPayment: true },
-                )
+                navigation.navigate("selectCustomer", {
+                    selectable: false,
+                    isPayment: true,
+                })
             }
             bottomDivider
             hasTVPreferredFocus={undefined}

@@ -1,24 +1,27 @@
-import {
-    ActionState,
-    EntityStateInterface,
-} from "../../../../common/redux/entity.state.interface";
-import { Payment } from "../../../../common/entities/payment.entity";
 import * as Type from "../types/payment.types";
+import { User } from "../../../../common/entities/user.entity";
 
-const initialState: EntityStateInterface<Payment> = {
-    fetchState: ActionState.notStarted,
-    addState: ActionState.notStarted,
-    updateState: ActionState.notStarted,
-    deleteState: ActionState.notStarted,
-    entity: undefined,
+export interface NewPaymentInterface {
+    customer: User | undefined;
+}
+
+const initialState: NewPaymentInterface = {
+    customer: undefined,
 };
 
 export const newPaymentReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case Type.CLEANUP_NEW_PAYMENTS:
             console.log("called");
-            return { ...state, addState: action.payload.payment };
+            return { ...state, customer: undefined };
+        case Type.SET_PAYMENTS_CUSTOMER:
+            console.log("customerData==", action.payload);
+            return {
+                ...state,
+                customer: action.payload.customer,
+            };
         default:
+            [];
             return state;
     }
 };
