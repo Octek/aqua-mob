@@ -6,10 +6,10 @@ import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PaymentDto, PaymentMode } from "../dtos/payment.dto";
 import { useDispatch, useSelector } from "react-redux";
-import { addPayment, cleanupPayments } from "../redux/actions/payments.action";
+import { addPayment, cleanupPayments } from "../redux/actions/payment.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
-import { cleanupNewPayments } from "../redux/actions/payments.action";
+import { cleanupNewPayments } from "../redux/actions/payment.actions";
 
 type Props = {
     route: RouteProp<ParamList, "createPayments">;

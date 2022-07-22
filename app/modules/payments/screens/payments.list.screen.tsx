@@ -5,7 +5,7 @@ import { FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { fetchPayments } from "../redux/actions/payments.action";
+import { fetchPayments } from "../redux/actions/payment.actions";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { Payment } from "../../../common/entities/payment.entity";
 import { PaymentItemComponent } from "./components/payment.item.component";
@@ -16,7 +16,7 @@ type Props = {
     navigation: StackNavigationProp<ParamList, "paymentsNavigator">;
 };
 
-export const PaymentsListScreen: React.FC<Props> = ({ route, navigation }) => {
+export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
     const [page, setPage] = useState(0);
     const paymentState = useSelector(
         (state: ApplicationStateInterface) => state.paymentsState,

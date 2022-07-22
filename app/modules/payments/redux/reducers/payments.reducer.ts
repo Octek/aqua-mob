@@ -5,7 +5,6 @@ import {
 import { Payment } from "../../../../common/entities/payment.entity";
 import * as Type from "../types/payment.types";
 import { plainToInstance } from "class-transformer";
-import * as url from "url";
 import { PageInfo } from "../../../../common/entities/page.info.entity";
 
 const initialState: MultipleEntitiesStateInterface<Payment> = {
