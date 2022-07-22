@@ -29,13 +29,13 @@ export const addPayment = (paymentItems: PaymentDto) => {
     };
 };
 
-export const fetchPayments = () => {
+export const fetchPayments = (page = 1) => {
     return {
         type: Types.FETCH_PAYMENTS,
         payload: {
             request: {
                 method: "GET",
-                url: "/payments",
+                url: `/payments?page=${page}`,
             },
         },
     };

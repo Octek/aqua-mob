@@ -9,4 +9,8 @@ export class Payment {
         public mode: number,
         public customer: User,
     ) {}
+
+    get formattedAmount(): string {
+        return `Rs. ${this.amount}/-`;
+    }
 }

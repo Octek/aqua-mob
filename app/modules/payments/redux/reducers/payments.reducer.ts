@@ -5,6 +5,8 @@ import {
 import { Payment } from "../../../../common/entities/payment.entity";
 import * as Type from "../types/payment.types";
 import { plainToInstance } from "class-transformer";
+import * as url from "url";
+import { PageInfo } from "../../../../common/entities/page.info.entity";
 
 const initialState: MultipleEntitiesStateInterface<Payment> = {
     fetchState: ActionState.notStarted,
@@ -47,19 +49,28 @@ export const paymentReducer = (
                 addState: ActionState.failed,
             };
         case Type.FETCH_PAYMENTS:
+            console.log("payments==");
             return { ...state, fetchState: ActionState.inProgress };
         case Type.FETCH_PAYMENTS_SUCCESS:
+            const page = plainToInstance(
+                PageInfo,
+                <PageInfo>action.payload.data.meta,
+            );
+            const payments = plainToInstance(Payment, action.payload.data.data);
             return {
                 ...state,
                 fetchState: ActionState.done,
-                entities: plainToInstance(Payment, action.payload.data.data),
+                page: page,
+                entities:
+                    page.currentPage === 1
+                        ? payments
+                        : [...state.entities, ...payments],
             };
         case Type.FETCH_PAYMENTS_FAIL:
             return {
                 ...state,
                 fetchState: ActionState.failed,
             };
-
         default:
             return state;
     }

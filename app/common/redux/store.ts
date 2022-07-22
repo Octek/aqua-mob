@@ -7,6 +7,7 @@ import { rootReducer } from "./root.reducer";
 import thunk from "redux-thunk";
 import { showError } from "./error.actions";
 import { useDispatch } from "react-redux";
+import { createIconSet } from "react-native-vector-icons";
 
 const client = axios.create({
     baseURL: "https://octek-aqua.herokuapp.com",
@@ -24,6 +25,7 @@ client.interceptors.request.use(
             console.log("status is:", status);
             return status >= 200 && status < 300;
         };
+        console.log("paramsConfig===", config);
         return config;
     },
     async (error: any) => {
