@@ -75,7 +75,10 @@ export const OrdersListScreen: React.FC<Props> = ({ route, navigation }) => {
                     order={item}
                     onPress={(order) => {
                         dispatch(cleanupOrder());
-                        navigation.push("showOrder", { order: order });
+                        navigation.push("showOrder", {
+                            order: order,
+                            pushed: false,
+                        });
                     }}
                 />
             )}

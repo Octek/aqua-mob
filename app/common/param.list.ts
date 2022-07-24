@@ -17,6 +17,7 @@ export type ParamList = {
     };
     showOrder: {
         order: Order;
+        pushed: boolean;
     };
     showProduct: {
         product: Product;

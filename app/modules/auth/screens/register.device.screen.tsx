@@ -8,6 +8,7 @@ import { ActionState } from "../../../common/redux/entity.state.interface";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
+import messaging from "@react-native-firebase/messaging";
 
 type Props = {
     route: RouteProp<ParamList, "register">;
@@ -22,7 +23,15 @@ export const RegisterDeviceScreen: React.FC<Props> = ({ navigation }) => {
 
     useEffect(() => {
         (async () => {
-            const device = await Device.toLatest();
+            // await messaging().registerDeviceForRemoteMessages();
+            const permissionStatus = await messaging().requestPermission();
+            console.log("permissionStatus:", permissionStatus);
+            let token: string | undefined;
+            if (permissionStatus === 1) {
+                token = await messaging().getToken();
+                console.log("fcm token:", token);
+            }
+            const device = await Device.toLatest(token);
             dispatch(registerDevice(device));
         })();
     }, []);

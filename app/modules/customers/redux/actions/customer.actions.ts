@@ -9,13 +9,15 @@ export const cleanupCustomers = () => {
     };
 };
 
-export const fetchCustomers = (page = 1) => {
+export const fetchCustomers = (page = 1, search = "") => {
     return {
         type: Types.FETCH_CUSTOMERS,
         payload: {
             request: {
                 method: "GET",
-                url: `/customers?page=${page}`,
+                url:
+                    `/customers?page=${page}` +
+                    (search.length > 0 ? `&search=${search}` : ""),
             },
         },
     };

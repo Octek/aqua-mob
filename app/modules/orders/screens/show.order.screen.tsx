@@ -36,7 +36,9 @@ export const ShowOrderScreen: React.FC<Props> = ({ route }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getOrderDetails(currentOrder.id));
+        if (!route.params.pushed) {
+            dispatch(getOrderDetails(currentOrder.id));
+        }
     }, []);
 
     useEffect(() => {

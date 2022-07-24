@@ -5,12 +5,11 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
-import { Icon } from "react-native-elements";
+import { Icon, SearchBar } from "react-native-elements";
 import { User } from "../../../common/entities/user.entity";
 import { fetchCustomers } from "../redux/actions/customer.actions";
 import { CustomerItemComponent } from "./components/customer.item.component";
 import { setCustomer } from "../../orders/redux/actions/cart.actions";
-import { fetchProducts } from "../../products/redux/actions/product.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 
 type Props = {
@@ -19,6 +18,10 @@ type Props = {
 };
 
 export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
+    const [timeoutHandle, setTimeoutHandle] = useState(0);
+    const [showRefreshControl, setShowRefreshControl] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [text, setText] = useState("");
     const [page, setPage] = useState(0);
     const customersState = useSelector(
         (state: ApplicationStateInterface) => state.customersState,
@@ -47,13 +50,24 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
     useEffect(() => setPage(1), []);
 
     useEffect(() => {
+        console.log("page......", page);
         if (page > 0) {
+            console.log("useEffect..");
             fetch();
         }
-    }, [page]);
+    }, [page, searchTerm]);
+
+    useEffect(() => {
+        console.log("hello");
+        if (searchTerm !== "") {
+            console.log("other useEffect..");
+            setPage(1);
+        }
+    }, [searchTerm]);
 
     const fetch = () => {
-        dispatch(fetchCustomers(page));
+        console.log("in fetch");
+        dispatch(fetchCustomers(page, searchTerm));
     };
 
     const fetchNext = () => {
@@ -69,10 +83,39 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
             onRefresh={() => {
                 setPage(0);
                 setPage(1);
+                setShowRefreshControl(true);
             }}
-            refreshing={customersState.fetchState === ActionState.inProgress}
-            onEndReachedThreshold={0.7}
-            onEndReached={() => fetchNext()}
+            refreshing={
+                customersState.fetchState === ActionState.inProgress &&
+                showRefreshControl
+            }
+            onEndReachedThreshold={0.5}
+            onEndReached={(options) => {
+                console.log("distanceFromEnd", options.distanceFromEnd);
+                if (options.distanceFromEnd < 0) {
+                    return;
+                }
+                fetchNext();
+            }}
+            ListHeaderComponent={
+                <SearchBar
+                    showLoading={
+                        customersState.fetchState === ActionState.inProgress &&
+                        !showRefreshControl
+                    }
+                    autoCapitalize={"none"}
+                    onChangeText={(t: string) => {
+                        setShowRefreshControl(false);
+                        setText(t);
+                        clearTimeout(timeoutHandle);
+                        setTimeoutHandle(
+                            setTimeout(() => setSearchTerm(t), 300),
+                        );
+                    }}
+                    value={text}
+                    placeholder={"Search"}
+                />
+            }
             renderItem={({ item }) => (
                 <CustomerItemComponent
                     customer={item}

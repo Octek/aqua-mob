@@ -5,7 +5,8 @@ import {
     getUniqueId,
     getVersion,
 } from "react-native-device-info";
-import { NativeModules, Platform } from "react-native";
+import { Platform } from "react-native";
+import messaging from "@react-native-firebase/messaging";
 
 export class Device {
     constructor(
@@ -20,7 +21,7 @@ export class Device {
         public fcmToken?: string,
     ) {}
 
-    static toLatest = async (): Promise<DeviceDto> => {
+    static toLatest = async (token?: string): Promise<DeviceDto> => {
         const manufacturer = await getManufacturer();
         return {
             installationId: getUniqueId(),
@@ -29,6 +30,7 @@ export class Device {
             manufacturer: manufacturer,
             model: getModel(),
             locale: "en-US",
+            fcmToken: token,
         };
     };
 }

@@ -22,9 +22,9 @@ type Props = {
 export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
     const [timeoutHandle, setTimeoutHandle] = useState(0);
     const [showRefreshControl, setShowRefreshControl] = useState(true);
-    const [page, setPage] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
     const [text, setText] = useState("");
+    const [page, setPage] = useState(0);
     const productsState = useSelector(
         (state: ApplicationStateInterface) => state.productsState,
     );
@@ -97,13 +97,17 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
             onEndReached={() => fetchNext()}
             ListHeaderComponent={
                 <SearchBar
+                    showLoading={
+                        productsState.fetchState === ActionState.inProgress &&
+                        !showRefreshControl
+                    }
                     autoCapitalize={"none"}
                     onChangeText={(t: string) => {
                         setShowRefreshControl(false);
                         setText(t);
                         clearTimeout(timeoutHandle);
                         setTimeoutHandle(
-                            setTimeout(() => setSearchTerm(text), 300),
+                            setTimeout(() => setSearchTerm(t), 300),
                         );
                     }}
                     value={text}

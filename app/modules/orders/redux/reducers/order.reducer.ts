@@ -21,6 +21,14 @@ export const orderReducer = (
     switch (action.type) {
         case Types.CLEANUP_ORDER:
             return initialState;
+        case Types.CLEANUP_ORDER_STATE:
+            return {
+                ...state,
+                fetchState: ActionState.notStarted,
+                addState: ActionState.notStarted,
+                updateState: ActionState.notStarted,
+                deleteState: ActionState.notStarted,
+            };
         case Types.GET_ORDER:
             return { ...state, fetchState: ActionState.inProgress };
         case Types.GET_ORDER_SUCCESS:

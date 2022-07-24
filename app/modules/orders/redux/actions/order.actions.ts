@@ -14,6 +14,12 @@ export const cleanupOrder = () => {
     };
 };
 
+export const cleanupOrderState = () => {
+    return {
+        type: Types.CLEANUP_ORDER_STATE,
+    };
+};
+
 export const refreshOrder = (order: Order) => {
     return {
         type: Types.REFRESH_ORDER,
