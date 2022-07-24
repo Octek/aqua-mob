@@ -38,6 +38,8 @@ export const cartReducer = (
             }
         case Types.SET_CUSTOMER:
             return { ...state, customer: action.payload.customer };
+        case Types.CLEANUP_CUSTOMER:
+            return { ...state, customer: action.payload.customer };
         default:
             return state;
     }

@@ -6,7 +6,6 @@ import { User } from "../../../../common/entities/user.entity";
 import * as Types from "../types/customer.types";
 import { plainToInstance } from "class-transformer";
 import { PageInfo } from "../../../../common/entities/page.info.entity";
-import { Product } from "../../../../common/entities/product.entity";
 
 const initialState: MultipleEntitiesStateInterface<User> = {
     fetchState: ActionState.notStarted,
