@@ -3,14 +3,21 @@ import { Order } from "./entities/order.entity";
 import { Product } from "./entities/product.entity";
 import { User } from "./entities/user.entity";
 
+export enum SelectCustomerReason {
+    CreateOrder,
+    CreatePayment,
+}
+
 export type ParamList = {
     register: any;
     login: any;
     home: any;
     ordersNavigator: any;
+    createPayment: any;
+    paymentsNavigator: any;
     productsNavigator: { selectable: boolean };
-    selectProduct: { selectable: boolean };
-    selectCustomer: { selectable: boolean };
+    selectProduct: { selectable: boolean; reason: SelectCustomerReason };
+    selectCustomer: { selectable: boolean; reason: SelectCustomerReason };
     addCompany: any;
     placeOrder: {
         customer?: User;

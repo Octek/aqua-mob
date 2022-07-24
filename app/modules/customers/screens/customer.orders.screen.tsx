@@ -33,6 +33,5 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
             ),
         });
     });
-
     return <View />;
 };

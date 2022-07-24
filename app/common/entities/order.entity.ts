@@ -1,6 +1,5 @@
 import { User } from "./user.entity";
 import { OrderItem } from "./order.item.entity";
-import { Type } from "class-transformer";
 
 export enum OrderStatus {
     CancelledByUser = -2,

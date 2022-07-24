@@ -13,6 +13,7 @@ import { clearError } from "./common/redux/error.actions";
 import { HomeNavigator } from "./modules/home/screens/home.navigator";
 import { unauthorize } from "./modules/auth/redux/actions/auth.actions";
 import { OrdersNavigator } from "./modules/orders/screens/orders.navigator";
+import { PaymentNavigator } from "./modules/payments/screens/payments.navigator";
 import { CustomersNavigator } from "./modules/customers/screens/customers.navigator";
 import { ProductsNavigator } from "./modules/products/screens/products.navigator";
 import messaging from "@react-native-firebase/messaging";
@@ -107,6 +108,10 @@ export const RootContainer = () => {
                 <Stack.Screen
                     name="ordersNavigator"
                     component={OrdersNavigator}
+                />
+                 <Stack.Screen
+                    name="paymentNavigator"
+                    component={PaymentNavigator}
                 />
                 <Stack.Screen
                     name="customersNavigator"

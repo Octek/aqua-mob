@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
-import { ParamList } from "../../../common/param.list";
+import { ParamList, SelectCustomerReason } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import { fetchCustomers } from "../redux/actions/customer.actions";
 import { CustomerItemComponent } from "./components/customer.item.component";
 import { setCustomer } from "../../orders/redux/actions/cart.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import { setPaymentCustomer } from "../../payments/redux/actions/new.payment.actions";
 
 type Props = {
     route: RouteProp<ParamList, "customersNavigator">;
@@ -120,8 +121,21 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                 <CustomerItemComponent
                     customer={item}
                     onPress={(customer) => {
-                        if (route.params && route.params.selectable) {
+                        if (
+                            route.params &&
+                            route.params.selectable &&
+                            route.params.reason ===
+                                SelectCustomerReason.CreateOrder
+                        ) {
                             dispatch(setCustomer(customer));
+                            navigation.goBack();
+                        } else if (
+                            route.params &&
+                            route.params.reason ===
+                                SelectCustomerReason.CreatePayment
+                        ) {
+                            console.log("printed");
+                            dispatch(setPaymentCustomer(customer));
                             navigation.goBack();
                         } else {
                             navigation.push("showCustomer", {
