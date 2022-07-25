@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ParamList } from "../../../common/param.list";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Icon, ListItem } from "react-native-elements";
+import { Icon, ListItem, CheckBox } from "react-native-elements";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -28,6 +28,9 @@ export const UpsertCustomerScreen: React.FC<Props> = ({
     const [name, setName] = useState(customer?.name);
     const [mobile, setMobile] = useState(customer?.mobileWithoutPrefix);
     const [address, setAddress] = useState(customer?.address);
+    const [email, setEmail] = useState(customer?.email);
+    const [whatsApp, setWhatsApp] = useState(customer?.whatsapp);
+    const [checked, setChecked] = useState(false);
     const customersState = useSelector(
         (state: ApplicationStateInterface) => state.customersState,
     );
@@ -57,6 +60,10 @@ export const UpsertCustomerScreen: React.FC<Props> = ({
                                           new AddCustomerDto(
                                               name || "",
                                               mobile || "",
+                                              checked
+                                                  ? mobile || ""
+                                                  : whatsApp || "",
+                                              email || "",
                                               address || "",
                                           ),
                                       ),
@@ -67,6 +74,10 @@ export const UpsertCustomerScreen: React.FC<Props> = ({
                                           new UpdateCustomerDto(
                                               name || "",
                                               mobile || "",
+                                              checked
+                                                  ? mobile || ""
+                                                  : whatsApp || "",
+                                              email || "",
                                               address || "",
                                           ),
                                       ),
@@ -128,6 +139,54 @@ export const UpsertCustomerScreen: React.FC<Props> = ({
                     onChangeText={(value) => setMobile(value)}
                 />
                 <ListItem.Subtitle>Mobile</ListItem.Subtitle>
+            </ListItem.Content>
+        </ListItem>,
+        // @ts-ignore
+        <ListItem bottomDivider>
+            <ListItem.Content
+                style={{
+                    alignItems: "center",
+                    flexDirection: "row",
+                }}
+            >
+                <ListItem.Title>+92</ListItem.Title>
+                <ListItem.Input
+                    keyboardType={"phone-pad"}
+                    style={{ fontSize: 17 }}
+                    autoCompleteType={""}
+                    textAlign="left"
+                    placeholder={"3339666222"}
+                    value={checked ? mobile : whatsApp}
+                    maxLength={10}
+                    onChangeText={(value) => setWhatsApp(value)}
+                />
+                <ListItem.CheckBox
+                    size={20}
+                    checked={checked}
+                    onPress={() => setChecked(!checked)}
+                    title={""}
+                />
+                <ListItem.Subtitle>WhatsApp</ListItem.Subtitle>
+            </ListItem.Content>
+        </ListItem>,
+        // @ts-ignore
+        <ListItem bottomDivider>
+            <ListItem.Content
+                style={{
+                    alignItems: "center",
+                    flexDirection: "row",
+                }}
+            >
+                <ListItem.Input
+                    style={{ fontSize: 17 }}
+                    autoCompleteType={"none"}
+                    autoCorrect={false}
+                    textAlign="left"
+                    placeholder={"Email"}
+                    value={email}
+                    onChangeText={(value) => setEmail(value)}
+                />
+                <ListItem.Subtitle>Email</ListItem.Subtitle>
             </ListItem.Content>
         </ListItem>,
         // @ts-ignore
