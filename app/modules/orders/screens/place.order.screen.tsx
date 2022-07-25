@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ParamList } from "../../../common/param.list";
+import { ParamList, SelectCustomerReason } from "../../../common/param.list";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { FAB, Icon, ListItem } from "react-native-elements";
@@ -74,7 +74,10 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
         <View style={{ flex: 1 }}>
             <ListItem
                 onPress={() =>
-                    navigation.navigate("selectCustomer", { selectable: true })
+                    navigation.navigate("selectCustomer", {
+                        selectable: true,
+                        reason: SelectCustomerReason.CreateOrder,
+                    })
                 }
                 bottomDivider
                 hasTVPreferredFocus={undefined}
@@ -107,7 +110,9 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
                 visible={true}
                 icon={{ name: "add", color: "black" }}
                 onPress={() =>
-                    navigation.navigate("selectProduct", { selectable: true })
+                    navigation.navigate("selectProduct", {
+                        selectable: true,
+                    })
                 }
             />
         </View>

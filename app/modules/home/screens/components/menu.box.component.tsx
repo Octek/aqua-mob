@@ -20,7 +20,7 @@ export const MenuBox: React.FC<Props> = ({
                 style={{
                     justifyContent: "center",
                     alignItems: "center",
-                    borderRadius: 30,
+                    borderRadius: 10,
                     margin: 5,
                     flex: 1,
                     backgroundColor: `${backgroundColor}`,

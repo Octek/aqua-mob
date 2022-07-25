@@ -16,9 +16,10 @@ export type ParamList = {
     createPayment: any;
     paymentsNavigator: any;
     productsNavigator: { selectable: boolean };
-    selectProduct: { selectable: boolean; reason: SelectCustomerReason };
+    selectProduct: { selectable: boolean };
     selectCustomer: { selectable: boolean; reason: SelectCustomerReason };
     addCompany: any;
+    addPayment: any;
     placeOrder: {
         customer?: User;
     };

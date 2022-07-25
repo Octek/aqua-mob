@@ -9,7 +9,7 @@ import { Icon, SearchBar } from "react-native-elements";
 import { User } from "../../../common/entities/user.entity";
 import { fetchCustomers } from "../redux/actions/customer.actions";
 import { CustomerItemComponent } from "./components/customer.item.component";
-import { setCustomer } from "../../orders/redux/actions/cart.actions";
+import { setCartCustomer } from "../../orders/redux/actions/cart.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { setPaymentCustomer } from "../../payments/redux/actions/new.payment.actions";
 
@@ -105,6 +105,7 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                         !showRefreshControl
                     }
                     autoCapitalize={"none"}
+                    // @ts-ignore
                     onChangeText={(t: string) => {
                         setShowRefreshControl(false);
                         setText(t);
@@ -127,14 +128,14 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                             route.params.reason ===
                                 SelectCustomerReason.CreateOrder
                         ) {
-                            dispatch(setCustomer(customer));
+                            dispatch(setCartCustomer(customer));
                             navigation.goBack();
                         } else if (
                             route.params &&
+                            route.params.selectable &&
                             route.params.reason ===
                                 SelectCustomerReason.CreatePayment
                         ) {
-                            console.log("printed");
                             dispatch(setPaymentCustomer(customer));
                             navigation.goBack();
                         } else {

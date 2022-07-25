@@ -9,7 +9,6 @@ import { Icon } from "react-native-elements";
 import { cleanupOrder, getOrders } from "../redux/actions/order.actions";
 import { Order } from "../../../common/entities/order.entity";
 import { OrderItemComponent } from "./components/order.item.component";
-import { fetchCustomers } from "../../customers/redux/actions/customer.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 
 type Props = {
@@ -50,6 +49,7 @@ export const OrdersListScreen: React.FC<Props> = ({ route, navigation }) => {
     }, [page]);
 
     const fetch = () => {
+        console.log("page:", page);
         dispatch(getOrders(page));
     };
 
@@ -68,8 +68,13 @@ export const OrdersListScreen: React.FC<Props> = ({ route, navigation }) => {
                 setPage(1);
             }}
             refreshing={ordersState.fetchState === ActionState.inProgress}
-            onEndReachedThreshold={0.7}
-            onEndReached={() => fetchNext()}
+            onEndReachedThreshold={0.5}
+            onEndReached={(options) => {
+                if (options.distanceFromEnd < 0) {
+                    return;
+                }
+                fetchNext();
+            }}
             renderItem={({ item }) => (
                 <OrderItemComponent
                     order={item}

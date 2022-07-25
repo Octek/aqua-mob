@@ -7,7 +7,7 @@ import { CustomersListScreen } from "../../customers/screens/customers.list.scre
 
 const Stack = createStackNavigator();
 
-export const PaymentNavigator = () => {
+export const PaymentsNavigator = () => {
     return (
         <Stack.Navigator
             screenOptions={{

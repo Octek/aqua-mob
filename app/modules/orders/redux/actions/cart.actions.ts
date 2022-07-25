@@ -18,7 +18,7 @@ export const addItem = (item: OrderItemDto) => {
     };
 };
 
-export const setCustomer = (customer: User) => {
+export const setCartCustomer = (customer: User) => {
     return {
         type: Types.SET_CUSTOMER,
         payload: {

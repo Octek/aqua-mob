@@ -57,9 +57,14 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
                 setPage(0);
                 setPage(1);
             }}
-            onEndReached={() => fetchNext()}
             refreshing={paymentState.fetchState === ActionState.inProgress}
-            onEndReachedThreshold={0.7}
+            onEndReachedThreshold={0.5}
+            onEndReached={(options) => {
+                if (options.distanceFromEnd < 0) {
+                    return;
+                }
+                fetchNext();
+            }}
             style={{ flex: 1 }}
             data={paymentState.entities}
             renderItem={({ item }) => <PaymentItemComponent payment={item} />}
