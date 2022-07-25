@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
-import { Icon } from "react-native-elements";
+import { Icon, ListItem } from "react-native-elements";
+import { View, Text, StyleSheet } from "react-native";
 import { FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ParamList } from "../../../common/param.list";
@@ -10,6 +11,7 @@ import { ApplicationStateInterface } from "../../../common/redux/application.sta
 import { Payment } from "../../../common/entities/payment.entity";
 import { PaymentItemComponent } from "./components/payment.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 
 type Props = {
     route: RouteProp<ParamList, "paymentsNavigator">;
@@ -17,6 +19,7 @@ type Props = {
 };
 
 export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
+    const snapPoints = useMemo(() => ["25%", "25%"], []);
     const [page, setPage] = useState(0);
     const paymentState = useSelector(
         (state: ApplicationStateInterface) => state.paymentsState,
@@ -52,22 +55,48 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
         }
     };
     return (
-        <FlatList<Payment>
-            onRefresh={() => {
-                setPage(0);
-                setPage(1);
-            }}
-            refreshing={paymentState.fetchState === ActionState.inProgress}
-            onEndReachedThreshold={0.5}
-            onEndReached={(options) => {
-                if (options.distanceFromEnd < 0) {
-                    return;
-                }
-                fetchNext();
-            }}
-            style={{ flex: 1 }}
-            data={paymentState.entities}
-            renderItem={({ item }) => <PaymentItemComponent payment={item} />}
-        />
+        <>
+            <FlatList<Payment>
+                onRefresh={() => {
+                    setPage(0);
+                    setPage(1);
+                }}
+                refreshing={paymentState.fetchState === ActionState.inProgress}
+                onEndReachedThreshold={0.5}
+                onEndReached={(options) => {
+                    if (options.distanceFromEnd < 0) {
+                        return;
+                    }
+                    fetchNext();
+                }}
+                style={{ flex: 1 }}
+                data={paymentState.entities}
+                renderItem={({ item }) => {
+                    return <PaymentItemComponent payment={item} />;
+                }}
+            />
+            {/*<View style={styles.container}>*/}
+            {/*<BottomSheet snapPoints={snapPoints}>*/}
+            {/*    <Text style={{ fontSize: 20 }}>Reverse Reasons</Text>*/}
+            {/*    <BottomSheetTextInput style={styles.input} />*/}
+            {/*</BottomSheet>*/}
+            {/*</View>*/}
+        </>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        // padding: 24,
+    },
+    input: {
+        marginTop: 8,
+        marginBottom: 10,
+        borderRadius: 10,
+        fontSize: 16,
+        lineHeight: 20,
+        padding: 8,
+        backgroundColor: "rgba(151, 151, 151, 0.25)",
+    },
+});
