@@ -30,6 +30,8 @@ export const refreshOrder = (order: Order) => {
 };
 
 export const placeOrder = (orderDto: PlaceOrderDto) => {
+    console.log("orderDto1:", orderDto);
+    console.log("orderDto2:", orderDto.toJson());
     return {
         type: Types.PLACE_ORDER,
         payload: {

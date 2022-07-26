@@ -4,11 +4,13 @@ import { User } from "../../../../common/entities/user.entity";
 
 export interface CartItemInterface {
     customer: User | undefined;
+    deliveryCharges: number;
     items: OrderItemDto[];
 }
 
 const initialState: CartItemInterface = {
     customer: undefined,
+    deliveryCharges: 0,
     items: [],
 };
 
@@ -36,8 +38,31 @@ export const cartReducer = (
             } else {
                 return { ...state, items: items };
             }
+        case Types.INCREASE_QTY:
+            return {
+                ...state,
+                items: state.items.map((item) =>
+                    item.product.id === action.payload.item.product.id
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item,
+                ),
+            };
+        case Types.DECREASE_QTY:
+            const newItems = state.items
+                .map((item) =>
+                    item.product.id === action.payload.item.product.id
+                        ? { ...item, quantity: item.quantity - 1 }
+                        : item,
+                )
+                .filter((item) => item.quantity > 0);
+            return { ...state, items: newItems };
         case Types.SET_CUSTOMER:
             return { ...state, customer: action.payload.customer };
+        case Types.SET_DELIVERY_CHARGES:
+            return {
+                ...state,
+                deliveryCharges: action.payload.deliveryCharges,
+            };
         case Types.CLEANUP_CUSTOMER:
             return { ...state, customer: action.payload.customer };
         default:

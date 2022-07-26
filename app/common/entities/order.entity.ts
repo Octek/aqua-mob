@@ -20,9 +20,17 @@ export class Order {
         public id: number,
         public customer: User,
         public items: OrderItem[],
+        public deliveryCharges: number,
         public status: OrderStatus,
         public createdAt: Date,
     ) {}
+
+    get total(): number {
+        return this.items.reduce(
+            (previous, current) => previous + current.quantity * current.price,
+            this.deliveryCharges,
+        );
+    }
 
     get statusInfo(): ColorType {
         switch (this.status) {

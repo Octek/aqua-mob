@@ -12,7 +12,13 @@ import { CartItemTotalComponent } from "./components/cart.item.total.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { cleanupOrders, placeOrder } from "../redux/actions/order.actions";
 import { PlaceOrderDto } from "../dtos/place.order.dto";
-import { voidCart } from "../redux/actions/cart.actions";
+import {
+    decreaseQty,
+    increaseQty,
+    setDeliveryCharges,
+    voidCart,
+} from "../redux/actions/cart.actions";
+import { CartItemDeliveryChargesComponent } from "./components/cart.item.dc.component";
 
 type Props = {
     route: RouteProp<ParamList, "placeOrder">;
@@ -53,6 +59,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
                                     new PlaceOrderDto(
                                         cartState.customer?.id || 0,
                                         cartState.items,
+                                        cartState.deliveryCharges,
                                     ),
                                 ),
                             );
@@ -95,14 +102,38 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
             </ListItem>
             <FlatList<OrderItemDto | undefined>
                 style={{ flex: 1 }}
-                data={[...cartState.items, undefined]}
-                renderItem={({ item }) =>
-                    item === undefined ? (
-                        <CartItemTotalComponent items={cartState.items} />
-                    ) : (
-                        <CartItemComponent item={item} />
-                    )
-                }
+                data={[...cartState.items, undefined, undefined]}
+                renderItem={({ item, index }) => {
+                    if (index === cartState.items.length) {
+                        return (
+                            <CartItemDeliveryChargesComponent
+                                deliveryCharges={cartState.deliveryCharges}
+                                deliveryChargesChanged={(charges) =>
+                                    dispatch(setDeliveryCharges(charges))
+                                }
+                            />
+                        );
+                    } else if (index === cartState.items.length + 1) {
+                        return (
+                            <CartItemTotalComponent
+                                items={cartState.items}
+                                deliveryCharges={cartState.deliveryCharges}
+                            />
+                        );
+                    } else {
+                        return (
+                            <CartItemComponent
+                                item={item!}
+                                onIncrease={(itemToIncrease) =>
+                                    dispatch(increaseQty(itemToIncrease))
+                                }
+                                onDecrease={(itemToDecrease) =>
+                                    dispatch(decreaseQty(itemToDecrease))
+                                }
+                            />
+                        );
+                    }
+                }}
             />
             <FAB
                 color={"#cadcf0"}
