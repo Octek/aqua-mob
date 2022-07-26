@@ -8,6 +8,7 @@ export class OrderItemDto {
     ) {}
 
     toJson = () => {
+        console.log("quantity:", this.quantity);
         return {
             productId: this.product.id,
             quantity: this.quantity,

@@ -4,13 +4,14 @@ import { OrderItemDto } from "../../dtos/order.item.dto";
 
 type Props = {
     items: OrderItemDto[];
+    deliveryCharges: number;
 };
 
 export const CartItemTotalComponent: React.FC<Props> = (props) => {
     const total = () =>
         props.items.reduce(
             (previous, current) => previous + current.quantity * current.price,
-            0,
+            props.deliveryCharges,
         );
 
     return (
@@ -28,7 +29,7 @@ export const CartItemTotalComponent: React.FC<Props> = (props) => {
                 }}
             >
                 <ListItem.Title style={{ textAlign: "right" }}>
-                    Rs. {total()}/-
+                    {total()} Rs.
                 </ListItem.Title>
             </ListItem.Content>
         </ListItem>

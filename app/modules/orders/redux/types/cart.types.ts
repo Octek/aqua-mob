@@ -1,4 +1,7 @@
 export const VOID_CART = "VOID_CART";
 export const ADD_ITEM = "ADD_ITEM";
+export const INCREASE_QTY = "INCREASE_QTY";
+export const DECREASE_QTY = "DECREASE_QTY";
 export const SET_CUSTOMER = "SET_CUSTOMER";
+export const SET_DELIVERY_CHARGES = "SET_DELIVERY_CHARGES";
 export const CLEANUP_CUSTOMER = "CLEANUP_CUSTOMER";

@@ -87,6 +87,25 @@ export const ShowOrderScreen: React.FC<Props> = ({ route }) => {
             )),
         });
         data.push({
+            title: "Totals",
+            data: [
+                <StaticListItemComponent
+                    title={"Sub Total"}
+                    value={`${
+                        currentOrder.total - currentOrder.deliveryCharges
+                    } Rs.`}
+                />,
+                <StaticListItemComponent
+                    title={"Delivery Charges"}
+                    value={`${currentOrder.deliveryCharges} Rs.`}
+                />,
+                <StaticListItemComponent
+                    title={"Total"}
+                    value={`${currentOrder.total} Rs.`}
+                />,
+            ],
+        });
+        data.push({
             title: "Status",
             data: [
                 <ListItem.Swipeable
