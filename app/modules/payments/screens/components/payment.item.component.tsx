@@ -3,21 +3,28 @@ import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
 import { Badge, ListItem } from "react-native-elements";
 import { Payment } from "../../../../common/entities/payment.entity";
 import moment from "moment";
-import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { ActionState } from "../../../../common/redux/entity.state.interface";
+import { useDispatch } from "react-redux";
+import { cleanupPayments } from "../../redux/actions/payment.actions";
+import { reversePayment } from "../../redux/actions/payment.actions";
 
 type Props = {
     payment: Payment;
 };
 
 export const PaymentItemComponent: React.FC<Props> = (props) => {
+    const reversePayments = () => {
+        dispatch(reversePayment(props.payment.id));
+    };
+
+    const dispatch = useDispatch();
     return (
         // @ts-ignore
         <ListItem.Swipeable
             bottomDivider={true}
             leftContent={
                 <TouchableOpacity
-                    onPress={() => console.log("this is testing")}
+                    onPress={() => reversePayments()}
                     style={{
                         justifyContent: "center",
                         alignItems: "center",

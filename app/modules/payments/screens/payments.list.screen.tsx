@@ -19,7 +19,6 @@ type Props = {
 };
 
 export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
-    const snapPoints = useMemo(() => ["25%", "25%"], []);
     const [page, setPage] = useState(0);
     const paymentState = useSelector(
         (state: ApplicationStateInterface) => state.paymentsState,

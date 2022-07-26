@@ -33,13 +33,13 @@ export const fetchPayments = (page = 1) => {
     };
 };
 
-export const reversePayment = (id: String) => {
+export const reversePayment = (id: Number) => {
     return {
-        type: Types.FETCH_PAYMENTS,
+        type: Types.REVERSE_PAYMENT,
         payload: {
             request: {
                 method: "Post",
-                url: `/payments?page=${id}`,
+                url: `/payments/${[id]}/reverse`,
                 data: "this is the reason",
             },
         },
