@@ -87,7 +87,8 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
         <ListItem
             onPress={() =>
                 navigation.navigate("selectCustomer", {
-                    selectable: false,
+                    selectable: true,
+
                     reason: SelectCustomerReason.CreatePayment,
                 })
             }
@@ -141,7 +142,6 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
                     onPress={(selected) => selectPaymetMode(selected)}
                     containerStyle={{ maxWidth: 140 }}
                 />
-
                 <ListItem.Title />
                 <ListItem.Subtitle>Payment Mode</ListItem.Subtitle>
             </ListItem.Content>

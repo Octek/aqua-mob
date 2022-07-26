@@ -48,7 +48,6 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
         dispatch(fetchPayments(page));
     };
     const fetchNext = () => {
-        console.log("totalPagesInPayments==", paymentState.page?.totalPages);
         if (paymentState.page && page < paymentState.page.totalPages) {
             setPage(page + 1);
         }

@@ -40,8 +40,6 @@ export const paymentReducer = (
             console.log("called");
             return { ...state, addState: ActionState.inProgress };
         case Type.ADD_PAYMENT_SUCCESS:
-            console.log("data is called");
-            console.log(action.payload.data);
             return {
                 ...state,
                 addState: ActionState.done,
@@ -56,7 +54,6 @@ export const paymentReducer = (
                 addState: ActionState.failed,
             };
         case Type.FETCH_PAYMENTS:
-            console.log("payments==");
             return { ...state, fetchState: ActionState.inProgress };
         case Type.FETCH_PAYMENTS_SUCCESS:
             const page = plainToInstance(
@@ -81,13 +78,24 @@ export const paymentReducer = (
         case Type.REVERSE_PAYMENT:
             return { ...state, addState: ActionState.inProgress };
         case Type.REVERSE_PAYMENT_SUCCESS:
-            console.log("data==", action.payload.data);
+            action.payload.data.map((object: any) =>
+                console.log("data==", object.id),
+            );
             return {
                 ...state,
                 addState: ActionState.done,
                 entities: [
-                    plainToInstance(Payment, <any[]>action.payload.data),
-                    ...state.entities,
+                    ...plainToInstance(Payment, <Payment[]>action.payload.data),
+                    ...state.entities.filter(
+                        (oldData) =>
+                            action.payload.data.findIndex((newData: any) => {
+                                if (newData.id === oldData.id) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }) < 0,
+                    ),
                 ],
             };
         case Type.REVERSE_PAYMENT_FAIL:
