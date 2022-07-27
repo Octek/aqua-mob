@@ -1,6 +1,8 @@
 import { PlaceOrderDto } from "../../dtos/place.order.dto";
 import * as Types from "../types/order.types";
 import { Order } from "../../../../common/entities/order.entity";
+import { filterSegment } from "../../../payments/dtos/payment.dto";
+import { orderFilters } from "../../dtos/order.item.dto";
 
 export const cleanupOrders = () => {
     return {
@@ -42,13 +44,16 @@ export const placeOrder = (orderDto: PlaceOrderDto) => {
     };
 };
 
-export const getOrders = (page = 1) => {
+export const getOrders = (page = 1, filter = orderFilters.New) => {
     return {
         type: Types.GET_ORDERS,
         payload: {
             request: {
                 method: "GET",
-                url: `/orders?page=${page}`,
+                url:
+                    filter == -2
+                        ? `/orders?page=${page}&filter.status=$in:${filter},${orderFilters.CancelledByCompany}`
+                        : `/orders?page=${page}&filter.status=$in:${filter}`,
             },
         },
     };

@@ -36,7 +36,7 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
                             alignItems: "center",
                             flex: 1,
                             flexDirection: "column",
-                            backgroundColor: "#8b0000",
+                            backgroundColor: "#cadcf0",
                         }}
                     >
                         {paymentState.addState == ActionState.inProgress ? (
@@ -66,15 +66,24 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
                         {!props.payment.hasReversal ||
                         !props.payment.isReversal ? (
                             <Badge
-                                containerStyle={{ padding: 1, marginLeft: 5 }}
+                                containerStyle={{
+                                    padding: 1,
+                                    marginLeft: 5,
+                                }}
+                                badgeStyle={{
+                                    backgroundColor:
+                                        props.payment.mode == 0
+                                            ? "#3CCF4E"
+                                            : "#3AB4F2",
+                                }}
                                 value={
                                     props.payment.mode == 0 ? "Cash" : "Online"
                                 }
-                                status={
-                                    props.payment.mode == 0
-                                        ? "success"
-                                        : "primary"
-                                }
+                                // status={
+                                //     props.payment.mode == 0
+                                //         ? "success"
+                                //         : "primary"
+                                // }
                             />
                         ) : null}
 
@@ -84,15 +93,11 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
                                 containerStyle={{
                                     marginLeft: 5,
                                 }}
+                                badgeStyle={{ backgroundColor: "#8b0000" }}
                                 value={
                                     props.payment.hasReversal
                                         ? "Reversed"
                                         : "Reversal"
-                                }
-                                status={
-                                    props.payment.hasReversal
-                                        ? "warning"
-                                        : "error"
                                 }
                             />
                         ) : null}

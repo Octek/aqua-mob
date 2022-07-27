@@ -46,13 +46,24 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
         }
     }, [page]);
     const fetch = () => {
-        dispatch(fetchPayments(page, filterSegment.All));
+        fetchPaymentsMethod(currentIndex);
+        // dispatch(fetchPayments(page, filterSegment.All));
     };
     const fetchNext = () => {
         if (paymentState.page && page < paymentState.page.totalPages) {
             setPage(page + 1);
         }
     };
+    const fetchPaymentsMethod = (selected: number) => {
+        if (selected == 0) {
+            dispatch(fetchPayments(page, filterSegment.All));
+        } else if (selected == 1) {
+            dispatch(fetchPayments(page, filterSegment.Cash));
+        } else {
+            dispatch(fetchPayments(page, filterSegment.Online));
+        }
+    };
+
     return (
         <>
             <FlatList<Payment>
@@ -70,19 +81,24 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
                 }}
                 ListHeaderComponent={
                     <ListItem.ButtonGroup
+                        containerStyle={{
+                            backgroundColor: "#383838",
+                        }}
+                        selectedButtonStyle={{
+                            backgroundColor:
+                                currentIndex == 0
+                                    ? "#cadcf0"
+                                    : currentIndex == 1
+                                    ? "#3CCF4E"
+                                    : "#3AB4F2",
+                        }}
                         buttons={buttons}
                         selectedIndex={currentIndex}
                         onPress={(selected) => {
+                            console.log("currentIndex===", selected);
                             setCurrentIndex(selected);
-                            if (selected == 0) {
-                                dispatch(fetchPayments(1, filterSegment.All));
-                            } else if (selected == 1) {
-                                dispatch(fetchPayments(1, filterSegment.Cash));
-                            } else {
-                                dispatch(
-                                    fetchPayments(1, filterSegment.Online),
-                                );
-                            }
+                            setPage(1);
+                            fetchPaymentsMethod(selected);
                         }}
                     />
                 }
