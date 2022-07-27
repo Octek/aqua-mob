@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { Icon, ListItem } from "react-native-elements";
-import { View, Text, StyleSheet } from "react-native";
 import { FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ParamList } from "../../../common/param.list";
@@ -11,7 +10,7 @@ import { ApplicationStateInterface } from "../../../common/redux/application.sta
 import { Payment } from "../../../common/entities/payment.entity";
 import { PaymentItemComponent } from "./components/payment.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
-import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import { filterSegment } from "../dtos/payment.dto";
 
 type Props = {
     route: RouteProp<ParamList, "paymentsNavigator">;
@@ -20,9 +19,11 @@ type Props = {
 
 export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
     const [page, setPage] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const paymentState = useSelector(
         (state: ApplicationStateInterface) => state.paymentsState,
     );
+    const buttons = ["All", "Cash", "Online"];
     const dispatch = useDispatch();
     useEffect(() => {
         navigation.setOptions({
@@ -45,7 +46,7 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
         }
     }, [page]);
     const fetch = () => {
-        dispatch(fetchPayments(page));
+        dispatch(fetchPayments(page, filterSegment.All));
     };
     const fetchNext = () => {
         if (paymentState.page && page < paymentState.page.totalPages) {
@@ -67,6 +68,24 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
                     }
                     fetchNext();
                 }}
+                ListHeaderComponent={
+                    <ListItem.ButtonGroup
+                        buttons={buttons}
+                        selectedIndex={currentIndex}
+                        onPress={(selected) => {
+                            setCurrentIndex(selected);
+                            if (selected == 0) {
+                                dispatch(fetchPayments(1, filterSegment.All));
+                            } else if (selected == 1) {
+                                dispatch(fetchPayments(1, filterSegment.Cash));
+                            } else {
+                                dispatch(
+                                    fetchPayments(1, filterSegment.Online),
+                                );
+                            }
+                        }}
+                    />
+                }
                 style={{ flex: 1 }}
                 data={paymentState.entities}
                 renderItem={({ item }) => {
@@ -82,19 +101,3 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
         </>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        // padding: 24,
-    },
-    input: {
-        marginTop: 8,
-        marginBottom: 10,
-        borderRadius: 10,
-        fontSize: 16,
-        lineHeight: 20,
-        padding: 8,
-        backgroundColor: "rgba(151, 151, 151, 0.25)",
-    },
-});

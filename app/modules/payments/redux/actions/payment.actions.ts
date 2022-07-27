@@ -21,13 +21,16 @@ export const addPayment = (paymentItems: PaymentDto) => {
     };
 };
 
-export const fetchPayments = (page = 1) => {
+export const fetchPayments = (page = 1, filter = 0) => {
     return {
         type: Types.FETCH_PAYMENTS,
         payload: {
             request: {
                 method: "GET",
-                url: `/payments?page=${page}`,
+                url:
+                    filter == 2
+                        ? `/payments?page=${page}`
+                        : `/payments?page=${page}&filter.mode=$in:${filter}`,
             },
         },
     };
