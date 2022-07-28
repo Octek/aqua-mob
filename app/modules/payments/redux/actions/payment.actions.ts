@@ -1,4 +1,4 @@
-import { PaymentDto } from "../../dtos/payment.dto";
+import { FilterSegment, PaymentDto } from "../../dtos/payment.dto";
 import * as Types from "../types/payment.types";
 import { instanceToPlain } from "class-transformer";
 
@@ -21,14 +21,14 @@ export const addPayment = (paymentItems: PaymentDto) => {
     };
 };
 
-export const fetchPayments = (page = 1, filter = 0) => {
+export const fetchPayments = (page = 1, filter = FilterSegment.All) => {
     return {
         type: Types.FETCH_PAYMENTS,
         payload: {
             request: {
                 method: "GET",
                 url:
-                    filter == 2
+                    filter == FilterSegment.All
                         ? `/payments?page=${page}`
                         : `/payments?page=${page}&filter.mode=$in:${filter}`,
             },
@@ -41,7 +41,7 @@ export const reversePayment = (id: Number) => {
         type: Types.REVERSE_PAYMENT,
         payload: {
             request: {
-                method: "Post",
+                method: "POST",
                 url: `/payments/${[id]}/reverse`,
                 data: "this is the reason",
             },

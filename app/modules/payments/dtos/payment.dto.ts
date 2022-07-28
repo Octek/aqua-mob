@@ -2,10 +2,10 @@ export enum PaymentMode {
     Cash,
     Online,
 }
-export enum filterSegment {
+export enum FilterSegment {
+    All = -1,
     Cash,
     Online,
-    All,
 }
 export class PaymentDto {
     constructor(

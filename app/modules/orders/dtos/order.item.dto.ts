@@ -1,6 +1,6 @@
 import { Product } from "../../../common/entities/product.entity";
 
-export enum orderFilters {
+export enum OrderFilters {
     CancelledByUser = -2,
     CancelledByCompany,
     New,

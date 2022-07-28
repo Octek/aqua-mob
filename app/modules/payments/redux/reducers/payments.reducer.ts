@@ -86,15 +86,10 @@ export const paymentReducer = (
                 addState: ActionState.done,
                 entities: [
                     ...plainToInstance(Payment, <Payment[]>action.payload.data),
-                    ...state.entities.filter(
-                        (oldData) =>
-                            action.payload.data.findIndex((newData: any) => {
-                                if (newData.id === oldData.id) {
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            }) < 0,
+                    ...state.entities.filter((oldData) =>
+                        action.payload.data.findIndex(
+                            (newData: any) => newData.id === oldData.id,
+                        ),
                     ),
                 ],
             };
