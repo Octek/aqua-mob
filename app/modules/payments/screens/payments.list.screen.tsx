@@ -26,7 +26,7 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
         navigation.setOptions({
             headerRight: () => (
                 <Icon
-                    style={{ marginRight: 10 }}
+                    containerStyle={{ marginRight: 10 }}
                     size={28}
                     name="add-circle"
                     color="black"

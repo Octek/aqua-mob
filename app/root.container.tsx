@@ -9,7 +9,7 @@ import { ActionState } from "./common/redux/entity.state.interface";
 import { AuthNavigator } from "./modules/auth/screens/auth.navigator";
 import { navigate, navigationRef, replace } from "./common/root.navigation";
 import { showMessage } from "react-native-flash-message";
-import { clearError } from "./common/redux/error.actions";
+import { clearError } from "./common/redux/common.actions";
 import { HomeNavigator } from "./modules/home/screens/home.navigator";
 import { unauthorize } from "./modules/auth/redux/actions/auth.actions";
 import { OrdersNavigator } from "./modules/orders/screens/orders.navigator";
@@ -33,6 +33,9 @@ const Stack = createStackNavigator();
 export const RootContainer = () => {
     const dispatch = useDispatch();
     const appState = useRef(AppState.currentState);
+    const [showing, setShowing] = React.useState<"home" | "login" | undefined>(
+        undefined,
+    );
     const authState = useSelector(
         (state: ApplicationStateInterface) => state.authState,
     );
@@ -46,7 +49,9 @@ export const RootContainer = () => {
     useEffect(() => {
         if (errorState.code === 401) {
             dispatch(unauthorize());
-            replace("auth", {});
+            if (showing !== "login") {
+                replace("authNavigator", { screen: "login" });
+            }
         }
         if (errorState.message) {
             showMessage({ message: errorState.message });
@@ -57,12 +62,18 @@ export const RootContainer = () => {
     useEffect(() => {
         if (authState.deviceState === ActionState.done) {
             if (authState.loggedInUser) {
-                replace("homeNavigator", { selectable: false });
+                if (showing !== "home") {
+                    replace("homeNavigator", { selectable: false });
+                    setShowing("home");
+                }
             } else {
-                replace("authNavigator", { screen: "login" });
+                if (showing !== "login") {
+                    replace("authNavigator", { screen: "login" });
+                    setShowing("login");
+                }
             }
         }
-    }, [authState.deviceState, authState.authState]);
+    }, [authState.deviceState, authState.authState, authState.loggedInUser]);
 
     useEffect(() => {
         return messaging().onMessage(async (message) => {

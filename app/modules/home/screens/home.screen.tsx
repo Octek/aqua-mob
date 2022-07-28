@@ -12,6 +12,8 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MenuBox } from "./components/menu.box.component";
 import { Icon } from "react-native-elements";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../common/redux/common.actions";
 
 type Props = {
     route: RouteProp<ParamList, "home">;
@@ -20,6 +22,7 @@ type Props = {
 
 export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
     const safeAreaInsets = useSafeAreaInsets();
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -108,6 +111,7 @@ export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
                     </View>
                     <View style={{ alignItems: "flex-end", flex: 1 }}>
                         <Icon
+                            onPress={() => dispatch(logout())}
                             type={"ionicon"}
                             name={"log-out-sharp"}
                             size={40}

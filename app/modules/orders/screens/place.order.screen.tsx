@@ -44,7 +44,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
                     />
                 ) : (
                     <Icon
-                        style={{ marginRight: 10 }}
+                        containerStyle={{ marginRight: 10 }}
                         size={28}
                         name="save"
                         color="black"
@@ -108,7 +108,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
                         return (
                             <CartItemDeliveryChargesComponent
                                 deliveryCharges={cartState.deliveryCharges}
-                                deliveryChargesChanged={(charges) =>
+                                onDeliveryChargesChanged={(charges: number) =>
                                     dispatch(setDeliveryCharges(charges))
                                 }
                             />

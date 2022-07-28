@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { FlatList, Platform } from "react-native";
+import { FlatList, Platform, View } from "react-native";
 import { Product } from "../../../common/entities/product.entity";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
@@ -35,12 +35,9 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
             headerTitle: "Products",
             headerRight: () =>
                 route.params && route.params.selectable ? null : (
+                    // <View style={{ padding: 10 }}>
                     <Icon
-                        style={
-                            Platform.OS === "ios"
-                                ? { marginRight: 10 }
-                                : { marginRight: 20 }
-                        }
+                        containerStyle={{ marginRight: 10 }}
                         size={28}
                         name="add-circle"
                         color="black"
@@ -51,6 +48,7 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
                             })
                         }
                     />
+                    // </View>
                 ),
         });
     });

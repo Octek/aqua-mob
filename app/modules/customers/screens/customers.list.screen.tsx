@@ -33,7 +33,7 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
         navigation.setOptions({
             headerRight: () => (
                 <Icon
-                    style={{ marginRight: 10 }}
+                    containerStyle={{ marginRight: 10 }}
                     size={28}
                     name="add-circle"
                     color="black"
@@ -81,6 +81,7 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
         <FlatList<User>
             style={{ flex: 1 }}
             data={customersState.entities}
+            keyExtractor={(customer) => customer.id.toString()}
             onRefresh={() => {
                 setPage(0);
                 setPage(1);

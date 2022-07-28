@@ -43,6 +43,7 @@ export const OrderItemComponent: React.FC<Props> = (props) => {
                             {moment(props.order.createdAt).fromNow()}
                         </ListItem.Subtitle>
                     </ListItem.Content>
+                    <ListItem.Title>{props.order.total} Rs.</ListItem.Title>
                 </ListItem.Content>
             </ListItem.Content>
             <ListItem.Chevron tvParallaxProperties={undefined} />

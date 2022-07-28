@@ -5,7 +5,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import axiosMiddleware from "redux-axios-middleware";
 import { rootReducer } from "./root.reducer";
 import thunk from "redux-thunk";
-import { showError } from "./error.actions";
+import { showError } from "./common.actions";
 
 const client = axios.create({
     baseURL: "https://octek-aqua.herokuapp.com",

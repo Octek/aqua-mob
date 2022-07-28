@@ -2,7 +2,6 @@ import { ActionState } from "../../../../common/redux/entity.state.interface";
 import { User } from "../../../../common/entities/user.entity";
 import * as Types from "../types/auth.types";
 import { Device } from "../../../../common/entities/device.entity";
-import { plainToInstance } from "class-transformer";
 
 export interface AuthStateInterface {
     authState: ActionState;

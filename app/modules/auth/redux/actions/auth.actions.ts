@@ -35,15 +35,3 @@ export const unauthorize = () => {
         type: Types.UNAUTHORIZE,
     };
 };
-
-export const logout = () => {
-    return {
-        type: Types.LOGOUT,
-        payload: {
-            request: {
-                method: "POST",
-                url: "/auth/logout",
-            },
-        },
-    };
-};

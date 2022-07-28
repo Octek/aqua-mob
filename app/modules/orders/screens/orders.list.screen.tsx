@@ -2,21 +2,29 @@ import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { FlatList } from "react-native";
+import {
+    Text,
+    ActivityIndicator,
+    FlatList,
+    TextInput,
+    View,
+    TouchableOpacity,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
-import { Icon } from "react-native-elements";
+import { BottomSheet, Icon, ListItem } from "react-native-elements";
 import { cleanupOrder, getOrders } from "../redux/actions/order.actions";
 import { Order } from "../../../common/entities/order.entity";
 import { OrderItemComponent } from "./components/order.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import { ReactNativeModal } from "react-native-modal";
 
 type Props = {
     route: RouteProp<ParamList, "ordersNavigator">;
     navigation: StackNavigationProp<ParamList, "ordersNavigator">;
 };
 
-export const OrdersListScreen: React.FC<Props> = ({ route, navigation }) => {
+export const OrdersListScreen: React.FC<Props> = ({ navigation }) => {
     const [page, setPage] = useState(0);
     const ordersState = useSelector(
         (state: ApplicationStateInterface) => state.ordersState,
@@ -27,7 +35,7 @@ export const OrdersListScreen: React.FC<Props> = ({ route, navigation }) => {
         navigation.setOptions({
             headerRight: () => (
                 <Icon
-                    style={{ marginRight: 10 }}
+                    containerStyle={{ marginRight: 10 }}
                     size={28}
                     name="add-circle"
                     color="black"
@@ -75,6 +83,11 @@ export const OrdersListScreen: React.FC<Props> = ({ route, navigation }) => {
                 }
                 fetchNext();
             }}
+            ListFooterComponent={() =>
+                ordersState.fetchState === ActionState.inProgress ? (
+                    <ActivityIndicator style={{ marginTop: 5 }} />
+                ) : null
+            }
             renderItem={({ item }) => (
                 <OrderItemComponent
                     order={item}

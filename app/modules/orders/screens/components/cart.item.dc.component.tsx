@@ -3,7 +3,7 @@ import { ListItem } from "react-native-elements";
 
 type Props = {
     deliveryCharges: number;
-    deliveryChargesChanged: (charges: number) => void;
+    onDeliveryChargesChanged: (charges: number) => void;
 };
 
 export const CartItemDeliveryChargesComponent: React.FC<Props> = (props) => {
@@ -32,7 +32,7 @@ export const CartItemDeliveryChargesComponent: React.FC<Props> = (props) => {
                     keyboardType={"numeric"}
                     value={props.deliveryCharges.toString()}
                     onChangeText={(text) =>
-                        props.deliveryChargesChanged(parseInt(text || "0"))
+                        props.onDeliveryChargesChanged(parseInt(text || "0"))
                     }
                     style={{
                         fontSize: 15,

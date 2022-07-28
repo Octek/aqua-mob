@@ -12,7 +12,7 @@ export const CustomersNavigator = (_: any) => {
         <Stack.Navigator
             initialRouteName={"customers.list"}
             screenOptions={{
-                headerStyle: { backgroundColor: "#BCD979" },
+                headerStyle: { backgroundColor: "#cadcf0" },
                 headerTintColor: "black",
                 headerShown: true,
             }}

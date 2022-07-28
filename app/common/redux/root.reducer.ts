@@ -9,6 +9,7 @@ import { customersReducer } from "../../modules/customers/redux/reducers/custome
 import { paymentReducer } from "../../modules/payments/redux/reducers/payments.reducer";
 import { orderReducer } from "../../modules/orders/redux/reducers/order.reducer";
 import { newPaymentReducer } from "../../modules/payments/redux/reducers/new.payment.reducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const appReducer = combineReducers<ApplicationStateInterface>({
     authState: authReducer,
@@ -23,8 +24,20 @@ const appReducer = combineReducers<ApplicationStateInterface>({
 });
 
 export const rootReducer = (state: any, action: AnyAction) => {
+    console.log("global state:", state);
     if (action.type === "LOGOUT") {
-        return appReducer(undefined, action);
+    } else if (
+        action.type === "LOGOUT_SUCCESS" ||
+        action.type === "LOGOUT_FAIL"
+    ) {
+        AsyncStorage.removeItem("persist:root");
+        return appReducer(
+            {
+                ...state,
+                authState: { ...state.authState, loggedInUser: undefined },
+            },
+            action,
+        );
     }
     return appReducer(state, action);
 };

@@ -44,7 +44,7 @@ export const UpsertCustomerScreen: React.FC<Props> = ({
                     />
                 ) : (
                     <Icon
-                        style={{ marginRight: 10 }}
+                        containerStyle={{ marginRight: 10 }}
                         size={28}
                         name="save"
                         color="black"

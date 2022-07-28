@@ -18,7 +18,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         navigation.setOptions({
             headerRight: () => (
                 <Icon
-                    style={{ marginRight: 10 }}
+                    containerStyle={{ marginRight: 10 }}
                     size={28}
                     name="edit"
                     color="black"

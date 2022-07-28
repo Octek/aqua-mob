@@ -30,9 +30,9 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
 
     const dispatch = useDispatch();
 
-    const selectPaymetMode = (selected: any) => {
+    const selectPaymentMode = (selected: any) => {
         setCurrentIndex(selected);
-        if (selected == 0) {
+        if (selected === 0) {
             setMode(PaymentMode.Cash);
         } else {
             setMode(PaymentMode.Online);
@@ -53,7 +53,7 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
                             paymentState.customer === undefined ||
                             amount === "0"
                         }
-                        style={{ marginRight: 10 }}
+                        containerStyle={{ marginRight: 10 }}
                         size={28}
                         name="save"
                         color="black"
@@ -138,7 +138,7 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
                 <ListItem.ButtonGroup
                     buttons={buttons}
                     selectedIndex={currentIndex}
-                    onPress={(selected) => selectPaymetMode(selected)}
+                    onPress={(selected) => selectPaymentMode(selected)}
                     containerStyle={{ maxWidth: 140 }}
                 />
 

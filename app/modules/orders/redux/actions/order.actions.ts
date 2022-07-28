@@ -92,13 +92,16 @@ export const dispatchOrder = (orderId: number) => {
     };
 };
 
-export const cancelOrder = (orderId: number) => {
+export const cancelOrder = (orderId: number, reason: string) => {
     return {
         type: Types.CANCEL_ORDER,
         payload: {
             request: {
                 method: "PATCH",
                 url: `/orders/${orderId}/cancel`,
+                data: {
+                    reason: reason,
+                },
             },
         },
     };
