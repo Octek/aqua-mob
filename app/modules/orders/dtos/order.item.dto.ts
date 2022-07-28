@@ -1,5 +1,12 @@
 import { Product } from "../../../common/entities/product.entity";
 
+export enum OrderFilters {
+    CancelledByUser = -2,
+    CancelledByCompany,
+    New,
+    OnTheWay,
+    Fulfilled,
+}
 export class OrderItemDto {
     constructor(
         public product: Product,

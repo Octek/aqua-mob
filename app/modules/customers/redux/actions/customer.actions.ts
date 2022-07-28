@@ -27,6 +27,7 @@ export const fetchCustomers = (page = 1, search = "") => {
 };
 
 export const addCustomer = (customerDto: AddCustomerDto) => {
+    console.log("customerData===", customerDto);
     return {
         type: Types.ADD_CUSTOMER,
         payload: {
@@ -43,6 +44,7 @@ export const updateCustomer = (
     customerId: number,
     customerDto: UpdateCustomerDto,
 ) => {
+    console.log("updatecustomerData===", customerDto);
     return {
         type: Types.UPDATE_CUSTOMER,
         payload: {
