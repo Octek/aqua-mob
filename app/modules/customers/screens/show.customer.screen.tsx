@@ -46,7 +46,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         />,
         <StaticListItemComponent
             title="WhatsApp"
-            value={customer.whatsapp || "Not Available"}
+            value={customer.whatsApp || "Not Available"}
         />,
         <StaticListItemComponent
             title="Email"
