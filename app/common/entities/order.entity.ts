@@ -1,5 +1,6 @@
 import { User } from "./user.entity";
 import { OrderItem } from "./order.item.entity";
+import { OrderFilters } from "../../modules/orders/dtos/order.item.dto";
 
 export enum OrderStatus {
     CancelledByUser = -2,
@@ -72,4 +73,16 @@ export class Order {
                 };
         }
     }
+
+    static orderFiltersColor = (status: number) => {
+        if (status == OrderFilters.New) {
+            return "#ffbf00";
+        } else if (status == OrderFilters.OnTheWay) {
+            return "#002d62";
+        } else if (status == OrderFilters.Fulfilled) {
+            return "#ff69b4";
+        } else {
+            return "#8b0000";
+        }
+    };
 }

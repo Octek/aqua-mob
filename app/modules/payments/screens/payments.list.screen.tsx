@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
-import { Icon } from "react-native-elements";
+import { Icon, ListItem } from "react-native-elements";
 import { FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ParamList } from "../../../common/param.list";
@@ -10,6 +10,7 @@ import { ApplicationStateInterface } from "../../../common/redux/application.sta
 import { Payment } from "../../../common/entities/payment.entity";
 import { PaymentItemComponent } from "./components/payment.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import { FilterSegment } from "../dtos/payment.dto";
 
 type Props = {
     route: RouteProp<ParamList, "paymentsNavigator">;
@@ -18,9 +19,12 @@ type Props = {
 
 export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
     const [page, setPage] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [selectedIndex, setSelectedIndex] = useState(FilterSegment.All);
     const paymentState = useSelector(
         (state: ApplicationStateInterface) => state.paymentsState,
     );
+    const buttons = ["All", "Cash", "Online"];
     const dispatch = useDispatch();
     useEffect(() => {
         navigation.setOptions({
@@ -41,16 +45,18 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
         if (page > 0) {
             fetch();
         }
-    }, [page]);
+    }, [page, selectedIndex]);
+
     const fetch = () => {
-        dispatch(fetchPayments(page));
+        dispatch(fetchPayments(page, selectedIndex));
     };
+
     const fetchNext = () => {
-        console.log("totalPagesInPayments==", paymentState.page?.totalPages);
         if (paymentState.page && page < paymentState.page.totalPages) {
             setPage(page + 1);
         }
     };
+
     return (
         <FlatList<Payment>
             onRefresh={() => {
@@ -65,9 +71,29 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
                 }
                 fetchNext();
             }}
+            ListHeaderComponent={
+                <ListItem.ButtonGroup
+                    containerStyle={{
+                        backgroundColor: "#383838",
+                    }}
+                    selectedButtonStyle={{
+                        backgroundColor:
+                            Payment.buttonBackgroundColor(selectedIndex),
+                    }}
+                    buttons={buttons}
+                    selectedIndex={currentIndex}
+                    onPress={(selected) => {
+                        setCurrentIndex(selected);
+                        setPage(1);
+                        setSelectedIndex(selected - 1);
+                    }}
+                />
+            }
             style={{ flex: 1 }}
             data={paymentState.entities}
-            renderItem={({ item }) => <PaymentItemComponent payment={item} />}
+            renderItem={({ item }) => {
+                return <PaymentItemComponent payment={item} />;
+            }}
         />
     );
 };

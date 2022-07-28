@@ -5,11 +5,12 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
-import { Icon } from "react-native-elements";
+import { Icon, ListItem } from "react-native-elements";
 import { cleanupOrder, getOrders } from "../redux/actions/order.actions";
 import { Order } from "../../../common/entities/order.entity";
 import { OrderItemComponent } from "./components/order.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import { OrderFilters } from "../dtos/order.item.dto";
 
 type Props = {
     route: RouteProp<ParamList, "ordersNavigator">;
@@ -18,11 +19,13 @@ type Props = {
 
 export const OrdersListScreen: React.FC<Props> = ({ route, navigation }) => {
     const [page, setPage] = useState(0);
+    const [selectedIndex, setSelectedIndex] = useState(OrderFilters.New);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const ordersState = useSelector(
         (state: ApplicationStateInterface) => state.ordersState,
     );
     const dispatch = useDispatch();
-
+    const groupButtons = ["New", "On the way", " Done", "Cancelled"];
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -46,11 +49,11 @@ export const OrdersListScreen: React.FC<Props> = ({ route, navigation }) => {
         if (page > 0) {
             fetch();
         }
-    }, [page]);
+    }, [page, selectedIndex]);
 
     const fetch = () => {
-        console.log("page:", page);
-        dispatch(getOrders(page));
+        console.log("get data by users=====", selectedIndex);
+        dispatch(getOrders(page, selectedIndex));
     };
 
     const fetchNext = () => {
@@ -63,6 +66,30 @@ export const OrdersListScreen: React.FC<Props> = ({ route, navigation }) => {
         <FlatList<Order>
             style={{ flex: 1 }}
             data={ordersState.entities}
+            ListHeaderComponent={
+                <ListItem.ButtonGroup
+                    containerStyle={{
+                        backgroundColor: "#383838",
+                    }}
+                    buttons={groupButtons}
+                    selectedIndex={currentIndex}
+                    selectedButtonStyle={{
+                        backgroundColor: Order.orderFiltersColor(currentIndex),
+                    }}
+                    onPress={(selected) => {
+                        setPage(1);
+                        setCurrentIndex(selected);
+                        setSelectedIndex(
+                            selected > 2
+                                ? OrderFilters.CancelledByUser
+                                : selected,
+                            // selected < 0
+                            //     ? OrderFilters.CancelledByUser
+                            //     : selected,
+                        );
+                    }}
+                />
+            }
             onRefresh={() => {
                 setPage(0);
                 setPage(1);

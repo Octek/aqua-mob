@@ -7,13 +7,20 @@ export class User {
         public emailVerified: boolean,
         public mobile: string,
         public mobileVerified: boolean,
-        public whatsapp: string,
+        public whatsApp: string,
         public whatsappVerified: boolean,
         public address: string,
     ) {}
 
     get mobileWithoutPrefix(): string {
         return this.mobile.substring(3);
+    }
+    get whatsAppWithoutPrefix(): string {
+        if (this.whatsApp != null) {
+            return this.whatsApp.substring(3);
+        } else {
+            return "";
+        }
     }
 
     get initials(): string {
