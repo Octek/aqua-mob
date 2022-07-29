@@ -92,9 +92,7 @@ export const CreatePaymentScreen: React.FC<Props> = ({ route, navigation }) => {
                     reason: SelectCustomerReason.CreatePayment,
                 })
             }
-            disabled={
-                selectCustomerDisable !== undefined && selectCustomerDisable
-            }
+            disabled={selectCustomerDisable}
             bottomDivider
             hasTVPreferredFocus={undefined}
             tvParallaxProperties={undefined}
