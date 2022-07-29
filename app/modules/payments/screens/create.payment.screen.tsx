@@ -16,10 +16,11 @@ type Props = {
     navigation: StackNavigationProp<ParamList, "createPayment">;
 };
 
-export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
+export const CreatePaymentScreen: React.FC<Props> = ({ route, navigation }) => {
     const [amount, setAmount] = useState("0");
     const [mode, setMode] = useState<PaymentMode>(PaymentMode.Cash);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const selectCustomerDisable = route.params.selectCustomerDisable;
     const paymentsState = useSelector(
         (state: ApplicationStateInterface) => state.paymentsState,
     );
@@ -88,9 +89,11 @@ export const CreatePaymentScreen: React.FC<Props> = ({ navigation }) => {
             onPress={() =>
                 navigation.navigate("selectCustomer", {
                     selectable: true,
-
                     reason: SelectCustomerReason.CreatePayment,
                 })
+            }
+            disabled={
+                selectCustomerDisable !== undefined && selectCustomerDisable
             }
             bottomDivider
             hasTVPreferredFocus={undefined}

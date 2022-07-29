@@ -14,6 +14,7 @@ import { Payment } from "../../../common/entities/payment.entity";
 import { PaymentItemComponent } from "./components/payment.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { FilterSegment } from "../dtos/payment.dto";
+import { cleanupNewPayment } from "../redux/actions/new.payment.actions";
 
 type Props = {
     route: RouteProp<ParamList, "paymentsNavigator">;
@@ -38,7 +39,12 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
                     name="add-circle"
                     color="black"
                     tvParallaxProperties={undefined}
-                    onPress={() => navigation.push("addPayment")}
+                    onPress={() => {
+                        dispatch(cleanupNewPayment());
+                        navigation.push("addPayment", {
+                            selectCustomerDisable: false,
+                        });
+                    }}
                 />
             ),
         });
