@@ -22,7 +22,6 @@ export const customerPaymentsReducer = (
         case Type.CUSTOMER_PAYMENTS:
             return { ...state, addState: ActionState.inProgress };
         case Type.CUSTOMER_PAYMENTS_SUCCESS:
-            console.log("payload===", action.payload.data.data);
             return {
                 ...state,
                 addState: ActionState.done,
