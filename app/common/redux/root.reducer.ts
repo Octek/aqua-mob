@@ -10,12 +10,14 @@ import { paymentReducer } from "../../modules/payments/redux/reducers/payments.r
 import { orderReducer } from "../../modules/orders/redux/reducers/order.reducer";
 import { newPaymentReducer } from "../../modules/payments/redux/reducers/new.payment.reducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { customerPaymentsReducer } from "../../modules/customers/redux/reducers/customer.payments.reducer";
 
 const appReducer = combineReducers<ApplicationStateInterface>({
     authState: authReducer,
     ordersState: ordersReducer,
     orderState: orderReducer,
     customersState: customersReducer,
+    customerPaymentsState: customerPaymentsReducer,
     paymentsState: paymentReducer,
     newPaymentState: newPaymentReducer,
     productsState: productsReducer,

@@ -24,8 +24,12 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
     return (
         // @ts-ignore
         <ListItem.Swipeable
+            containerStyle={{
+                backgroundColor: props.payment.hasReversal
+                    ? "#EEEEEE"
+                    : "white",
+            }}
             bottomDivider={true}
-            // props.payment.isReversal || props.payment.hasReversal ? (
             leftContent={
                 props.payment.hasReversal == false &&
                 props.payment.isReversal == false ? (
@@ -79,11 +83,6 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
                                 value={
                                     props.payment.mode == 0 ? "Cash" : "Online"
                                 }
-                                // status={
-                                //     props.payment.mode == 0
-                                //         ? "success"
-                                //         : "primary"
-                                // }
                             />
                         ) : null}
 
@@ -93,7 +92,11 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
                                 containerStyle={{
                                     marginLeft: 5,
                                 }}
-                                badgeStyle={{ backgroundColor: "#8b0000" }}
+                                badgeStyle={{
+                                    backgroundColor: props.payment.hasReversal
+                                        ? "#8b0000"
+                                        : "#D75281",
+                                }}
                                 value={
                                     props.payment.hasReversal
                                         ? "Reversed"

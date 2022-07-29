@@ -13,7 +13,6 @@ type Props = {
 
 export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
     const customer = route.params.customer;
-
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -24,7 +23,6 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
                     color="black"
                     tvParallaxProperties={undefined}
                     onPress={() => {
-                        console.log("pressed");
                         navigation.push("upsertCustomer", {
                             customer: customer,
                         });
@@ -65,7 +63,13 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
             <ListItem.Chevron tvParallaxProperties={undefined} />
         </ListItem>,
         // @ts-ignore
-        <ListItem bottomDivider>
+        <ListItem
+            bottomDivider
+            onPress={() => {
+                // console.log("currentId===", customer.id);
+                navigation.push("customerPayments", { customer: customer });
+            }}
+        >
             <ListItem.Content>
                 <ListItem.Title>Payments</ListItem.Title>
             </ListItem.Content>

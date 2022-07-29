@@ -4,6 +4,7 @@ import { CustomersListScreen } from "./customers.list.screen";
 import { UpsertCustomerScreen } from "./upsert.customer.screen";
 import { ShowCustomerScreen } from "./show.customer.screen";
 import { CustomerOrdersScreen } from "./customer.orders.screen";
+import { CustomerPaymentsScreen } from "./customer.payments.screen";
 
 const Stack = createStackNavigator();
 
@@ -36,6 +37,14 @@ export const CustomersNavigator = (_: any) => {
                 name="customerOrders"
                 options={{ title: "Customer Orders", headerBackTitle: " " }}
                 component={CustomerOrdersScreen}
+            />
+            <Stack.Screen
+                name="customerPayments"
+                options={{
+                    headerBackTitle: " ",
+                    title: "Customer Payments",
+                }}
+                component={CustomerPaymentsScreen}
             />
         </Stack.Navigator>
     );

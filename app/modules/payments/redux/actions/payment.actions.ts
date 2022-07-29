@@ -36,7 +36,7 @@ export const fetchPayments = (page = 1, filter = FilterSegment.All) => {
     };
 };
 
-export const reversePayment = (id: Number) => {
+export const reversePayment = (id: number) => {
     return {
         type: Types.REVERSE_PAYMENT,
         payload: {
