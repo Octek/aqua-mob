@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FlatList } from "react-native";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { Payment } from "../../../common/entities/payment.entity";
-import { customerPayments } from "../redux/actions/customer.payment.action";
+import { fetchCustomerPayments } from "../redux/actions/customer.payment.action";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -24,7 +24,7 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
     const dispatch = useDispatch();
     const customer = route.params.customer;
     useEffect(() => {
-        dispatch(customerPayments(customer.id));
+        dispatch(fetchCustomerPayments(customer.id));
     }, []);
     return (
         // @ts-ignore
