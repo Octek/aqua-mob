@@ -51,7 +51,6 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
     useEffect(() => setPage(1), []);
 
     useEffect(() => {
-        console.log("page......", page);
         if (page > 0) {
             console.log("useEffect..");
             fetch();

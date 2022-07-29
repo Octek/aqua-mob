@@ -6,6 +6,7 @@ import { User } from "./entities/user.entity";
 export enum SelectCustomerReason {
     CreateOrder,
     CreatePayment,
+    CreateCustomerPayment,
 }
 
 export type ParamList = {
@@ -13,7 +14,7 @@ export type ParamList = {
     login: any;
     home: any;
     ordersNavigator: any;
-    createPayment: any;
+    createPayment: { selectCustomerDisable: boolean };
     paymentsNavigator: any;
     productsNavigator: { selectable: boolean };
     selectProduct: { selectable: boolean };

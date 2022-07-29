@@ -31,8 +31,7 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
             }}
             bottomDivider={true}
             leftContent={
-                props.payment.hasReversal == false &&
-                props.payment.isReversal == false ? (
+                !props.payment.hasReversal && !props.payment.isReversal ? (
                     <TouchableOpacity
                         onPress={() => reversePayments()}
                         style={{
@@ -106,10 +105,7 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
                         ) : null}
                     </ListItem.Title>
                     <ListItem.Subtitle>
-                        {moment(props.payment.createdAt).format(
-                            // "YYYY-MM-DD",
-                            "DD MMMM YYYY",
-                        )}
+                        {moment(props.payment.createdAt).fromNow()}
                     </ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Title>Rs. {props.payment.amount}/-</ListItem.Title>

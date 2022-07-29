@@ -61,7 +61,6 @@ export const OrdersListScreen: React.FC<Props> = ({ navigation }) => {
             setPage(page + 1);
         }
     };
-
     return (
         <FlatList<Order>
             style={{ flex: 1 }}
