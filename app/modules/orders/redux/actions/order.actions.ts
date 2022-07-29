@@ -1,6 +1,6 @@
 import { PlaceOrderDto } from "../../dtos/place.order.dto";
 import * as Types from "../types/order.types";
-import { Order } from "../../../../common/entities/xorder.entity";
+import { Order } from "../../../../common/entities/order.entity";
 import { OrderFilters } from "../../dtos/order.item.dto";
 
 export const cleanupOrders = () => {

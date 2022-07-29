@@ -21,7 +21,6 @@ export const newPaymentReducer = (state = initialState, action: any) => {
                 customer: action.payload.customer,
             };
         default:
-            [];
             return state;
     }
 };

@@ -5,6 +5,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { FAB, Icon, ListItem } from "react-native-elements";
 import { StaticListItemComponent } from "../../../common/components/static.list.item.component";
 import { FlatList, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { customerPayments } from "../redux/actions/customer.payment.action";
 
 type Props = {
     route: RouteProp<ParamList, "showCustomer">;
@@ -13,7 +15,7 @@ type Props = {
 
 export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
     const customer = route.params.customer;
-
+    const dispatch = useDispatch();
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -25,6 +27,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
                     tvParallaxProperties={undefined}
                     onPress={() => {
                         console.log("pressed");
+
                         navigation.push("upsertCustomer", {
                             customer: customer,
                         });
@@ -65,7 +68,13 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
             <ListItem.Chevron tvParallaxProperties={undefined} />
         </ListItem>,
         // @ts-ignore
-        <ListItem bottomDivider>
+        <ListItem
+            bottomDivider
+            onPress={() => {
+                // console.log("currentId===", customer.id);
+                navigation.push("customerPayments", { customer: customer });
+            }}
+        >
             <ListItem.Content>
                 <ListItem.Title>Payments</ListItem.Title>
             </ListItem.Content>
