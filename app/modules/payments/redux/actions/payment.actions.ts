@@ -36,14 +36,14 @@ export const fetchPayments = (page = 1, filter = FilterSegment.All) => {
     };
 };
 
-export const reversePayment = (id: number) => {
+export const reversePayment = (id: number, reason: string) => {
     return {
         type: Types.REVERSE_PAYMENT,
         payload: {
             request: {
                 method: "POST",
                 url: `/payments/${[id]}/reverse`,
-                data: "this is the reason",
+                data: { reason: reason },
             },
         },
     };

@@ -2,6 +2,7 @@ import { Company } from "./entities/company.entity";
 import { Order } from "./entities/order.entity";
 import { Product } from "./entities/product.entity";
 import { User } from "./entities/user.entity";
+import { Payment } from "./entities/payment.entity";
 
 export enum SelectCustomerReason {
     CreateOrder,
@@ -49,5 +50,8 @@ export type ParamList = {
     };
     customerOrders: {
         customer: User;
+    };
+    showPaymentDetail: {
+        payment: Payment;
     };
 };

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {
-    customerPayments,
+    cleanupPayments,
     fetchPayments,
 } from "../redux/actions/payment.actions";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
@@ -101,7 +101,17 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
             style={{ flex: 1 }}
             data={paymentState.entities}
             renderItem={({ item }) => {
-                return <PaymentItemComponent payment={item} />;
+                return (
+                    <PaymentItemComponent
+                        payment={item}
+                        onPress={(payment) => {
+                            dispatch(cleanupPayments());
+                            navigation.push("showPaymentDetail", {
+                                payment: payment,
+                            });
+                        }}
+                    />
+                );
             }}
         />
     );
