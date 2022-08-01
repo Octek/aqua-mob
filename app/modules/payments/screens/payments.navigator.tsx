@@ -4,7 +4,7 @@ import { StackActions } from "@react-navigation/native";
 import { PaymentsListScreen } from "./payments.list.screen";
 import { CreatePaymentScreen } from "./create.payment.screen";
 import { CustomersListScreen } from "../../customers/screens/customers.list.screen";
-import { CustomerPaymentsScreen } from "../../customers/screens/customer.payments.screen";
+import { PaymentDetailScreen } from "./payment.detail.screen";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +26,11 @@ export const PaymentsNavigator = () => {
                 name="addPayment"
                 options={{ title: "Add Payment", headerBackTitle: " " }}
                 component={CreatePaymentScreen}
+            />
+            <Stack.Screen
+                name="showPaymentDetail"
+                options={{ title: "Payment Details", headerBackTitle: " " }}
+                component={PaymentDetailScreen}
             />
             <Stack.Screen
                 name="selectCustomer"

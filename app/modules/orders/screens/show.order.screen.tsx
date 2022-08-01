@@ -229,6 +229,7 @@ export const ShowOrderScreen: React.FC<Props> = ({ route }) => {
                 // @ts-ignore
                 renderItem={(item) => item.item}
             />
+
             <ReactNativeModal isVisible={showingCancelOrder}>
                 <View>
                     <View

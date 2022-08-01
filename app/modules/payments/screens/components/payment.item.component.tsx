@@ -1,56 +1,27 @@
 import React from "react";
-import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
 import { Badge, ListItem } from "react-native-elements";
 import { Payment } from "../../../../common/entities/payment.entity";
 import moment from "moment";
-import { ActionState } from "../../../../common/redux/entity.state.interface";
-import { useDispatch, useSelector } from "react-redux";
-import { reversePayment } from "../../redux/actions/payment.actions";
-import { ApplicationStateInterface } from "../../../../common/redux/application.state.interface";
 
 type Props = {
     payment: Payment;
+    onPress: (payment: Payment) => void;
 };
 
 export const PaymentItemComponent: React.FC<Props> = (props) => {
-    const paymentState = useSelector(
-        (state: ApplicationStateInterface) => state.paymentsState,
-    );
-    const reversePayments = () => {
-        dispatch(reversePayment(props.payment.id));
-    };
-
-    const dispatch = useDispatch();
     return (
         // @ts-ignore
-        <ListItem.Swipeable
+        <ListItem
+            onPress={() => {
+                props.onPress(props.payment);
+            }}
+            key={props.payment.id}
             containerStyle={{
                 backgroundColor: props.payment.hasReversal
                     ? "#EEEEEE"
                     : "white",
             }}
             bottomDivider={true}
-            leftContent={
-                !props.payment.hasReversal && !props.payment.isReversal ? (
-                    <TouchableOpacity
-                        onPress={() => reversePayments()}
-                        style={{
-                            justifyContent: "center",
-                            alignItems: "center",
-                            flex: 1,
-                            flexDirection: "column",
-                            backgroundColor: "#cadcf0",
-                        }}
-                    >
-                        {paymentState.addState == ActionState.inProgress ? (
-                            <ActivityIndicator color={"white"} />
-                        ) : (
-                            <Text style={{ color: "white" }}>Reverse</Text>
-                        )}
-                    </TouchableOpacity>
-                ) : null
-            }
-            // ) : null
         >
             <ListItem.Content
                 style={{
@@ -63,15 +34,12 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
             >
                 <ListItem.Content>
                     <ListItem.Title>
-                        <Text style={{ justifyContent: "flex-start" }}>
-                            {props.payment.customer.name}
-                        </Text>
+                        {props.payment.customer.name}
                         {!props.payment.hasReversal ||
                         !props.payment.isReversal ? (
                             <Badge
                                 containerStyle={{
                                     padding: 1,
-                                    marginLeft: 5,
                                 }}
                                 badgeStyle={{
                                     backgroundColor:
@@ -88,9 +56,6 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
                         {props.payment.hasReversal ||
                         props.payment.isReversal ? (
                             <Badge
-                                containerStyle={{
-                                    marginLeft: 5,
-                                }}
                                 badgeStyle={{
                                     backgroundColor: props.payment.hasReversal
                                         ? "#8b0000"
@@ -111,6 +76,6 @@ export const PaymentItemComponent: React.FC<Props> = (props) => {
                 <ListItem.Title>Rs. {props.payment.amount}/-</ListItem.Title>
             </ListItem.Content>
             {/*</ListItem.Swipeable>*/}
-        </ListItem.Swipeable>
+        </ListItem>
     );
 };
