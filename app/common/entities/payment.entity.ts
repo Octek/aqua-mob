@@ -14,20 +14,6 @@ export class Payment {
         public reverseReason: string,
     ) {}
 
-    // get formattedAmount(): string {
-    //     return `Rs. ${this.amount}/-`;
-    // }
-    //
-    // badgeValue = (payment: Payment) => {
-    //     if (payment.mode == 0) {
-    //         return "Cash";
-    //     } else if (payment.mode == 1) {
-    //         return "Online";
-    //     } else if (payment.isReversal || payment.isReversal) {
-    //         return "Reversed";
-    //     }
-    // };
-
     static buttonBackgroundColor = (status: number) => {
         if (status == FilterSegment.All) {
             return "#cadcf0";

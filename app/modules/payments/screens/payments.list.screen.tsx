@@ -107,7 +107,6 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
                         onPress={(payment) => {
                             dispatch(cleanupPayments());
                             navigation.push("showPaymentDetail", {
-                                // payment: instanceToPlain(payment) as Payment,
                                 payment: payment,
                             });
                         }}
