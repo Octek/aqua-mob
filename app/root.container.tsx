@@ -16,6 +16,7 @@ import { OrdersNavigator } from "./modules/orders/screens/orders.navigator";
 import { PaymentsNavigator } from "./modules/payments/screens/payments.navigator";
 import { CustomersNavigator } from "./modules/customers/screens/customers.navigator";
 import { ProductsNavigator } from "./modules/products/screens/products.navigator";
+import { UsersNavigator } from "./modules/users/screens/users.navigator";
 import messaging from "@react-native-firebase/messaging";
 import {
     cleanupOrderState,
@@ -127,6 +128,10 @@ export const RootContainer = () => {
                 <Stack.Screen
                     name="customersNavigator"
                     component={CustomersNavigator}
+                />
+                <Stack.Screen
+                    name="usersNavigator"
+                    component={UsersNavigator}
                 />
             </Stack.Navigator>
         </NavigationContainer>

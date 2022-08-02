@@ -23,6 +23,7 @@ export class Order {
         public items: OrderItem[],
         public deliveryCharges: number,
         public status: OrderStatus,
+        public cancelReason: string,
         public createdAt: Date,
     ) {}
 

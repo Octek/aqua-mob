@@ -107,6 +107,7 @@ export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
                             name={"people-circle-sharp"}
                             size={40}
                             tvParallaxProperties={undefined}
+                            onPress={() => navigation.push("usersNavigator")}
                         />
                     </View>
                     <View style={{ alignItems: "flex-end", flex: 1 }}>
