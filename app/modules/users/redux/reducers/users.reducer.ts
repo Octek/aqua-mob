@@ -13,7 +13,7 @@ const initialState: MultipleEntitiesStateInterface<User> = {
     entities: [],
 };
 
-export const productsReducer = (
+export const usersReducer = (
     state = initialState,
     action: any,
 ): MultipleEntitiesStateInterface<User> => {

@@ -130,7 +130,7 @@ export const RootContainer = () => {
                     component={CustomersNavigator}
                 />
                 <Stack.Screen
-                    name="profileNavigator"
+                    name="usersNavigator"
                     component={UsersNavigator}
                 />
             </Stack.Navigator>
