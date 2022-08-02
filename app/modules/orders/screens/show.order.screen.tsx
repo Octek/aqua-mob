@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Icon, ListItem } from "react-native-elements";
+import { Icon, Badge } from "react-native-elements";
 import { StaticListItemComponent } from "../../../common/components/static.list.item.component";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
@@ -31,7 +31,7 @@ type Props = {
     navigation: StackNavigationProp<ParamList, "showOrder">;
 };
 
-export const ShowOrderScreen: React.FC<Props> = ({ route }) => {
+export const ShowOrderScreen: React.FC<Props> = ({ route, navigation }) => {
     const [currentOrder, setCurrentOrder] = useState<Order>(route.params.order);
     const [showingCancelOrder, toggleCancelOrder] = useState(false);
     const [cancelReason, setCancelReason] = useState("");
@@ -39,6 +39,57 @@ export const ShowOrderScreen: React.FC<Props> = ({ route }) => {
         (state: ApplicationStateInterface) => state.orderState,
     );
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () =>
+                (currentOrder.status === OrderStatus.New ||
+                    currentOrder.status === OrderStatus.OnTheWay) &&
+                (orderState.updateState === ActionState.inProgress ? (
+                    <ActivityIndicator
+                        style={{ marginRight: 25 }}
+                        size={40}
+                        color={"white"}
+                    />
+                ) : (
+                    <View
+                        style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Icon
+                            containerStyle={{ marginRight: 10 }}
+                            size={28}
+                            name={
+                                currentOrder.status === OrderStatus.New
+                                    ? "commute"
+                                    : "done"
+                            }
+                            color="black"
+                            tvParallaxProperties={undefined}
+                            onPress={() => {
+                                console.log("working fine==", OrderStatus.New);
+                                currentOrder.status === OrderStatus.New
+                                    ? dispatch(dispatchOrder(currentOrder.id))
+                                    : dispatch(fulfilOrder(currentOrder.id));
+                            }}
+                        />
+
+                        <Icon
+                            containerStyle={{ marginRight: 10 }}
+                            size={28}
+                            name="cancel"
+                            color="black"
+                            tvParallaxProperties={undefined}
+                            onPress={() => toggleCancelOrder(true)}
+                        />
+                    </View>
+                )),
+        });
+    });
 
     useEffect(() => {
         if (!route.params.pushed) {
@@ -63,98 +114,6 @@ export const ShowOrderScreen: React.FC<Props> = ({ route }) => {
 
     const buildData = () => {
         let data = [];
-        data.push({
-            title: "Status",
-            data: [
-                <ListItem.Swipeable
-                    leftContent={
-                        (currentOrder.status === OrderStatus.New ||
-                            currentOrder.status === OrderStatus.OnTheWay) && (
-                            <TouchableOpacity
-                                style={{
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    flex: 1,
-                                    flexDirection: "column",
-                                    backgroundColor:
-                                        currentOrder.status === OrderStatus.New
-                                            ? "#002d62"
-                                            : "#ff69b4",
-                                }}
-                                onPress={() =>
-                                    currentOrder.status === OrderStatus.New
-                                        ? dispatch(
-                                              dispatchOrder(currentOrder.id),
-                                          )
-                                        : dispatch(fulfilOrder(currentOrder.id))
-                                }
-                            >
-                                {orderState.updateState ===
-                                ActionState.inProgress ? (
-                                    <ActivityIndicator color={"white"} />
-                                ) : (
-                                    <Icon
-                                        color={"white"}
-                                        name={
-                                            currentOrder.status ===
-                                            OrderStatus.New
-                                                ? "commute"
-                                                : "done"
-                                        }
-                                        tvParallaxProperties={undefined}
-                                    />
-                                )}
-                            </TouchableOpacity>
-                        )
-                    }
-                    rightContent={
-                        (currentOrder.status === OrderStatus.New ||
-                            currentOrder.status === OrderStatus.OnTheWay) && (
-                            <TouchableOpacity
-                                style={{
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    flex: 1,
-                                    flexDirection: "column",
-                                    backgroundColor: "#8b0000",
-                                }}
-                                onPress={() => toggleCancelOrder(true)}
-                            >
-                                {orderState.updateState ===
-                                ActionState.inProgress ? (
-                                    <ActivityIndicator color={"white"} />
-                                ) : (
-                                    <Icon
-                                        color={"white"}
-                                        name="cancel"
-                                        tvParallaxProperties={undefined}
-                                    />
-                                )}
-                            </TouchableOpacity>
-                        )
-                    }
-                >
-                    <ListItem.Content
-                        style={{
-                            height: 50,
-                            paddingLeft: 10,
-                            backgroundColor:
-                                currentOrder.statusInfo.backgroundColor,
-                        }}
-                    >
-                        <ListItem.Title>
-                            <Text
-                                style={{
-                                    color: currentOrder.statusInfo.textColor,
-                                }}
-                            >
-                                {currentOrder.statusInfo.text}
-                            </Text>
-                        </ListItem.Title>
-                    </ListItem.Content>
-                </ListItem.Swipeable>,
-            ],
-        });
         data.push({
             title: "Date",
             data: [
@@ -219,6 +178,25 @@ export const ShowOrderScreen: React.FC<Props> = ({ route }) => {
 
     return (
         <>
+            <Badge
+                containerStyle={{ marginVertical: 5, padding: 3 }}
+                badgeStyle={{
+                    backgroundColor: currentOrder.statusInfo.backgroundColor,
+                }}
+                value={currentOrder.statusInfo.text}
+            />
+            {currentOrder.cancelReason != null ? (
+                <Text
+                    style={{
+                        textAlign: "center",
+                        backgroundColor: "white",
+                        marginVertical: 5,
+                        padding: 5,
+                    }}
+                >
+                    {currentOrder.cancelReason}
+                </Text>
+            ) : null}
             <SectionList
                 sections={buildData()}
                 renderSectionHeader={(header) => (
