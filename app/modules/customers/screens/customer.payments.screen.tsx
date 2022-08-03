@@ -70,7 +70,12 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
             style={{ flex: 1 }}
             data={customerPaymentState.entities}
             renderItem={({ item }) => {
-                return <PaymentItemComponent payment={item} />;
+                return (
+                    <PaymentItemComponent
+                        payment={item}
+                        onPress={() => console.log("called")}
+                    />
+                );
             }}
         />
     );

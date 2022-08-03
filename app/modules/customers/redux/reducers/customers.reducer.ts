@@ -3,7 +3,7 @@ import {
     MultipleEntitiesStateInterface,
 } from "../../../../common/redux/entity.state.interface";
 import { User } from "../../../../common/entities/user.entity";
-import * as Types from "../types/customer.types";
+import * as Types from "../types/customers.types";
 import { plainToInstance } from "class-transformer";
 import { PageInfo } from "../../../../common/entities/page.info.entity";
 
@@ -28,6 +28,15 @@ export const customersReducer = (
                 addState: ActionState.notStarted,
                 updateState: ActionState.notStarted,
                 deleteState: ActionState.notStarted,
+            };
+        case Types.REFRESH_CUSTOMER:
+            return {
+                ...state,
+                entities: state.entities.map((customer) =>
+                    customer.id === action.payload.customer.id
+                        ? action.payload.customer
+                        : customer,
+                ),
             };
         case Types.FETCH_CUSTOMERS:
             return { ...state, fetchState: ActionState.inProgress };
@@ -107,6 +116,7 @@ export const customersReducer = (
                 ...state,
                 updateState: ActionState.failed,
             };
+
         default:
             return state;
     }

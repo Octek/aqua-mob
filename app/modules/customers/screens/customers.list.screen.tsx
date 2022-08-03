@@ -7,7 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { Icon, SearchBar } from "react-native-elements";
 import { User } from "../../../common/entities/user.entity";
-import { fetchCustomers } from "../redux/actions/customer.actions";
+import {
+    cleanupSomething,
+    fetchCustomers,
+} from "../redux/actions/customer.actions";
 import { CustomerItemComponent } from "./components/customer.item.component";
 import { setCartCustomer } from "../../orders/redux/actions/cart.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
@@ -139,6 +142,7 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                             dispatch(setPaymentCustomer(customer));
                             navigation.goBack();
                         } else {
+                            dispatch(cleanupSomething());
                             navigation.push("showCustomer", {
                                 customer: customer,
                             });
