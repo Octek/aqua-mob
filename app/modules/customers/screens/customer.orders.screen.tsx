@@ -4,6 +4,7 @@ import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { View } from "react-native";
 import { Icon } from "react-native-elements";
+import { showMessage } from "react-native-flash-message";
 
 type Props = {
     route: RouteProp<ParamList, "customerOrders">;
@@ -24,10 +25,16 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
                     color="black"
                     tvParallaxProperties={undefined}
                     onPress={() => {
-                        navigation.push("ordersNavigator", {
-                            screen: "placeOrder",
-                            params: { customer: route.params.customer },
-                        });
+                        if (!route.params.isBlocked) {
+                            navigation.push("ordersNavigator", {
+                                screen: "placeOrder",
+                                params: { customer: route.params.customer },
+                            });
+                        } else {
+                            showMessage({
+                                message: "This customer is blocked",
+                            });
+                        }
                     }}
                 />
             ),

@@ -110,7 +110,10 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         <ListItem
             bottomDivider
             onPress={() =>
-                navigation.navigate("customerOrders", { customer: customer })
+                navigation.navigate("customerOrders", {
+                    customer: customer,
+                    isBlocked: customer.status < 0,
+                })
             }
         >
             <ListItem.Content>
@@ -124,7 +127,8 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
             onPress={() => {
                 dispatch(cleanCustomerPayments());
                 navigation.push("customerPayments", {
-                    customer: customer as User,
+                    customer: customer,
+                    isBlocked: customer.status < 0,
                 });
             }}
         >

@@ -19,7 +19,6 @@ export const customersReducer = (
     state = initialState,
     action: any,
 ): MultipleEntitiesStateInterface<User> => {
-    console.log("action.type:", action.type);
     switch (action.type) {
         case Types.CLEANUP_CUSTOMERS:
             return {

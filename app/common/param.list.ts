@@ -40,6 +40,7 @@ export type ParamList = {
     };
     customerPayments: {
         customer: User;
+        isBlocked: boolean;
     };
     usersNavigator: any;
     customersNavigator: any;
@@ -51,6 +52,7 @@ export type ParamList = {
     };
     customerOrders: {
         customer: User;
+        isBlocked: boolean;
     };
     showPaymentDetail: {
         payment: Payment;
