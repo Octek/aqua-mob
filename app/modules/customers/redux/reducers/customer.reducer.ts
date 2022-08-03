@@ -3,7 +3,7 @@ import {
     EntityStateInterface,
 } from "../../../../common/redux/entity.state.interface";
 import { User } from "../../../../common/entities/user.entity";
-import * as Types from "../types/customers.types";
+import * as Types from "../types/customer.types";
 import { plainToInstance } from "class-transformer";
 
 const initialState: EntityStateInterface<User> = {
@@ -19,7 +19,7 @@ export const customerReducer = (
     action: any,
 ): EntityStateInterface<User> => {
     switch (action.type) {
-        case Types.CLEAN_UP_CUSTOMER:
+        case Types.CLEANUP_CUSTOMER:
             return initialState;
         case Types.BLOCK_CUSTOMER:
             return { ...state, updateState: ActionState.inProgress };

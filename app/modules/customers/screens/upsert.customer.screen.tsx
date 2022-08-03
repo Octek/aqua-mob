@@ -9,7 +9,7 @@ import {
     addCustomer,
     cleanupCustomers,
     updateCustomer,
-} from "../redux/actions/customer.actions";
+} from "../redux/actions/customers.actions";
 import { AddCustomerDto } from "../dtos/add.customer.dto";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { ActionState } from "../../../common/redux/entity.state.interface";

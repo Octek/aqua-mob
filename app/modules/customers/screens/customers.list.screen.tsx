@@ -7,14 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { Icon, SearchBar } from "react-native-elements";
 import { User } from "../../../common/entities/user.entity";
-import {
-    cleanupSomething,
-    fetchCustomers,
-} from "../redux/actions/customer.actions";
+import { fetchCustomers } from "../redux/actions/customers.actions";
 import { CustomerItemComponent } from "./components/customer.item.component";
 import { setCartCustomer } from "../../orders/redux/actions/cart.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { setPaymentCustomer } from "../../payments/redux/actions/new.payment.actions";
+import { cleanupCustomer } from "../redux/actions/customer.actions";
 
 type Props = {
     route: RouteProp<ParamList, "customersNavigator">;
@@ -142,7 +140,7 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                             dispatch(setPaymentCustomer(customer));
                             navigation.goBack();
                         } else {
-                            dispatch(cleanupSomething());
+                            dispatch(cleanupCustomer());
                             navigation.push("showCustomer", {
                                 customer: customer,
                             });

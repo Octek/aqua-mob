@@ -7,14 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { StaticListItemComponent } from "../../../common/components/static.list.item.component";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import { cleanCustomerPayments } from "../redux/actions/customer.payment.action";
-import {
-    blockCustomer,
-    refreshCustomer,
-    unblockCustomer,
-} from "../redux/actions/customer.actions";
 import { User } from "../../../common/entities/user.entity";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import {
+    blockCustomer,
+    unblockCustomer,
+} from "../redux/actions/customer.actions";
+import { refreshCustomer } from "../redux/actions/customers.actions";
 
 type Props = {
     route: RouteProp<ParamList, "showCustomer">;
@@ -139,6 +139,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         <View style={{ flex: 1 }}>
             {customer.status == -1 && (
                 <Badge
+                    containerStyle={{ marginVertical: 3, padding: 3 }}
                     badgeStyle={{ backgroundColor: "pink" }}
                     value={"blocked"}
                 />
