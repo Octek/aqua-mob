@@ -2,6 +2,7 @@ import { OrderItemDto } from "../../dtos/order.item.dto";
 import * as Types from "../types/cart.types";
 import { User } from "../../../../common/entities/user.entity";
 import { CLEANUP_CART_CUSTOMER } from "../types/cart.types";
+import { createIconSet } from "react-native-vector-icons";
 
 export interface CartItemInterface {
     customer: User | undefined;
@@ -58,14 +59,17 @@ export const cartReducer = (
                 .filter((item) => item.quantity > 0);
             return { ...state, items: newItems };
         case Types.SET_CUSTOMER:
-            return { ...state, customer: action.payload.customer };
+            // console.log("setcustomer called===", action.payload);
+            return { ...state, customer: action.payload };
         case Types.SET_DELIVERY_CHARGES:
             return {
                 ...state,
                 deliveryCharges: action.payload.deliveryCharges,
             };
         case Types.CLEANUP_CART_CUSTOMER:
-            return { ...state, customer: action.payload.customer };
+            return initialState;
+        // case Types.CLEANUP_CART_CUSTOMER:
+        //     return { ...state, customer: action.payload.customer };
         default:
             return state;
     }

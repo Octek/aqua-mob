@@ -53,3 +53,8 @@ export const setDeliveryCharges = (charges: number) => {
         },
     };
 };
+export const cleanupCartCustomer = () => {
+    return {
+        type: Types.CLEANUP_CART_CUSTOMER,
+    };
+};

@@ -12,10 +12,8 @@ const initialState: NewPaymentInterface = {
 export const newPaymentReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case Type.CLEANUP_NEW_PAYMENTS:
-            console.log("called");
             return { ...state, customer: undefined };
         case Type.SET_PAYMENT_CUSTOMER:
-            console.log("customerData==", action.payload);
             return {
                 ...state,
                 customer: action.payload.customer,

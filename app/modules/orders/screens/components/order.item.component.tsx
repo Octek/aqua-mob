@@ -28,7 +28,7 @@ export const OrderItemComponent: React.FC<Props> = (props) => {
                         <ListItem.Title>
                             <Text>{props.order.customer.name}</Text>
                             <Badge
-                                containerStyle={{ padding: 1, marginLeft: 5 }}
+                                containerStyle={{ padding: 1 }}
                                 textStyle={{
                                     color: props.order.statusInfo.textColor,
                                 }}

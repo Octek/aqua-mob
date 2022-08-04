@@ -13,24 +13,29 @@ import { ActionState } from "../../../common/redux/entity.state.interface";
 import { cleanupOrders, placeOrder } from "../redux/actions/order.actions";
 import { PlaceOrderDto } from "../dtos/place.order.dto";
 import {
+    cleanupCartCustomer,
     decreaseQty,
     increaseQty,
     setDeliveryCharges,
     voidCart,
 } from "../redux/actions/cart.actions";
 import { CartItemDeliveryChargesComponent } from "./components/cart.item.dc.component";
+import { placeCustomerOrder } from "../../customers/redux/actions/customer.order.actions";
 
 type Props = {
     route: RouteProp<ParamList, "placeOrder">;
     navigation: StackNavigationProp<ParamList, "placeOrder">;
 };
 
-export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
+export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
     const ordersState = useSelector(
         (state: ApplicationStateInterface) => state.ordersState,
     );
     const cartState = useSelector(
         (state: ApplicationStateInterface) => state.cartState,
+    );
+    const customerOrderstate = useSelector(
+        (state: ApplicationStateInterface) => state.customerOrdersState,
     );
     const dispatch = useDispatch();
 
@@ -54,15 +59,27 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
                         }
                         tvParallaxProperties={undefined}
                         onPress={() => {
-                            dispatch(
-                                placeOrder(
-                                    new PlaceOrderDto(
-                                        cartState.customer?.id || 0,
-                                        cartState.items,
-                                        cartState.deliveryCharges,
+                            if (route.params.selectCustomerDisable) {
+                                dispatch(
+                                    placeCustomerOrder(
+                                        new PlaceOrderDto(
+                                            cartState.customer?.id || 0,
+                                            cartState.items,
+                                            cartState.deliveryCharges,
+                                        ),
                                     ),
-                                ),
-                            );
+                                );
+                            } else {
+                                dispatch(
+                                    placeOrder(
+                                        new PlaceOrderDto(
+                                            cartState.customer?.id || 0,
+                                            cartState.items,
+                                            cartState.deliveryCharges,
+                                        ),
+                                    ),
+                                );
+                            }
                         }}
                     />
                 ),
@@ -70,9 +87,18 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
     });
 
     useEffect(() => {
-        if (ordersState.addState === ActionState.done) {
+        console.log("i'm called");
+        if (
+            ordersState.addState ||
+            customerOrderstate.addState === ActionState.done
+        ) {
             dispatch(voidCart());
             dispatch(cleanupOrders());
+            // dispatch(cleanupOrderState());
+            customerOrderstate.addState = ActionState.notStarted;
+            // dispatch(cleanupCustomerOrders());
+            // dispatch(fetchCustomerOrders(cartState.customer?.id!));
+            // dispatch(cleanupCartCustomer());
             navigation.goBack();
         }
     }, [ordersState.addState]);
@@ -86,6 +112,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
                         reason: SelectCustomerReason.CreateOrder,
                     })
                 }
+                disabled={route.params.selectCustomerDisable}
                 bottomDivider
                 hasTVPreferredFocus={undefined}
                 tvParallaxProperties={undefined}
