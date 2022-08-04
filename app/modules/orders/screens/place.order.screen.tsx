@@ -12,15 +12,15 @@ import { CartItemTotalComponent } from "./components/cart.item.total.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { cleanupOrders, placeOrder } from "../redux/actions/order.actions";
 import { PlaceOrderDto } from "../dtos/place.order.dto";
+import { placeCustomerOrder } from "../../customers/redux/actions/customer.order.actions";
+import { cleanupCartCustomer } from "../redux/actions/cart.actions";
 import {
-    cleanupCartCustomer,
     decreaseQty,
     increaseQty,
     setDeliveryCharges,
     voidCart,
 } from "../redux/actions/cart.actions";
 import { CartItemDeliveryChargesComponent } from "./components/cart.item.dc.component";
-import { placeCustomerOrder } from "../../customers/redux/actions/customer.order.actions";
 
 type Props = {
     route: RouteProp<ParamList, "placeOrder">;
@@ -34,7 +34,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
     const cartState = useSelector(
         (state: ApplicationStateInterface) => state.cartState,
     );
-    const customerOrderstate = useSelector(
+    const customerOrderState = useSelector(
         (state: ApplicationStateInterface) => state.customerOrdersState,
     );
     const dispatch = useDispatch();
@@ -42,7 +42,8 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
     useEffect(() => {
         navigation.setOptions({
             headerRight: () =>
-                ordersState.addState === ActionState.inProgress ? (
+                ordersState.addState ||
+                customerOrderState.addState === ActionState.inProgress ? (
                     <ActivityIndicator
                         style={{ marginRight: 10 }}
                         color={"black"}
@@ -87,21 +88,20 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
     });
 
     useEffect(() => {
-        console.log("i'm called");
-        if (
-            ordersState.addState ||
-            customerOrderstate.addState === ActionState.done
-        ) {
+        if (ordersState.addState === ActionState.done) {
             dispatch(voidCart());
             dispatch(cleanupOrders());
-            // dispatch(cleanupOrderState());
-            customerOrderstate.addState = ActionState.notStarted;
-            // dispatch(cleanupCustomerOrders());
-            // dispatch(fetchCustomerOrders(cartState.customer?.id!));
-            // dispatch(cleanupCartCustomer());
             navigation.goBack();
         }
     }, [ordersState.addState]);
+
+    useEffect(() => {
+        if (customerOrderState.addState === ActionState.done) {
+            customerOrderState.addState = ActionState.notStarted;
+            dispatch(cleanupCartCustomer());
+            navigation.goBack();
+        }
+    }, [customerOrderState.addState]);
 
     return (
         <View style={{ flex: 1 }}>

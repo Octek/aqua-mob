@@ -37,6 +37,7 @@ export const decreaseQty = (item: OrderItemDto) => {
 };
 
 export const setCartCustomer = (customer: User) => {
+    console.log("customerSelected==", customer);
     return {
         type: Types.SET_CUSTOMER,
         payload: {

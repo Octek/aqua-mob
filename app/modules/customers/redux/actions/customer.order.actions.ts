@@ -26,7 +26,7 @@ export const setOrderCustomer = (customer: User) => {
     console.log("customer====", customer);
     return {
         type: Types.SET_CUSTOMER,
-        payload: customer,
+        payload: { customer: customer },
     };
 };
 export const updateCustomerOrders = (order: Order) => {
