@@ -25,7 +25,7 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
                     color="black"
                     tvParallaxProperties={undefined}
                     onPress={() => {
-                        if (!route.params.isBlocked) {
+                        if (route.params.customer.status > 0) {
                             navigation.push("ordersNavigator", {
                                 screen: "placeOrder",
                                 params: { customer: route.params.customer },

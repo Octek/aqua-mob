@@ -112,7 +112,6 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
             onPress={() =>
                 navigation.navigate("customerOrders", {
                     customer: customer,
-                    isBlocked: customer.status < 0,
                 })
             }
         >
@@ -128,7 +127,6 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
                 dispatch(cleanCustomerPayments());
                 navigation.push("customerPayments", {
                     customer: customer,
-                    isBlocked: customer.status < 0,
                 });
             }}
         >

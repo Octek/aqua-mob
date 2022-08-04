@@ -43,7 +43,7 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
                     color="black"
                     tvParallaxProperties={undefined}
                     onPress={() => {
-                        if (!route.params.isBlocked) {
+                        if (route.params.customer.status > 0) {
                             dispatch(setPaymentCustomer(customer));
                             navigation.push("addPayment", {
                                 selectCustomerDisable: true,
