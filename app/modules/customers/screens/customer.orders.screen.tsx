@@ -5,6 +5,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { View } from "react-native";
 import { Icon } from "react-native-elements";
 import { showMessage } from "react-native-flash-message";
+import { CompanyStatus } from "../../../common/entities/company.entity";
 
 type Props = {
     route: RouteProp<ParamList, "customerOrders">;
@@ -25,7 +26,10 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
                     color="black"
                     tvParallaxProperties={undefined}
                     onPress={() => {
-                        if (route.params.customer.status > 0) {
+                        if (
+                            route.params.customer.status !=
+                            CompanyStatus.blocked
+                        ) {
                             navigation.push("ordersNavigator", {
                                 screen: "placeOrder",
                                 params: { customer: route.params.customer },

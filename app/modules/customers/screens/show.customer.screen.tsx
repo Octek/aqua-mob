@@ -15,6 +15,7 @@ import {
     unblockCustomer,
 } from "../redux/actions/customer.actions";
 import { refreshCustomer } from "../redux/actions/customers.actions";
+import { CompanyStatus } from "../../../common/entities/company.entity";
 
 type Props = {
     route: RouteProp<ParamList, "showCustomer">;
@@ -139,7 +140,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
 
     return (
         <View style={{ flex: 1 }}>
-            {customer.status == -1 && (
+            {customer.status == CompanyStatus.blocked && (
                 <Badge
                     containerStyle={{ marginVertical: 3, padding: 3 }}
                     badgeStyle={{ backgroundColor: "pink" }}

@@ -15,6 +15,7 @@ import { Icon } from "react-native-elements";
 import { setPaymentCustomer } from "../../payments/redux/actions/new.payment.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { showMessage } from "react-native-flash-message";
+import { CompanyStatus } from "../../../common/entities/company.entity";
 
 type Props = {
     route: RouteProp<ParamList, "customerPayments">;
@@ -43,7 +44,10 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
                     color="black"
                     tvParallaxProperties={undefined}
                     onPress={() => {
-                        if (route.params.customer.status > 0) {
+                        if (
+                            route.params.customer.status !=
+                            CompanyStatus.blocked
+                        ) {
                             dispatch(setPaymentCustomer(customer));
                             navigation.push("addPayment", {
                                 selectCustomerDisable: true,
