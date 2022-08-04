@@ -1,58 +1,33 @@
-import { AddCustomerDto } from "../../dtos/add.customer.dto";
 import * as Types from "../types/customer.types";
-import { instanceToPlain } from "class-transformer";
-import { UpdateCustomerDto } from "../../dtos/update.customer.dto";
 
-export const cleanupCustomers = () => {
+export const blockCustomer = (customerId: number) => {
+    console.log("action called");
     return {
-        type: Types.CLEANUP_CUSTOMERS,
-        payload: {
-            customer: undefined,
-        },
-    };
-};
-
-export const fetchCustomers = (page = 1, search = "") => {
-    return {
-        type: Types.FETCH_CUSTOMERS,
+        type: Types.BLOCK_CUSTOMER,
         payload: {
             request: {
-                method: "GET",
-                url:
-                    `/customers?page=${page}` +
-                    (search.length > 0 ? `&search=${search}` : ""),
+                method: "PATCH",
+                url: `/customers/${customerId}/block`,
             },
         },
     };
 };
 
-export const addCustomer = (customerDto: AddCustomerDto) => {
-    console.log("customerData===", customerDto);
+export const unblockCustomer = (customerId: number) => {
+    console.log("customerId===", customerId);
     return {
-        type: Types.ADD_CUSTOMER,
+        type: Types.UNBLOCK_CUSTOMER,
         payload: {
             request: {
-                method: "POST",
-                url: "/customers",
-                data: instanceToPlain(customerDto),
+                method: "PATCH",
+                url: `/customers/${customerId}/unblock`,
             },
         },
     };
 };
 
-export const updateCustomer = (
-    customerId: number,
-    customerDto: UpdateCustomerDto,
-) => {
-    console.log("updatecustomerData===", customerDto);
+export const cleanupCustomer = () => {
     return {
-        type: Types.UPDATE_CUSTOMER,
-        payload: {
-            request: {
-                method: "PUT",
-                url: `/customers/${customerId}`,
-                data: instanceToPlain(customerDto),
-            },
-        },
+        type: Types.CLEANUP_CUSTOMER,
     };
 };

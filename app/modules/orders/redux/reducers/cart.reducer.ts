@@ -1,6 +1,7 @@
 import { OrderItemDto } from "../../dtos/order.item.dto";
 import * as Types from "../types/cart.types";
 import { User } from "../../../../common/entities/user.entity";
+import { CLEANUP_CART_CUSTOMER } from "../types/cart.types";
 
 export interface CartItemInterface {
     customer: User | undefined;
@@ -63,7 +64,7 @@ export const cartReducer = (
                 ...state,
                 deliveryCharges: action.payload.deliveryCharges,
             };
-        case Types.CLEANUP_CUSTOMER:
+        case Types.CLEANUP_CART_CUSTOMER:
             return { ...state, customer: action.payload.customer };
         default:
             return state;

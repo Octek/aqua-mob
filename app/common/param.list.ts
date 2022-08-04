@@ -41,6 +41,7 @@ export type ParamList = {
     customerPayments: {
         customer: User;
     };
+    usersNavigator: any;
     customersNavigator: any;
     upsertCustomer: {
         customer?: User;

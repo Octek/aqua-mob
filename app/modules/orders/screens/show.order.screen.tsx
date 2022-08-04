@@ -93,13 +93,14 @@ export const ShowOrderScreen: React.FC<Props> = ({ route, navigation }) => {
 
     useEffect(() => {
         if (!route.params.pushed) {
+            console.log("orderData:");
             dispatch(getOrderDetails(currentOrder.id));
         }
     }, []);
 
     useEffect(() => {
         if (orderState.entity) {
-            console.log("orderState.entity:", orderState.entity);
+            console.log("orderState.entity:", orderState.entity.status);
             setCurrentOrder(orderState.entity);
         }
     }, [orderState.entity]);

@@ -14,6 +14,8 @@ import { PaymentItemComponent } from "../../payments/screens/components/payment.
 import { Icon } from "react-native-elements";
 import { setPaymentCustomer } from "../../payments/redux/actions/new.payment.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import { showMessage } from "react-native-flash-message";
+import { CompanyStatus } from "../../../common/entities/company.entity";
 
 type Props = {
     route: RouteProp<ParamList, "customerPayments">;
@@ -42,10 +44,19 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
                     color="black"
                     tvParallaxProperties={undefined}
                     onPress={() => {
-                        dispatch(setPaymentCustomer(customer));
-                        navigation.push("addPayment", {
-                            selectCustomerDisable: true,
-                        });
+                        if (
+                            route.params.customer.status !=
+                            CompanyStatus.blocked
+                        ) {
+                            dispatch(setPaymentCustomer(customer));
+                            navigation.push("addPayment", {
+                                selectCustomerDisable: true,
+                            });
+                        } else {
+                            showMessage({
+                                message: "This customer is blocked",
+                            });
+                        }
                     }}
                 />
             ),
@@ -70,7 +81,12 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
             style={{ flex: 1 }}
             data={customerPaymentState.entities}
             renderItem={({ item }) => {
-                return <PaymentItemComponent payment={item} />;
+                return (
+                    <PaymentItemComponent
+                        payment={item}
+                        onPress={() => console.log("called")}
+                    />
+                );
             }}
         />
     );

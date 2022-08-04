@@ -1,6 +1,5 @@
 import React from "react";
 import { Avatar, Button, ListItem } from "react-native-elements";
-import { Order } from "../../../../common/entities/order.entity";
 import { User } from "../../../../common/entities/user.entity";
 
 type Props = {
@@ -14,6 +13,10 @@ export const CustomerItemComponent: React.FC<Props> = (props) => {
         <ListItem
             onPress={() => props.onPress(props.customer)}
             bottomDivider={true}
+            containerStyle={{
+                backgroundColor:
+                    props.customer.status === -1 ? "#EEEEEE" : "white",
+            }}
         >
             <ListItem.Content style={{ flex: 1 }}>
                 <ListItem.Content

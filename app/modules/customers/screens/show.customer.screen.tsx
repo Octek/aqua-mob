@@ -1,12 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { FAB, Icon, ListItem } from "react-native-elements";
-import { useDispatch } from "react-redux";
+import { Badge, Icon, ListItem } from "react-native-elements";
+import { useDispatch, useSelector } from "react-redux";
 import { StaticListItemComponent } from "../../../common/components/static.list.item.component";
-import { FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { cleanCustomerPayments } from "../redux/actions/customer.payment.action";
+import { User } from "../../../common/entities/user.entity";
+import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
+import { ActionState } from "../../../common/redux/entity.state.interface";
+import {
+    blockCustomer,
+    unblockCustomer,
+} from "../redux/actions/customer.actions";
+import { refreshCustomer } from "../redux/actions/customers.actions";
+import { CompanyStatus } from "../../../common/entities/company.entity";
 
 type Props = {
     route: RouteProp<ParamList, "showCustomer">;
@@ -14,26 +23,71 @@ type Props = {
 };
 
 export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
-    const customer = route.params.customer;
     const dispatch = useDispatch();
+    const customerState = useSelector(
+        (state: ApplicationStateInterface) => state.customerState,
+    );
+    const [customer, setCustomer] = useState<User>(route.params.customer);
     useEffect(() => {
         navigation.setOptions({
-            headerRight: () => (
-                <Icon
-                    containerStyle={{ marginRight: 10 }}
-                    size={28}
-                    name="edit"
-                    color="black"
-                    tvParallaxProperties={undefined}
-                    onPress={() => {
-                        navigation.push("upsertCustomer", {
-                            customer: customer,
-                        });
-                    }}
-                />
-            ),
+            headerRight: () =>
+                customerState.updateState == ActionState.inProgress ? (
+                    <ActivityIndicator
+                        style={{ marginRight: 25 }}
+                        size={40}
+                        color={"white"}
+                    />
+                ) : (
+                    <View
+                        style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Icon
+                            containerStyle={{ marginRight: 10 }}
+                            size={28}
+                            name="block"
+                            color="black"
+                            tvParallaxProperties={undefined}
+                            onPress={() => {
+                                if (customer.status < 0) {
+                                    dispatch(unblockCustomer(customer.id));
+                                } else {
+                                    dispatch(blockCustomer(customer.id));
+                                }
+                            }}
+                        />
+                        <Icon
+                            containerStyle={{ marginRight: 10 }}
+                            size={28}
+                            name="edit"
+                            color="black"
+                            tvParallaxProperties={undefined}
+                            onPress={() => {
+                                navigation.push("upsertCustomer", {
+                                    customer: customer,
+                                });
+                            }}
+                        />
+                    </View>
+                ),
         });
     });
+
+    useEffect(() => {
+        if (customerState.entity) {
+            setCustomer(customerState.entity);
+        }
+    }, [customerState.entity]);
+
+    useEffect(() => {
+        if (customerState.updateState === ActionState.done) {
+            dispatch(refreshCustomer(customerState.entity!));
+        }
+    }, [customerState.updateState]);
 
     const rows = [
         <StaticListItemComponent
@@ -57,7 +111,9 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         <ListItem
             bottomDivider
             onPress={() =>
-                navigation.navigate("customerOrders", { customer: customer })
+                navigation.navigate("customerOrders", {
+                    customer: customer,
+                })
             }
         >
             <ListItem.Content>
@@ -69,9 +125,10 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         <ListItem
             bottomDivider
             onPress={() => {
-                // console.log("currentId===", customer.id);
                 dispatch(cleanCustomerPayments());
-                navigation.push("customerPayments", { customer: customer });
+                navigation.push("customerPayments", {
+                    customer: customer,
+                });
             }}
         >
             <ListItem.Content>
@@ -83,6 +140,13 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
 
     return (
         <View style={{ flex: 1 }}>
+            {customer.status == CompanyStatus.blocked && (
+                <Badge
+                    containerStyle={{ marginVertical: 3, padding: 3 }}
+                    badgeStyle={{ backgroundColor: "pink" }}
+                    value={"blocked"}
+                />
+            )}
             <FlatList data={rows} renderItem={(item) => item.item} />
         </View>
     );

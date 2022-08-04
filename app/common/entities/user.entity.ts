@@ -10,6 +10,7 @@ export class User {
         public whatsApp: string,
         public whatsappVerified: boolean,
         public address: string,
+        public status: number,
     ) {}
 
     get mobileWithoutPrefix(): string {
