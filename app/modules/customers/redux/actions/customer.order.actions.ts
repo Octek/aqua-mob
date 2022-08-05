@@ -2,14 +2,14 @@ import * as Types from "../types/customer.order.types";
 import { User } from "../../../../common/entities/user.entity";
 import { Order } from "../../../../common/entities/order.entity";
 
-export const fetchCustomerOrders = (customerId: number) => {
+export const fetchCustomerOrders = (customerId: number, page: number) => {
     console.log("action Called id:", customerId);
     return {
         type: Types.FETCH_CUSTOMER_ORDERS,
         payload: {
             request: {
                 method: "GET",
-                url: `/customers/${customerId}/orders`,
+                url: `/customers/${customerId}/orders?page=${page}`,
             },
         },
     };

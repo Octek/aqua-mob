@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FlatList } from "react-native";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
@@ -33,6 +33,7 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
         (state: ApplicationStateInterface) => state.paymentsState,
     );
     const dispatch = useDispatch();
+    const [page, setPage] = useState(0);
     const customer = route.params.customer;
     useEffect(() => {
         navigation.setOptions({
@@ -63,9 +64,9 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
         });
     });
 
-    useEffect(() => {
-        dispatch(fetchCustomerPayments(customer.id));
-    }, []);
+    // useEffect(() => {
+    //     dispatch(fetchCustomerPayments(customer.id));
+    // }, []);
 
     useEffect(() => {
         console.log("paymentState.addState:", paymentsState.addState);
@@ -75,10 +76,47 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
         }
     }, [paymentsState.addState]);
 
+    useEffect(() => setPage(1), []);
+
+    useEffect(() => {
+        console.log("page===", page);
+        if (page > 0) {
+            fetch();
+        }
+    }, [page]);
+
+    const fetch = () => {
+        dispatch(fetchCustomerPayments(customer.id, page));
+    };
+
+    const fetchNext = () => {
+        if (
+            customerPaymentState.page &&
+            page < customerPaymentState.page.totalPages
+        ) {
+            setPage(page + 1);
+        }
+    };
+
     return (
         // @ts-ignore //
         <FlatList<Payment>
             style={{ flex: 1 }}
+            onRefresh={() => {
+                console.log("page=== onRefresh", page);
+                setPage(0);
+                setPage(1);
+            }}
+            refreshing={
+                customerPaymentState.fetchState === ActionState.inProgress
+            }
+            onEndReachedThreshold={0.5}
+            onEndReached={(options) => {
+                if (options.distanceFromEnd < 0) {
+                    return;
+                }
+                fetchNext();
+            }}
             data={customerPaymentState.entities}
             renderItem={({ item }) => {
                 return (

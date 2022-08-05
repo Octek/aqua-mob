@@ -5,6 +5,7 @@ import {
 import { Payment } from "../../../../common/entities/payment.entity";
 import * as Type from "../types/customer.payment.types";
 import { plainToInstance } from "class-transformer";
+import { PageInfo } from "../../../../common/entities/page.info.entity";
 
 const initialState: MultipleEntitiesStateInterface<Payment> = {
     fetchState: ActionState.notStarted,
@@ -31,13 +32,19 @@ export const customerPaymentsReducer = (
         case Type.CUSTOMER_PAYMENTS:
             return { ...state, addState: ActionState.inProgress };
         case Type.CUSTOMER_PAYMENTS_SUCCESS:
+            const page = plainToInstance(
+                PageInfo,
+                <PageInfo>action.payload.data.meta,
+            );
+            const payments = plainToInstance(Payment, action.payload.data.data);
             return {
                 ...state,
                 addState: ActionState.done,
-                entities: plainToInstance(
-                    Payment,
-                    <Payment[]>action.payload.data.data,
-                ),
+                page: page,
+                entities:
+                    page.currentPage === 1
+                        ? payments
+                        : [...state.entities, ...payments],
             };
         case Type.CUSTOMER_PAYMENTS_FAIL:
             return {
