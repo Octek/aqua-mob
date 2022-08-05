@@ -35,7 +35,6 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
             headerTitle: "Products",
             headerRight: () =>
                 route.params && route.params.selectable ? null : (
-                    // <View style={{ padding: 10 }}>
                     <Icon
                         containerStyle={{ marginRight: 10 }}
                         size={28}

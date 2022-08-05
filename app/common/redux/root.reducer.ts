@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { customerReducer } from "../../modules/customers/redux/reducers/customer.reducer";
 import { customerPaymentsReducer } from "../../modules/customers/redux/reducers/customer.payments.reducer";
 import { customerOrdersReducer } from "../../modules/customers/redux/reducers/customer.orders.reducer";
+import { usersReducer } from "../../modules/users/redux/reducers/users.reducer";
 
 const appReducer = combineReducers<ApplicationStateInterface>({
     authState: authReducer,
@@ -22,6 +23,7 @@ const appReducer = combineReducers<ApplicationStateInterface>({
     customerState: customerReducer,
     customerOrdersState: customerOrdersReducer,
     customerPaymentsState: customerPaymentsReducer,
+    usersState: usersReducer,
     paymentsState: paymentReducer,
     newPaymentState: newPaymentReducer,
     productsState: productsReducer,

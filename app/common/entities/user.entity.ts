@@ -2,6 +2,7 @@ export class User {
     constructor(
         public id: number,
         public username: string,
+        public createdAt: string,
         public name: string,
         public email: string,
         public emailVerified: boolean,

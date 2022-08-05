@@ -22,6 +22,8 @@ export type ParamList = {
     selectCustomer: { selectable: boolean; reason: SelectCustomerReason };
     addCompany: any;
     addPayment: any;
+    userList: any;
+    addUser: any;
     placeOrder: {
         customer?: User;
         selectCustomerDisable: boolean;

@@ -1,5 +1,5 @@
-import React from "react";
-import { Avatar, Badge, Button, ListItem } from "react-native-elements";
+import React, { useEffect } from "react";
+import { Badge, ListItem } from "react-native-elements";
 import { Order } from "../../../../common/entities/order.entity";
 import moment from "moment";
 import { Text } from "react-native";
