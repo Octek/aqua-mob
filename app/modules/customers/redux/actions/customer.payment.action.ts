@@ -13,7 +13,7 @@ export const fetchCustomerPayments = (id: number, page: number) => {
         payload: {
             request: {
                 method: "GET",
-                url: `/customers/${id}/payments`,
+                url: `/customers/${id}/payments?page=${page}`,
             },
         },
     };

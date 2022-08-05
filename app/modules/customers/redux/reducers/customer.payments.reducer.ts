@@ -37,7 +37,6 @@ export const customerPaymentsReducer = (
                 <PageInfo>action.payload.data.meta,
             );
             const payments = plainToInstance(Payment, action.payload.data.data);
-            console.log("payments===", action.payload.data.data);
             return {
                 ...state,
                 addState: ActionState.done,

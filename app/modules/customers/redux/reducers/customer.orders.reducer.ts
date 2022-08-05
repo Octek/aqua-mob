@@ -32,7 +32,10 @@ export const customerOrdersReducer = (
                 PageInfo,
                 <PageInfo>action.payload.data.meta,
             );
-            const orders = plainToInstance(Order, action.payload.data.data);
+            const orders = plainToInstance(
+                Order,
+                <Order[]>action.payload.data.data,
+            );
             return {
                 ...state,
                 fetchState: ActionState.done,
@@ -41,6 +44,13 @@ export const customerOrdersReducer = (
                     page.currentPage === 1
                         ? orders
                         : [...state.entities, ...orders],
+                // entities: plainToInstance(
+                //     Order,
+                //     <Order[]>action.payload.data.data,
+                // ),
+                // page.currentPage === 1
+                //     ? payments
+                //     : [...state.entities, ...payments],
             };
         case Types.FETCH_CUSTOMER_ORDERS_FAIL:
             return {

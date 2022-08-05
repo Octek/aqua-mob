@@ -89,7 +89,7 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
     }, [page]);
 
     const fetch = () => {
-        dispatch(fetchCustomerOrders(customer.id));
+        dispatch(fetchCustomerOrders(customer.id, page));
     };
     const fetchNext = () => {
         if (
