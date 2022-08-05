@@ -19,6 +19,7 @@ import { refreshCustomer } from "../redux/actions/customers.actions";
 import { CompanyStatus } from "../../../common/entities/company.entity";
 import { cleanupCustomerOrders } from "../redux/actions/customer.order.actions";
 import { cleanupCartCustomer } from "../../orders/redux/actions/cart.actions";
+import { cleanupOrders } from "../../orders/redux/actions/order.actions";
 
 type Props = {
     route: RouteProp<ParamList, "showCustomer">;
@@ -116,6 +117,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
             onPress={() => {
                 // dispatch(cleanupCustomer());
                 dispatch(cleanupCartCustomer());
+                dispatch(cleanupOrders());
                 dispatch(cleanupCustomerOrders());
                 navigation.navigate("customerOrders", {
                     customer: customer,

@@ -42,8 +42,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
     useEffect(() => {
         navigation.setOptions({
             headerRight: () =>
-                ordersState.addState ||
-                customerOrderState.addState === ActionState.inProgress ? (
+                ordersState.addState === ActionState.inProgress ? (
                     <ActivityIndicator
                         style={{ marginRight: 10 }}
                         color={"black"}
@@ -95,13 +94,13 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
         }
     }, [ordersState.addState]);
 
-    useEffect(() => {
-        if (customerOrderState.addState === ActionState.done) {
-            customerOrderState.addState = ActionState.notStarted;
-            dispatch(cleanupCartCustomer());
-            navigation.goBack();
-        }
-    }, [customerOrderState.addState]);
+    // useEffect(() => {
+    //     if (customerOrderState.addState === ActionState.done) {
+    //         customerOrderState.addState = ActionState.notStarted;
+    //         dispatch(cleanupCartCustomer());
+    //         navigation.goBack();
+    //     }
+    // }, [customerOrderState.addState]);
 
     return (
         <View style={{ flex: 1 }}>
