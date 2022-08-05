@@ -25,7 +25,7 @@ type Props = {
     navigation: StackNavigationProp<ParamList, "placeOrder">;
 };
 
-export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
+export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
     const ordersState = useSelector(
         (state: ApplicationStateInterface) => state.ordersState,
     );
@@ -63,6 +63,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
                                     ),
                                 ),
                             );
+                            // }
                         }}
                     />
                 ),
@@ -70,6 +71,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
     });
 
     useEffect(() => {
+        console.log("orderAction===", ordersState.addState);
         if (ordersState.addState === ActionState.done) {
             dispatch(voidCart());
             dispatch(cleanupOrders());
@@ -86,6 +88,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ navigation }) => {
                         reason: SelectCustomerReason.CreateOrder,
                     })
                 }
+                disabled={route.params.selectCustomerDisable}
                 bottomDivider
                 hasTVPreferredFocus={undefined}
                 tvParallaxProperties={undefined}

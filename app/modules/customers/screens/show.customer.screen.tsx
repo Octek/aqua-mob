@@ -12,10 +12,14 @@ import { ApplicationStateInterface } from "../../../common/redux/application.sta
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import {
     blockCustomer,
+    cleanupCustomer,
     unblockCustomer,
 } from "../redux/actions/customer.actions";
 import { refreshCustomer } from "../redux/actions/customers.actions";
 import { CompanyStatus } from "../../../common/entities/company.entity";
+import { cleanupCustomerOrders } from "../redux/actions/customer.order.actions";
+import { cleanupCartCustomer } from "../../orders/redux/actions/cart.actions";
+import { cleanupOrders } from "../../orders/redux/actions/order.actions";
 
 type Props = {
     route: RouteProp<ParamList, "showCustomer">;
@@ -110,11 +114,13 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         // @ts-ignore
         <ListItem
             bottomDivider
-            onPress={() =>
+            onPress={() => {
+                dispatch(cleanupOrders());
+                dispatch(cleanupCustomerOrders());
                 navigation.navigate("customerOrders", {
                     customer: customer,
-                })
-            }
+                });
+            }}
         >
             <ListItem.Content>
                 <ListItem.Title>Orders</ListItem.Title>

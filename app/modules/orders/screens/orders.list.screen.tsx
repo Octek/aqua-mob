@@ -11,6 +11,7 @@ import { Order } from "../../../common/entities/order.entity";
 import { OrderItemComponent } from "./components/order.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { OrderFilters } from "../dtos/order.item.dto";
+import { cleanupCartCustomer } from "../redux/actions/cart.actions";
 
 type Props = {
     route: RouteProp<ParamList, "ordersNavigator">;
@@ -35,9 +36,12 @@ export const OrdersListScreen: React.FC<Props> = ({ navigation }) => {
                     name="add-circle"
                     color="black"
                     tvParallaxProperties={undefined}
-                    onPress={() =>
-                        navigation.push("placeOrder", { customer: undefined })
-                    }
+                    onPress={() => {
+                        dispatch(cleanupCartCustomer());
+                        navigation.push("placeOrder", {
+                            selectCustomerDisable: false,
+                        });
+                    }}
                 />
             ),
         });

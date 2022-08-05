@@ -21,6 +21,7 @@ export const ordersReducer = (
 ): MultipleEntitiesStateInterface<Order> => {
     switch (action.type) {
         case Types.CLEANUP_ORDERS:
+            // return initialState;
             return {
                 ...state,
                 fetchState: ActionState.notStarted,

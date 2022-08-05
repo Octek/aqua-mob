@@ -37,6 +37,7 @@ export const decreaseQty = (item: OrderItemDto) => {
 };
 
 export const setCartCustomer = (customer: User) => {
+    console.log("customerSelected==", customer);
     return {
         type: Types.SET_CUSTOMER,
         payload: {
@@ -51,5 +52,10 @@ export const setDeliveryCharges = (charges: number) => {
         payload: {
             deliveryCharges: charges,
         },
+    };
+};
+export const cleanupCartCustomer = () => {
+    return {
+        type: Types.CLEANUP_CART_CUSTOMER,
     };
 };
