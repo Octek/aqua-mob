@@ -40,10 +40,6 @@ export const customerOrdersReducer = (
                 ...state,
                 fetchState: ActionState.failed,
             };
-        case Types.UPDATE_CUSTOMER_ORDERS:
-            return {
-                ...state,
-            };
 
         case Types.ADD_CUSTOMER_ORDER:
             return {

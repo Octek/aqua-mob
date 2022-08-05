@@ -1,7 +1,6 @@
 import * as Types from "../types/customer.order.types";
 import { User } from "../../../../common/entities/user.entity";
 import { Order } from "../../../../common/entities/order.entity";
-import { PlaceOrderDto } from "../../../orders/dtos/place.order.dto";
 
 export const fetchCustomerOrders = (customerId: number) => {
     console.log("action Called id:", customerId);
