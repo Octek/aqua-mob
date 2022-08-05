@@ -23,7 +23,6 @@ export const cleanupCustomerOrders = () => {
 };
 
 export const setOrderCustomer = (customer: User) => {
-    console.log("customer====", customer);
     return {
         type: Types.SET_CUSTOMER,
         payload: { customer: customer },
@@ -33,17 +32,5 @@ export const addCustomerOrder = (order: Order) => {
     return {
         type: Types.ADD_CUSTOMER_ORDER,
         payload: { order: order },
-    };
-};
-export const placeCustomerOrder = (orderDto: PlaceOrderDto) => {
-    return {
-        type: Types.PLACE_CUSTOMER_ORDER,
-        payload: {
-            request: {
-                method: "POST",
-                url: "/orders",
-                data: orderDto.toJson(),
-            },
-        },
     };
 };

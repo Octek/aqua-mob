@@ -44,17 +44,7 @@ export const customerOrdersReducer = (
             return {
                 ...state,
             };
-        case Types.PLACE_CUSTOMER_ORDER:
-            return { ...state, addState: ActionState.inProgress };
-        case Types.PLACE_CUSTOMER_ORDERS_SUCCESS:
-            return {
-                ...state,
-                addState: ActionState.done,
-                entities: [
-                    plainToInstance(Order, <Order>action.payload.data),
-                    ...state.entities,
-                ],
-            };
+
         case Types.ADD_CUSTOMER_ORDER:
             return {
                 ...state,
@@ -63,8 +53,6 @@ export const customerOrdersReducer = (
                     ...state.entities,
                 ],
             };
-        case Types.PLACE_CUSTOMER_ORDERS_FAIL:
-            return { ...state, addState: ActionState.failed };
         default:
             return state;
     }

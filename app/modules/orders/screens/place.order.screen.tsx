@@ -12,8 +12,6 @@ import { CartItemTotalComponent } from "./components/cart.item.total.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { cleanupOrders, placeOrder } from "../redux/actions/order.actions";
 import { PlaceOrderDto } from "../dtos/place.order.dto";
-import { placeCustomerOrder } from "../../customers/redux/actions/customer.order.actions";
-import { cleanupCartCustomer } from "../redux/actions/cart.actions";
 import {
     decreaseQty,
     increaseQty,
