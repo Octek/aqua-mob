@@ -22,13 +22,11 @@ export const customerOrdersReducer = (
         case Types.CLEANUP_CUSTOMER_ORDERS:
             return initialState;
         case Types.FETCH_CUSTOMER_ORDERS:
-            console.log("customersOrderData==inprogress", action.payload);
             return {
                 ...state,
                 fetchState: ActionState.inProgress,
             };
         case Types.FETCH_CUSTOMER_ORDERS_SUCCESS:
-            console.log("customersOrderData==", action.payload.data.data);
             return {
                 ...state,
                 fetchState: ActionState.done,
@@ -38,13 +36,11 @@ export const customerOrdersReducer = (
                 ),
             };
         case Types.FETCH_CUSTOMER_ORDERS_FAIL:
-            console.log("customersOrderData==Fail", action.payload);
             return {
                 ...state,
                 fetchState: ActionState.failed,
             };
         case Types.UPDATE_CUSTOMER_ORDERS:
-            console.log("updateOrder==", action.payload);
             return {
                 ...state,
             };
@@ -63,9 +59,7 @@ export const customerOrdersReducer = (
             return {
                 ...state,
                 entities: [
-                    {
-                        ...action.payload.order,
-                    },
+                    plainToInstance(Order, <Order>action.payload.order),
                     ...state.entities,
                 ],
             };

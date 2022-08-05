@@ -34,9 +34,6 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
     const cartState = useSelector(
         (state: ApplicationStateInterface) => state.cartState,
     );
-    const customerOrderState = useSelector(
-        (state: ApplicationStateInterface) => state.customerOrdersState,
-    );
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -59,17 +56,6 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                         }
                         tvParallaxProperties={undefined}
                         onPress={() => {
-                            // if (route.params.selectCustomerDisable) {
-                            //     dispatch(
-                            //         placeCustomerOrder(
-                            //             new PlaceOrderDto(
-                            //                 cartState.customer?.id || 0,
-                            //                 cartState.items,
-                            //                 cartState.deliveryCharges,
-                            //             ),
-                            //         ),
-                            //     );
-                            // } else {
                             dispatch(
                                 placeOrder(
                                     new PlaceOrderDto(
@@ -87,20 +73,13 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
     });
 
     useEffect(() => {
+        console.log("orderAction===", ordersState.addState);
         if (ordersState.addState === ActionState.done) {
             dispatch(voidCart());
             dispatch(cleanupOrders());
             navigation.goBack();
         }
     }, [ordersState.addState]);
-
-    // useEffect(() => {
-    //     if (customerOrderState.addState === ActionState.done) {
-    //         customerOrderState.addState = ActionState.notStarted;
-    //         dispatch(cleanupCartCustomer());
-    //         navigation.goBack();
-    //     }
-    // }, [customerOrderState.addState]);
 
     return (
         <View style={{ flex: 1 }}>

@@ -30,15 +30,12 @@ export const setOrderCustomer = (customer: User) => {
     };
 };
 export const addCustomerOrder = (order: Order) => {
-    console.log("data===", order);
     return {
-        type: Types.UPDATE_CUSTOMER_ORDERS,
+        type: Types.ADD_CUSTOMER_ORDER,
         payload: { order: order },
     };
 };
 export const placeCustomerOrder = (orderDto: PlaceOrderDto) => {
-    console.log("orderDto1:", orderDto);
-    console.log("orderDto2:", orderDto.toJson());
     return {
         type: Types.PLACE_CUSTOMER_ORDER,
         payload: {

@@ -115,8 +115,6 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         <ListItem
             bottomDivider
             onPress={() => {
-                // dispatch(cleanupCustomer());
-                dispatch(cleanupCartCustomer());
                 dispatch(cleanupOrders());
                 dispatch(cleanupCustomerOrders());
                 navigation.navigate("customerOrders", {

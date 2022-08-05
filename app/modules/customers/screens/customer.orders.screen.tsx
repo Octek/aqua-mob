@@ -17,6 +17,7 @@ import { Order } from "../../../common/entities/order.entity";
 import { OrderItemComponent } from "../../orders/screens/components/order.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { cleanupOrders } from "../../orders/redux/actions/order.actions";
+import { plainToInstance } from "class-transformer";
 
 type Props = {
     route: RouteProp<ParamList, "customerOrders">;
@@ -74,7 +75,7 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
     }, []);
 
     useEffect(() => {
-        if ((ordersState.addState = ActionState.done)) {
+        if (ordersState.addState === ActionState.done) {
             console.log("i'm done with id", ordersState.entities[0]);
             dispatch(addCustomerOrder(ordersState.entities[0]));
         }
