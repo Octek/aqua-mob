@@ -5,6 +5,7 @@ import {
 import { Order } from "../../../../common/entities/order.entity";
 import * as Types from "../types/customer.order.types";
 import { plainToInstance } from "class-transformer";
+import { PageInfo } from "../../../../common/entities/page.info.entity";
 
 const initialState: MultipleEntitiesStateInterface<Order> = {
     fetchState: ActionState.notStarted,
@@ -27,13 +28,19 @@ export const customerOrdersReducer = (
                 fetchState: ActionState.inProgress,
             };
         case Types.FETCH_CUSTOMER_ORDERS_SUCCESS:
+            const page = plainToInstance(
+                PageInfo,
+                <PageInfo>action.payload.data.meta,
+            );
+            const orders = plainToInstance(Order, action.payload.data.data);
             return {
                 ...state,
                 fetchState: ActionState.done,
-                entities: plainToInstance(
-                    Order,
-                    <Order[]>action.payload.data.data,
-                ),
+                page: page,
+                entities:
+                    page.currentPage === 1
+                        ? orders
+                        : [...state.entities, ...orders],
             };
         case Types.FETCH_CUSTOMER_ORDERS_FAIL:
             return {

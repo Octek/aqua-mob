@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -17,6 +17,7 @@ import { Order } from "../../../common/entities/order.entity";
 import { OrderItemComponent } from "../../orders/screens/components/order.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { cleanupOrders } from "../../orders/redux/actions/order.actions";
+import { customerOrdersReducer } from "../redux/reducers/customer.orders.reducer";
 
 type Props = {
     route: RouteProp<ParamList, "customerOrders">;
@@ -29,12 +30,14 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
 }) => {
     const dispatch = useDispatch();
     const customer = route.params.customer;
+    const [page, setPage] = useState(0);
     const customerOrdersState = useSelector(
         (state: ApplicationStateInterface) => state.customerOrdersState,
     );
     const ordersState = useSelector(
         (state: ApplicationStateInterface) => state.ordersState,
     );
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -70,17 +73,50 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
     });
 
     useEffect(() => {
-        dispatch(fetchCustomerOrders(customer.id));
-    }, []);
-
-    useEffect(() => {
         if (ordersState.addState === ActionState.done) {
             console.log("i'm done with id", ordersState.entities[0]);
             dispatch(addCustomerOrder(ordersState.entities[0]));
         }
     }, [ordersState.addState]);
+
+    useEffect(() => setPage(1), []);
+
+    useEffect(() => {
+        console.log("page===", page);
+        if (page > 0) {
+            fetch();
+        }
+    }, [page]);
+
+    const fetch = () => {
+        dispatch(fetchCustomerOrders(customer.id));
+    };
+    const fetchNext = () => {
+        if (
+            customerOrdersState.page &&
+            page < customerOrdersState.page.totalPages
+        ) {
+            setPage(page + 1);
+        }
+    };
+
     return (
         <FlatList<Order>
+            onRefresh={() => {
+                console.log("page=== onRefresh", page);
+                setPage(0);
+                setPage(1);
+            }}
+            refreshing={
+                customerOrdersState.fetchState === ActionState.inProgress
+            }
+            onEndReachedThreshold={0.5}
+            onEndReached={(options) => {
+                if (options.distanceFromEnd < 0) {
+                    return;
+                }
+                fetchNext();
+            }}
             data={customerOrdersState.entities}
             renderItem={({ item }) => (
                 <OrderItemComponent

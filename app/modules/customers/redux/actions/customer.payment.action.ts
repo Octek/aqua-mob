@@ -6,7 +6,7 @@ export const cleanCustomerPayments = () => {
         type: Types.CLEAN_CUSTOMER_PAYMENTS,
     };
 };
-export const fetchCustomerPayments = (id: number) => {
+export const fetchCustomerPayments = (id: number, page: number) => {
     console.log("action==", id);
     return {
         type: Types.CUSTOMER_PAYMENTS,
