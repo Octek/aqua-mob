@@ -2,18 +2,20 @@ import React, { useEffect } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { FlatList, View } from "react-native";
+import { FlatList } from "react-native";
 import { Icon } from "react-native-elements";
 import { showMessage } from "react-native-flash-message";
 import { CompanyStatus } from "../../../common/entities/company.entity";
 import { useDispatch, useSelector } from "react-redux";
 import {
+    addCustomerOrder,
     fetchCustomerOrders,
     setOrderCustomer,
 } from "../redux/actions/customer.order.actions";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { Order } from "../../../common/entities/order.entity";
 import { OrderItemComponent } from "../../orders/screens/components/order.item.component";
+import { ActionState } from "../../../common/redux/entity.state.interface";
 
 type Props = {
     route: RouteProp<ParamList, "customerOrders">;
@@ -28,6 +30,9 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
     const customer = route.params.customer;
     const customerOrdersState = useSelector(
         (state: ApplicationStateInterface) => state.customerOrdersState,
+    );
+    const ordersState = useSelector(
+        (state: ApplicationStateInterface) => state.ordersState,
     );
     useEffect(() => {
         navigation.setOptions({
@@ -65,6 +70,12 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
     useEffect(() => {
         dispatch(fetchCustomerOrders(customer.id));
     }, []);
+
+    useEffect(() => {
+        if ((ordersState.addState = ActionState.done)) {
+            dispatch(addCustomerOrder(ordersState.entities[0]));
+        }
+    }, [ordersState.addState]);
     return (
         <FlatList<Order>
             data={customerOrdersState.entities}

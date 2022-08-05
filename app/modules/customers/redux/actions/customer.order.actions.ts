@@ -29,11 +29,11 @@ export const setOrderCustomer = (customer: User) => {
         payload: { customer: customer },
     };
 };
-export const updateCustomerOrders = (order: Order) => {
+export const addCustomerOrder = (order: Order) => {
     console.log("data===", order);
     return {
         type: Types.UPDATE_CUSTOMER_ORDERS,
-        payload: order,
+        payload: { order: order },
     };
 };
 export const placeCustomerOrder = (orderDto: PlaceOrderDto) => {

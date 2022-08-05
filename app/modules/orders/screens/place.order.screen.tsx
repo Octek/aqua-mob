@@ -60,27 +60,27 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                         }
                         tvParallaxProperties={undefined}
                         onPress={() => {
-                            if (route.params.selectCustomerDisable) {
-                                dispatch(
-                                    placeCustomerOrder(
-                                        new PlaceOrderDto(
-                                            cartState.customer?.id || 0,
-                                            cartState.items,
-                                            cartState.deliveryCharges,
-                                        ),
+                            // if (route.params.selectCustomerDisable) {
+                            //     dispatch(
+                            //         placeCustomerOrder(
+                            //             new PlaceOrderDto(
+                            //                 cartState.customer?.id || 0,
+                            //                 cartState.items,
+                            //                 cartState.deliveryCharges,
+                            //             ),
+                            //         ),
+                            //     );
+                            // } else {
+                            dispatch(
+                                placeOrder(
+                                    new PlaceOrderDto(
+                                        cartState.customer?.id || 0,
+                                        cartState.items,
+                                        cartState.deliveryCharges,
                                     ),
-                                );
-                            } else {
-                                dispatch(
-                                    placeOrder(
-                                        new PlaceOrderDto(
-                                            cartState.customer?.id || 0,
-                                            cartState.items,
-                                            cartState.deliveryCharges,
-                                        ),
-                                    ),
-                                );
-                            }
+                                ),
+                            );
+                            // }
                         }}
                     />
                 ),

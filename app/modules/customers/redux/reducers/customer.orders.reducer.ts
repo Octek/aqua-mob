@@ -59,6 +59,16 @@ export const customerOrdersReducer = (
                     ...state.entities,
                 ],
             };
+        case Types.ADD_CUSTOMER_ORDER:
+            return {
+                ...state,
+                entities: [
+                    {
+                        ...action.payload.order,
+                    },
+                    ...state.entities,
+                ],
+            };
         case Types.PLACE_CUSTOMER_ORDERS_FAIL:
             return { ...state, addState: ActionState.failed };
         default:
