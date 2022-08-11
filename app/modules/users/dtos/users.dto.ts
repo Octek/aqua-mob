@@ -9,9 +9,18 @@ export class UsersDto {
         public role: number,
         public address: string,
     ) {}
+    static getUserRole = (role: number) => {
+        if (role === UserRole.Admin) {
+            return UserRole.Admin;
+        } else {
+            return UserRole.Operator;
+        }
+    };
 }
 
-export enum UserRoles {
-    user,
-    admin,
+export enum UserRole {
+    Customer,
+    Operator,
+    Admin,
+    SuperAdmin,
 }

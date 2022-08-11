@@ -1,73 +1,168 @@
 import React, { useEffect, useState } from "react";
-import { Icon, ListItem } from "react-native-elements";
+import { Badge, Icon, ListItem } from "react-native-elements";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../redux/actions/users.actions";
-import { UserRoles, UsersDto } from "../dtos/users.dto";
+import {
+    addUser,
+    refreshUser,
+    updateUser,
+} from "../redux/actions/users.actions";
+import { UserRole, UsersDto } from "../dtos/users.dto";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import { CompanyStatus } from "../../../common/entities/company.entity";
+import { blockUser, unblockUser } from "../redux/actions/user.action";
 
 type Props = {
     route: RouteProp<ParamList, "addUser">;
     navigation: StackNavigationProp<ParamList, "addUser">;
 };
 export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
-    const [name, setName] = useState("");
-    const [userName, setUserName] = useState("");
+    // const user = route.params.user;
+
+    const [user, setUser] = useState(route.params.user);
+    const [name, setName] = useState(user?.name);
+    const [userName, setUserName] = useState(user?.username);
     const [password, setPassword] = useState("");
-    const [mobile, setMobile] = useState("");
-    const [email, setEmail] = useState("");
-    const [whatsApp, setWhatsApp] = useState("");
-    const [address, setAddress] = useState("");
+    const [mobile, setMobile] = useState(user?.mobileWithoutPrefix);
+    const [email, setEmail] = useState(user?.email);
+    const [whatsApp, setWhatsApp] = useState(user?.whatsAppWithoutPrefix);
+    const [address, setAddress] = useState(user?.address);
     const [checked, setChecked] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(
+        user !== undefined ? user?.role - 1 : 0,
+    );
+    const [userRole, setUserRole] = useState(
+        user === undefined
+            ? UserRole.Operator
+            : UsersDto.getUserRole(user.role),
+    );
     const dispatch = useDispatch();
     const usersState = useSelector(
         (state: ApplicationStateInterface) => state.usersState,
     );
+    const userState = useSelector(
+        (state: ApplicationStateInterface) => state.userState,
+    );
+    // const buttons = ["User", "Operator", "Admin", "Super Admin"];
+    const buttons = ["Operator", "Admin"];
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () =>
-                usersState.addState === ActionState.inProgress ? (
+                usersState.addState ||
+                userState.updateState === ActionState.inProgress ? (
                     <ActivityIndicator
-                        style={{ marginRight: 10 }}
+                        style={{ marginRight: 25 }}
+                        size={32}
                         color={"black"}
                     />
                 ) : (
-                    <Icon
-                        containerStyle={{ marginRight: 10 }}
-                        size={28}
-                        name="save"
-                        color="black"
-                        tvParallaxProperties={undefined}
-                        onPress={() => {
-                            dispatch(
-                                addUser(
-                                    new UsersDto(
-                                        name,
-                                        userName,
-                                        password,
-                                        mobile,
-                                        email,
-                                        whatsApp,
-                                        UserRoles.admin,
-                                        address,
-                                    ),
-                                ),
-                            );
+                    <View
+                        style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center",
                         }}
-                    />
+                    >
+                        {user !== undefined && (
+                            <Icon
+                                containerStyle={{ marginRight: 10 }}
+                                size={28}
+                                name="block"
+                                color="black"
+                                tvParallaxProperties={undefined}
+                                onPress={() => {
+                                    if (
+                                        user !== undefined &&
+                                        user?.status < 0
+                                    ) {
+                                        dispatch(unblockUser(user?.id!));
+                                    } else {
+                                        dispatch(blockUser(user?.id!));
+                                    }
+                                }}
+                            />
+                        )}
+                        <Icon
+                            containerStyle={{ marginRight: 10 }}
+                            size={28}
+                            name="save"
+                            color="black"
+                            tvParallaxProperties={undefined}
+                            onPress={() => {
+                                dispatch(
+                                    user === undefined
+                                        ? addUser(
+                                              new UsersDto(
+                                                  name || "",
+                                                  userName || "",
+                                                  password || "",
+                                                  mobile || "",
+                                                  email || "",
+                                                  checked
+                                                      ? mobile || ""
+                                                      : whatsApp || "",
+                                                  userRole || UserRole.Operator,
+                                                  address || "",
+                                              ),
+                                          )
+                                        : updateUser(
+                                              new UsersDto(
+                                                  name || "",
+                                                  userName || "",
+                                                  password || "",
+                                                  mobile || "",
+                                                  email || "",
+                                                  checked
+                                                      ? mobile || ""
+                                                      : whatsApp || "",
+                                                  userRole || UserRole.Operator,
+                                                  address || "",
+                                              ),
+                                              user.id,
+                                          ),
+                                );
+                            }}
+                        />
+                    </View>
                 ),
         });
     });
 
     useEffect(() => {
-        if (usersState.addState === ActionState.done) {
+        if (userState.entity) {
+            setUser(userState.entity);
+        }
+    }, [userState.entity]);
+
+    useEffect(() => {
+        if (userState.updateState === ActionState.done) {
+            dispatch(refreshUser(userState.entity!));
+        }
+    }, [userState.updateState]);
+
+    useEffect(() => {
+        if (
+            usersState.addState ||
+            usersState.updateState === ActionState.done
+        ) {
             navigation.goBack();
         }
-    }, [usersState.addState]);
+    }, [usersState.addState, usersState.updateState]);
+
+    const selectedUserRole = (selected: any) => {
+        setCurrentIndex(selected - 1);
+        if (selected === UserRole.Operator) {
+            setUserRole(UserRole.Operator);
+        } else if (selected === UserRole.Admin) {
+            setUserRole(UserRole.Admin);
+        }
+    };
 
     const rows = [
         // @ts-ignore
@@ -84,7 +179,6 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"Name"}
                     value={name}
-                    keyboardType={"numeric"}
                     onChangeText={(value) => setName(value)}
                 />
                 <ListItem.Subtitle>Name</ListItem.Subtitle>
@@ -102,9 +196,9 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     style={{ fontSize: 17 }}
                     autoCompleteType={""}
                     textAlign="left"
+                    disabled={user !== undefined}
                     placeholder={"User Name"}
                     value={userName}
-                    keyboardType={"numeric"}
                     onChangeText={(value) => setUserName(value)}
                 />
                 <ListItem.Subtitle>User Name</ListItem.Subtitle>
@@ -123,9 +217,9 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     style={{ fontSize: 17 }}
                     autoCompleteType={""}
                     textAlign="left"
+                    secureTextEntry={true}
                     placeholder={"Password"}
                     value={password}
-                    keyboardType={"numeric"}
                     onChangeText={(value) => setPassword(value)}
                 />
                 <ListItem.Subtitle>Password</ListItem.Subtitle>
@@ -139,13 +233,14 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     flexDirection: "row",
                 }}
             >
+                <ListItem.Title>+92</ListItem.Title>
                 <ListItem.Input
                     style={{ fontSize: 17 }}
                     autoCompleteType={""}
                     textAlign="left"
                     placeholder={"mobile"}
                     value={mobile}
-                    keyboardType={"numeric"}
+                    keyboardType={"phone-pad"}
                     onChangeText={(value) => setMobile(value)}
                 />
 
@@ -160,13 +255,14 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     flexDirection: "row",
                 }}
             >
+                <ListItem.Title>+92</ListItem.Title>
                 <ListItem.Input
                     style={{ fontSize: 17 }}
                     autoCompleteType={""}
                     textAlign="left"
-                    placeholder={"+923476083669"}
-                    value={whatsApp}
-                    keyboardType={"numeric"}
+                    placeholder={"3476083669"}
+                    value={checked ? mobile : whatsApp}
+                    keyboardType={"phone-pad"}
                     onChangeText={(value) => setWhatsApp(value)}
                 />
                 <ListItem.CheckBox
@@ -192,7 +288,6 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"Email"}
                     value={email}
-                    keyboardType={"numeric"}
                     onChangeText={(value) => setEmail(value)}
                 />
                 <ListItem.Subtitle>Email</ListItem.Subtitle>
@@ -212,15 +307,41 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"Address"}
                     value={address}
-                    keyboardType={"numeric"}
                     onChangeText={(value) => setAddress(value)}
                 />
                 <ListItem.Subtitle>Address</ListItem.Subtitle>
             </ListItem.Content>
         </ListItem>,
+
+        // @ts-ignore
+        <ListItem bottomDivider>
+            <ListItem.Content
+                style={{
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                }}
+            >
+                <ListItem.ButtonGroup
+                    buttons={buttons}
+                    selectedIndex={currentIndex}
+                    onPress={(selected) => selectedUserRole(selected + 1)}
+                    containerStyle={{ maxWidth: 140 }}
+                />
+                <ListItem.Title />
+                <ListItem.Subtitle>User Role</ListItem.Subtitle>
+            </ListItem.Content>
+        </ListItem>,
     ];
     return (
         <View style={{ flex: 1 }}>
+            {user?.status === CompanyStatus.blocked && (
+                <Badge
+                    containerStyle={{ marginVertical: 3, padding: 3 }}
+                    badgeStyle={{ backgroundColor: "pink" }}
+                    value={"blocked"}
+                />
+            )}
             <FlatList data={rows} renderItem={(item) => item.item} />
         </View>
     );

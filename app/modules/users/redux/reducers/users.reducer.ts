@@ -3,7 +3,7 @@ import {
     MultipleEntitiesStateInterface,
 } from "../../../../common/redux/entity.state.interface";
 import { User } from "../../../../common/entities/user.entity";
-import * as Types from "../types/user.types";
+import * as Types from "../types/users.types";
 import { plainToInstance } from "class-transformer";
 
 const initialState: MultipleEntitiesStateInterface<User> = {
@@ -59,6 +59,37 @@ export const usersReducer = (
             return {
                 ...state,
                 addState: ActionState.failed,
+            };
+        case Types.UPDATE_USER:
+            return { ...state, updateState: ActionState.inProgress };
+        case Types.UPDATE_USER_SUCCESS:
+            console.log(
+                "actiondata==",
+                action.payload.data.id,
+                action.payload.data,
+            );
+
+            return {
+                ...state,
+                updateState: ActionState.done,
+                entities: state.entities.map((entity) => {
+                    if (entity.id === action.payload.data.id) {
+                        return plainToInstance(User, <User>action.payload.data);
+                    } else {
+                        return entity;
+                    }
+                }),
+            };
+        case Types.UPDATE_USER_FAIL:
+            return { ...state, updateState: ActionState.failed };
+        case Types.REFRESH_USER:
+            return {
+                ...state,
+                entities: state.entities.map((user) =>
+                    user.id === action.payload.user.id
+                        ? action.payload.user
+                        : user,
+                ),
             };
         default: {
             return state;

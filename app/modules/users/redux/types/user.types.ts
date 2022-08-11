@@ -1,7 +1,7 @@
-export const GET_USERS = "GET_USERS";
-export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
-export const GET_USERS_FAIL = "GET_USERS_FAIL";
-export const ADD_USER = "ADD_USER";
-export const ADD_USER_SUCCESS = "ADD_USER_SUCCESS";
-export const ADD_USER_FAIL = "ADD_USER_FAIL";
-export const CLEANUP_USERS = "CLEANUP_USERS";
+export const BLOCK_USER = "BLOCK_USER";
+export const BLOCK_USER_SUCCESS = "BLOCK_USER_SUCCESS";
+export const BLOCK_USER_FAIL = "BLOCK_USER_FAIL";
+export const UNBLOCK_USER = "UNBLOCK_USER";
+export const UNBLOCK_USER_SUCCESS = "UNBLOCK_USER_SUCCESS";
+export const UNBLOCK_USER_FAIL = "UNBLOCK_USER_FAIL";
+export const CLEANUP_USER = "CLEANUP_USER";

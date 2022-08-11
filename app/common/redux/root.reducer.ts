@@ -14,6 +14,7 @@ import { customerReducer } from "../../modules/customers/redux/reducers/customer
 import { customerPaymentsReducer } from "../../modules/customers/redux/reducers/customer.payments.reducer";
 import { customerOrdersReducer } from "../../modules/customers/redux/reducers/customer.orders.reducer";
 import { usersReducer } from "../../modules/users/redux/reducers/users.reducer";
+import { userReducer } from "../../modules/users/redux/reducers/user.reducer";
 
 const appReducer = combineReducers<ApplicationStateInterface>({
     authState: authReducer,
@@ -24,6 +25,7 @@ const appReducer = combineReducers<ApplicationStateInterface>({
     customerOrdersState: customerOrdersReducer,
     customerPaymentsState: customerPaymentsReducer,
     usersState: usersReducer,
+    userState: userReducer,
     paymentsState: paymentReducer,
     newPaymentState: newPaymentReducer,
     productsState: productsReducer,
