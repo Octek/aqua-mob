@@ -1,6 +1,7 @@
-import * as Types from "../types/user.types";
+import * as Types from "../types/users.types";
 import { instanceToPlain } from "class-transformer";
 import { UsersDto } from "../../dtos/users.dto";
+import { User } from "../../../../common/entities/user.entity";
 
 export const fetchUsers = () => {
     return {
@@ -28,8 +29,30 @@ export const addUser = (user: UsersDto) => {
     };
 };
 
+export const updateUser = (user: UsersDto, userId: number) => {
+    return {
+        type: Types.UPDATE_USER,
+        payload: {
+            request: {
+                method: "PUT",
+                url: `/users/${userId}`,
+                data: instanceToPlain(user),
+            },
+        },
+    };
+};
+
 export const cleanupUsers = () => {
     return {
         type: Types.CLEANUP_USERS,
+    };
+};
+
+export const refreshUser = (user: User) => {
+    return {
+        type: Types.REFRESH_USER,
+        payload: {
+            user: user,
+        },
     };
 };

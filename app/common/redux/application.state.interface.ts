@@ -22,6 +22,7 @@ export interface ApplicationStateInterface {
     paymentsState: MultipleEntitiesStateInterface<Payment>;
     newPaymentState: NewPaymentInterface;
     usersState: MultipleEntitiesStateInterface<User>;
+    userState: EntityStateInterface<User>;
     productsState: MultipleEntitiesStateInterface<Product>;
     cartState: CartItemInterface;
     errorState: ErrorStateInterface;

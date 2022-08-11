@@ -10,6 +10,7 @@ import { Icon } from "react-native-elements";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { cleanupUser } from "../redux/actions/user.actions";
 
 type Props = {
     route: RouteProp<ParamList, "productsNavigator">;
@@ -20,7 +21,7 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
 
     useEffect(() => {
         navigation.setOptions({
-            headerTitle: "Products",
+            headerTitle: "Users",
             headerRight: () => (
                 <Icon
                     containerStyle={{ marginRight: 10 }}
@@ -29,8 +30,9 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
                     color="black"
                     tvParallaxProperties={undefined}
                     onPress={() => {
+                        dispatch(cleanupUser());
                         dispatch(cleanupUsers());
-                        navigation.push("addUser");
+                        navigation.push("upsertUser", { user: undefined });
                     }}
                 />
             ),
@@ -54,13 +56,18 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
         <FlatList<User>
             style={{ flex: 1 }}
             data={usersState.entities}
-            // keyExtractor={(customer) => customer.id.toString()}
+            keyExtractor={(user) => user.id.toString()}
             onEndReachedThreshold={0.5}
             renderItem={({ item }) => (
-                // <View>
-                //     <Text>{item.name}</Text>
-                // </View>
-                <UserItemComponent user={item} />
+                <UserItemComponent
+                    user={item}
+                    onPress={() => {
+                        console.log("called");
+                        dispatch(cleanupUser());
+                        dispatch(cleanupUsers());
+                        navigation.push("upsertUser", { user: item });
+                    }}
+                />
             )}
         />
     );

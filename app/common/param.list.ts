@@ -23,7 +23,9 @@ export type ParamList = {
     addCompany: any;
     addPayment: any;
     userList: any;
-    addUser: any;
+    upsertUser: {
+        user?: User;
+    };
     placeOrder: {
         customer?: User;
         selectCustomerDisable: boolean;

@@ -1,3 +1,9 @@
+import { UserRole } from "../../modules/users/dtos/users.dto";
+
+export type RoleColorType = {
+    backgroundColor: string;
+    text: string;
+};
 export class User {
     constructor(
         public id: number,
@@ -11,9 +17,39 @@ export class User {
         public whatsApp: string,
         public whatsappVerified: boolean,
         public address: string,
+        public role: number,
         public status: number,
     ) {}
 
+    get userRoleInfo(): RoleColorType {
+        switch (this.role) {
+            case UserRole.Customer:
+                return {
+                    backgroundColor: "#ffbf00",
+                    text: "Customer",
+                };
+            case UserRole.Operator:
+                return {
+                    backgroundColor: "#B20600",
+                    text: "Operator",
+                };
+            case UserRole.Admin:
+                return {
+                    backgroundColor: "#00092C",
+                    text: "Admin",
+                };
+            case UserRole.SuperAdmin:
+                return {
+                    backgroundColor: "#ff69b4",
+                    text: "Super Admin",
+                };
+            default:
+                return {
+                    backgroundColor: "black",
+                    text: "unknown",
+                };
+        }
+    }
     get mobileWithoutPrefix(): string {
         return this.mobile.substring(3);
     }
