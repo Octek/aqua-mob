@@ -19,13 +19,13 @@ import {
     blockUser,
     cleanupUser,
     unblockUser,
-} from "../redux/actions/user.action";
+} from "../redux/actions/user.actions";
 
 type Props = {
-    route: RouteProp<ParamList, "addUser">;
-    navigation: StackNavigationProp<ParamList, "addUser">;
+    route: RouteProp<ParamList, "upsertUser">;
+    navigation: StackNavigationProp<ParamList, "upsertUser">;
 };
-export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
+export const UpsertUserScreen: React.FC<Props> = ({ route, navigation }) => {
     // const user = route.params.user;
 
     const [user, setUser] = useState(route.params.user);
@@ -38,7 +38,7 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
     const [address, setAddress] = useState(user?.address);
     const [checked, setChecked] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(
-        user !== undefined ? user?.role - 1 : 0,
+        user != undefined ? user?.role - 1 : 0,
     );
     const [userRole, setUserRole] = useState(
         user === undefined
@@ -97,7 +97,7 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                         <Icon
                             containerStyle={{ marginRight: 10 }}
                             size={28}
-                            // disabled={checkAllTheFieldsAreNotEmpty()}
+                            disabled={checkAllTheFieldsAreNotEmpty()}
                             name="save"
                             color="black"
                             tvParallaxProperties={undefined}
@@ -188,7 +188,7 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
         setCurrentIndex(selected - 1);
         if (selected === UserRole.Operator) {
             setUserRole(UserRole.Operator);
-        } else if (selected === UserRole.Admin) {
+        } else {
             setUserRole(UserRole.Admin);
         }
     };

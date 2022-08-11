@@ -21,7 +21,7 @@ export class User {
         public status: number,
     ) {}
 
-    get statusInfo(): RoleColorType {
+    get userRoleInfo(): RoleColorType {
         switch (this.role) {
             case UserRole.Customer:
                 return {

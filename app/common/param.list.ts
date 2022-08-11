@@ -23,7 +23,7 @@ export type ParamList = {
     addCompany: any;
     addPayment: any;
     userList: any;
-    addUser: {
+    upsertUser: {
         user?: User;
     };
     placeOrder: {

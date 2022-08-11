@@ -26,9 +26,9 @@ export const UserItemComponent: React.FC<Props> = (props) => {
                             padding: 1,
                         }}
                         badgeStyle={{
-                            backgroundColor: user.statusInfo.backgroundColor,
+                            backgroundColor: user.userRoleInfo.backgroundColor,
                         }}
-                        value={props.user.statusInfo.text}
+                        value={props.user.userRoleInfo.text}
                     />
                 </ListItem.Title>
                 <ListItem.Subtitle>

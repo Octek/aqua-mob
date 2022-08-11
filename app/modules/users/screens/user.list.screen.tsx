@@ -10,7 +10,7 @@ import { Icon } from "react-native-elements";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { cleanupUser } from "../redux/actions/user.action";
+import { cleanupUser } from "../redux/actions/user.actions";
 
 type Props = {
     route: RouteProp<ParamList, "productsNavigator">;
@@ -32,7 +32,7 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
                     onPress={() => {
                         dispatch(cleanupUser());
                         dispatch(cleanupUsers());
-                        navigation.push("addUser", { user: undefined });
+                        navigation.push("upsertUser", { user: undefined });
                     }}
                 />
             ),
@@ -65,7 +65,7 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
                         console.log("called");
                         dispatch(cleanupUser());
                         dispatch(cleanupUsers());
-                        navigation.push("addUser", { user: item });
+                        navigation.push("upsertUser", { user: item });
                     }}
                 />
             )}

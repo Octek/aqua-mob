@@ -35,7 +35,7 @@ export const updateUser = (user: UsersDto, userId: number) => {
         payload: {
             request: {
                 method: "PUT",
-                url: "/users/" + userId,
+                url: `/users/${userId}`,
                 data: instanceToPlain(user),
             },
         },

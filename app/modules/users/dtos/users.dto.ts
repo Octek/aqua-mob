@@ -19,8 +19,6 @@ export class UsersDto {
 }
 
 export enum UserRole {
-    Customer,
-    Operator,
+    Operator = 1,
     Admin,
-    SuperAdmin,
 }
