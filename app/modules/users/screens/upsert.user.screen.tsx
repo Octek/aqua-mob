@@ -186,11 +186,12 @@ export const UpsertUserScreen: React.FC<Props> = ({ route, navigation }) => {
 
     const selectUserRole = (selected: any) => {
         setCurrentIndex(selected - 1);
-        if (selected === UserRole.Operator) {
-            setUserRole(UserRole.Operator);
-        } else {
-            setUserRole(UserRole.Admin);
-        }
+        setUserRole(selected);
+        // if (selected === 1) {
+        //     setUserRole(selected);
+        // } else {
+        //     setUserRole(UserRole.Admin);
+        // }
     };
 
     const rows = [
