@@ -7,6 +7,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
 import {
     addUser,
+    cleanupUsers,
     refreshUser,
     updateUser,
 } from "../redux/actions/users.actions";
@@ -14,7 +15,11 @@ import { UserRole, UsersDto } from "../dtos/users.dto";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { CompanyStatus } from "../../../common/entities/company.entity";
-import { blockUser, unblockUser } from "../redux/actions/user.action";
+import {
+    blockUser,
+    cleanupUser,
+    unblockUser,
+} from "../redux/actions/user.action";
 
 type Props = {
     route: RouteProp<ParamList, "addUser">;
@@ -54,6 +59,7 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
         navigation.setOptions({
             headerRight: () =>
                 usersState.addState ||
+                usersState.updateState ||
                 userState.updateState === ActionState.inProgress ? (
                     <ActivityIndicator
                         style={{ marginRight: 25 }}
@@ -91,10 +97,17 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                         <Icon
                             containerStyle={{ marginRight: 10 }}
                             size={28}
+                            // disabled={checkAllTheFieldsAreNotEmpty()}
                             name="save"
                             color="black"
                             tvParallaxProperties={undefined}
                             onPress={() => {
+                                console.log(
+                                    "usersSttate=== in onPress",
+                                    usersState.addState,
+                                    usersState.updateState,
+                                );
+
                                 dispatch(
                                     user === undefined
                                         ? addUser(
@@ -134,6 +147,17 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
         });
     });
 
+    const checkAllTheFieldsAreNotEmpty = () => {
+        return (
+            name === "" ||
+            userName === "" ||
+            password === "" ||
+            mobile === "" ||
+            email === "" ||
+            address === ""
+        );
+    };
+
     useEffect(() => {
         if (userState.entity) {
             setUser(userState.entity);
@@ -147,15 +171,20 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
     }, [userState.updateState]);
 
     useEffect(() => {
-        if (
-            usersState.addState ||
-            usersState.updateState === ActionState.done
-        ) {
+        if (usersState.addState === ActionState.done) {
+            cleanupUser();
+            cleanupUsers();
             navigation.goBack();
         }
-    }, [usersState.addState, usersState.updateState]);
+    }, [usersState.addState]);
 
-    const selectedUserRole = (selected: any) => {
+    useEffect(() => {
+        if (usersState.updateState === ActionState.done) {
+            navigation.goBack();
+        }
+    }, [usersState.updateState]);
+
+    const selectUserRole = (selected: any) => {
         setCurrentIndex(selected - 1);
         if (selected === UserRole.Operator) {
             setUserRole(UserRole.Operator);
@@ -325,7 +354,7 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                 <ListItem.ButtonGroup
                     buttons={buttons}
                     selectedIndex={currentIndex}
-                    onPress={(selected) => selectedUserRole(selected + 1)}
+                    onPress={(selected) => selectUserRole(selected + 1)}
                     containerStyle={{ maxWidth: 140 }}
                 />
                 <ListItem.Title />

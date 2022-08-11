@@ -63,12 +63,6 @@ export const usersReducer = (
         case Types.UPDATE_USER:
             return { ...state, updateState: ActionState.inProgress };
         case Types.UPDATE_USER_SUCCESS:
-            console.log(
-                "actiondata==",
-                action.payload.data.id,
-                action.payload.data,
-            );
-
             return {
                 ...state,
                 updateState: ActionState.done,

@@ -30,6 +30,7 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
                     color="black"
                     tvParallaxProperties={undefined}
                     onPress={() => {
+                        dispatch(cleanupUser());
                         dispatch(cleanupUsers());
                         navigation.push("addUser", { user: undefined });
                     }}
