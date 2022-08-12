@@ -37,7 +37,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         (state: ApplicationStateInterface) => state.customerState,
     );
 
-    const onPressMobileNumberClick = (number: number) => {
+    const openCallDialogWithMobileNumber = (number: number) => {
         let phoneNumber = "";
         if (Platform.OS === "android") {
             phoneNumber = `tel:+${number}`;
@@ -48,11 +48,11 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         Linking.openURL(phoneNumber);
     };
 
-    const openEmailBox = (email: string, description: string) => {
+    const openMailBox = (email: string, description: string) => {
         Linking.openURL(`mailto:${email}?subject=SendMail&body=${description}`);
     };
 
-    const openWhatsAppNumber = (whatsApp: number, message: string) => {
+    const openWhatsAppChat = (whatsApp: number, message: string) => {
         let url = `whatsapp://send?text=${message}&phone=${whatsApp}`;
         if (Platform.OS === "android") {
             Linking.canOpenURL(url)
@@ -149,7 +149,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         <ListItem
             bottomDivider
             onPress={() => {
-                onPressMobileNumberClick(Number(customer.mobile));
+                openCallDialogWithMobileNumber(Number(customer.mobile));
             }}
         >
             <ListItem.Content>
@@ -166,7 +166,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
             onPress={() => {
                 customer.whatsApp !== "" &&
                     customer.whatsApp !== undefined &&
-                    openWhatsAppNumber(
+                    openWhatsAppChat(
                         Number(customer.whatsApp),
                         "this is dummy message",
                     );
@@ -184,7 +184,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         <ListItem
             bottomDivider
             onPress={() => {
-                openEmailBox(
+                openMailBox(
                     customer.email,
                     "this is the dummy description for email",
                 );
