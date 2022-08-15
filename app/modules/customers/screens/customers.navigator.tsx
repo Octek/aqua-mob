@@ -7,6 +7,7 @@ import { CustomerOrdersScreen } from "./customer.orders.screen";
 import { CustomerPaymentsScreen } from "./customer.payments.screen";
 import { CreatePaymentScreen } from "../../payments/screens/create.payment.screen";
 import { ShowOrderScreen } from "../../orders/screens/show.order.screen";
+import { CustomerLedgerScreen } from "./customer.ledger.screen";
 
 const Stack = createStackNavigator();
 
@@ -57,6 +58,11 @@ export const CustomersNavigator = (_: any) => {
                 name="showOrder"
                 options={{ title: "Order Details", headerBackTitle: " " }}
                 component={ShowOrderScreen}
+            />
+            <Stack.Screen
+                name="showLedger"
+                options={{ title: "Ledger", headerBackTitle: " " }}
+                component={CustomerLedgerScreen}
             />
         </Stack.Navigator>
     );

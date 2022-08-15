@@ -180,7 +180,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
             </ListItem.Content>
             <ListItem.Chevron tvParallaxProperties={undefined} />
         </ListItem>,
-        // @ts-ignore
+        // @ts-ignoree
         <ListItem
             bottomDivider
             onPress={() => {
@@ -227,6 +227,20 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         >
             <ListItem.Content>
                 <ListItem.Title>Payments</ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron tvParallaxProperties={undefined} />
+        </ListItem>,
+        // @ts-ignore
+        <ListItem
+            bottomDivider
+            onPress={() => {
+                navigation.push("showLedger", {
+                    customer: customer,
+                });
+            }}
+        >
+            <ListItem.Content>
+                <ListItem.Title>Show Ledger</ListItem.Title>
             </ListItem.Content>
             <ListItem.Chevron tvParallaxProperties={undefined} />
         </ListItem>,
