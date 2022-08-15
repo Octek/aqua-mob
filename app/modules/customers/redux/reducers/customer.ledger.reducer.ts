@@ -19,12 +19,12 @@ export const customerLedgerReducer = (
     action: any,
 ): MultipleEntitiesStateInterface<Ledger> => {
     switch (action.type) {
+        case Types.CLEANUP_LEDGER:
+            return initialState;
         case Types.FETCH_LEDGER:
             console.log("actionData=== inprogres", action.payload.data);
             return { ...state, fetchState: ActionState.inProgress };
         case Types.FETCH_LEDGER_SUCCESS:
-            console.log("actionData===", action.payload.data.transactions.data);
-
             return {
                 ...state,
                 fetchState: ActionState.done,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -54,6 +54,50 @@ export const CustomerLedgerScreen: React.FC<Props> = ({
                 setPage(0);
                 setPage(1);
             }}
+            ListHeaderComponent={
+                // @ts-ignore
+                <ListItem bottomDivider={true}>
+                    <ListItem.Content
+                        style={{
+                            flex: 6,
+                            alignItems: "center",
+                            margin: 0,
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <ListItem.Content style={{ flex: 2 }}>
+                            <ListItem.Title
+                                numberOfLines={1}
+                                style={{ fontWeight: "bold" }}
+                            >
+                                Description
+                            </ListItem.Title>
+                        </ListItem.Content>
+                        <ListItem.Content style={{ flex: 1 }} />
+                        <ListItem.Content
+                            style={{
+                                flex: 3,
+                                alignItems: "center",
+                                margin: 0,
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <ListItem.Content>
+                                <ListItem.Title style={{ fontWeight: "bold" }}>
+                                    Amount
+                                </ListItem.Title>
+                            </ListItem.Content>
+                            <ListItem.Content>
+                                <ListItem.Title style={{ fontWeight: "bold" }}>
+                                    Balance
+                                </ListItem.Title>
+                            </ListItem.Content>
+                        </ListItem.Content>
+                    </ListItem.Content>
+                </ListItem>
+            }
             refreshing={ledgerState.fetchState === ActionState.inProgress}
             onEndReachedThreshold={0.5}
             onEndReached={(options) => {
@@ -64,11 +108,7 @@ export const CustomerLedgerScreen: React.FC<Props> = ({
             }}
             data={ledgerState.entities}
             renderItem={({ item }) => {
-                return (
-                    // <ListItem>
-                    <CustomerLedgerItemComponent ledgerItem={item} />
-                    // </ListItem>
-                );
+                return <CustomerLedgerItemComponent ledgerItem={item} />;
             }}
         />
     );

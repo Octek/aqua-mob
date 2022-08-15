@@ -25,6 +25,16 @@ export const CustomerLedgerItemComponent: React.FC<Props> = (props) => {
                 <ListItem.Content style={{ flex: 2 }}>
                     <ListItem.Title numberOfLines={1}>
                         {ledgerItem.description}
+                        <Badge
+                            containerStyle={{ marginVertical: 3, padding: 3 }}
+                            badgeStyle={{
+                                backgroundColor:
+                                    ledgerItem.credit != 0
+                                        ? "#FF1E00"
+                                        : "green",
+                            }}
+                            value={ledgerItem.credit != 0 ? "Credit" : "Debit"}
+                        />
                     </ListItem.Title>
                     <ListItem.Subtitle>
                         {moment(ledgerItem.createdAt).fromNow()}
@@ -42,7 +52,10 @@ export const CustomerLedgerItemComponent: React.FC<Props> = (props) => {
                 >
                     <ListItem.Content>
                         <ListItem.Title>
-                            Rs. {ledgerItem.balance}/-
+                            {ledgerItem.credit != 0
+                                ? ledgerItem.credit
+                                : ledgerItem.debit}
+                            /-
                         </ListItem.Title>
                     </ListItem.Content>
                     <ListItem.Content>

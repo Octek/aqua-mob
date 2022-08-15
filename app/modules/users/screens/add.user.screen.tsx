@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Icon, ListItem } from "react-native-elements";
-import { ActivityIndicator, FlatList, View } from "react-native";
+import {
+    ActivityIndicator,
+    FlatList,
+    View,
+    KeyboardAvoidingView,
+} from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -84,7 +89,6 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"Name"}
                     value={name}
-                    keyboardType={"numeric"}
                     onChangeText={(value) => setName(value)}
                 />
                 <ListItem.Subtitle>Name</ListItem.Subtitle>
@@ -104,7 +108,6 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"User Name"}
                     value={userName}
-                    keyboardType={"numeric"}
                     onChangeText={(value) => setUserName(value)}
                 />
                 <ListItem.Subtitle>User Name</ListItem.Subtitle>
@@ -125,7 +128,6 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"Password"}
                     value={password}
-                    keyboardType={"numeric"}
                     onChangeText={(value) => setPassword(value)}
                 />
                 <ListItem.Subtitle>Password</ListItem.Subtitle>
@@ -145,7 +147,7 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"mobile"}
                     value={mobile}
-                    keyboardType={"numeric"}
+                    keyboardType={"phone-pad"}
                     onChangeText={(value) => setMobile(value)}
                 />
 
@@ -166,7 +168,6 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"+923476083669"}
                     value={whatsApp}
-                    keyboardType={"numeric"}
                     onChangeText={(value) => setWhatsApp(value)}
                 />
                 <ListItem.CheckBox
@@ -192,7 +193,6 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"Email"}
                     value={email}
-                    keyboardType={"numeric"}
                     onChangeText={(value) => setEmail(value)}
                 />
                 <ListItem.Subtitle>Email</ListItem.Subtitle>
@@ -212,7 +212,6 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"Address"}
                     value={address}
-                    keyboardType={"numeric"}
                     onChangeText={(value) => setAddress(value)}
                 />
                 <ListItem.Subtitle>Address</ListItem.Subtitle>
@@ -220,8 +219,8 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
         </ListItem>,
     ];
     return (
-        <View style={{ flex: 1 }}>
+        <KeyboardAvoidingView style={{ flex: 1 }}>
             <FlatList data={rows} renderItem={(item) => item.item} />
-        </View>
+        </KeyboardAvoidingView>
     );
 };

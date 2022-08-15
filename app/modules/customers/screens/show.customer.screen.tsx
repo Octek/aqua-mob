@@ -25,6 +25,7 @@ import { CompanyStatus } from "../../../common/entities/company.entity";
 import { cleanupCustomerOrders } from "../redux/actions/customer.order.actions";
 import { cleanupOrders } from "../../orders/redux/actions/order.actions";
 import { showMessage } from "react-native-flash-message";
+import { cleanCustomerLedger } from "../redux/actions/custom.ledger.actions";
 
 type Props = {
     route: RouteProp<ParamList, "showCustomer">;
@@ -234,6 +235,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         <ListItem
             bottomDivider
             onPress={() => {
+                dispatch(cleanCustomerLedger());
                 navigation.push("showLedger", {
                     customer: customer,
                 });

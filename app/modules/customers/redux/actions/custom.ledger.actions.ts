@@ -12,3 +12,9 @@ export const fetchCustomerLedger = (customerId: number, startDate: string) => {
         },
     };
 };
+
+export const cleanCustomerLedger = () => {
+    return {
+        type: Types.CLEANUP_LEDGER,
+    };
+};
