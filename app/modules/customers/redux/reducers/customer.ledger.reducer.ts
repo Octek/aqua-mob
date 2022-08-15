@@ -18,17 +18,21 @@ export const customerLedgerReducer = (
     state = initialState,
     action: any,
 ): MultipleEntitiesStateInterface<Ledger> => {
-    switch (action.Types) {
+    switch (action.type) {
         case Types.FETCH_LEDGER:
             console.log("actionData=== inprogres", action.payload.data);
             return { ...state, fetchState: ActionState.inProgress };
         case Types.FETCH_LEDGER_SUCCESS:
-            console.log("actionData===", action.payload.transactions.data);
+            console.log("actionData===", action.payload.data.transactions.data);
+
             return {
                 ...state,
                 fetchState: ActionState.done,
                 entities: [
-                    ...plainToInstance(Ledger, <Ledger[]>action.payload.data),
+                    ...plainToInstance(
+                        Ledger,
+                        <Ledger[]>action.payload.data.transactions.data,
+                    ),
                 ],
             };
         case Types.FETCH_LEDGER_FAIL:
