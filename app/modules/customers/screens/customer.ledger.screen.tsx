@@ -37,7 +37,7 @@ export const CustomerLedgerScreen: React.FC<Props> = ({
     }, [page]);
 
     const fetch = () => {
-        dispatch(fetchCustomerLedger(customer.id, customer.createdAt));
+        dispatch(fetchCustomerLedger(customer.id, customer.createdAt, page));
     };
 
     const fetchNext = () => {
