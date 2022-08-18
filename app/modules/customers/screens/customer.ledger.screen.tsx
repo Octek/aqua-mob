@@ -10,7 +10,8 @@ import { ApplicationStateInterface } from "../../../common/redux/application.sta
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { LedgerItem } from "../../../common/entities/ledger.entity";
 import { CustomerLedgerItemComponent } from "./components/customer.ledger.item.component";
-import { ListItem } from "react-native-elements";
+import { Icon, ListItem } from "react-native-elements";
+import { cleanupUsers } from "../../users/redux/actions/users.actions";
 
 type Props = {
     route: RouteProp<ParamList, "showLedger">;
@@ -28,6 +29,14 @@ export const CustomerLedgerScreen: React.FC<Props> = ({
     const dispatch = useDispatch();
     const customer = route.params.customer;
     useEffect(() => setPage(1), []);
+    useEffect(() => {
+        navigation.setOptions({
+            headerTitle: `${customer.name.substring(
+                0,
+                customer.name.indexOf(" "),
+            )}'s Ledger`,
+        });
+    });
 
     useEffect(() => {
         console.log("page===", page);

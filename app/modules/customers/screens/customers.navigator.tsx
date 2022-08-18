@@ -61,7 +61,7 @@ export const CustomersNavigator = (_: any) => {
             />
             <Stack.Screen
                 name="showLedger"
-                options={{ title: "Ledger", headerBackTitle: " " }}
+                options={{ headerBackTitle: " " }}
                 component={CustomerLedgerScreen}
             />
         </Stack.Navigator>
