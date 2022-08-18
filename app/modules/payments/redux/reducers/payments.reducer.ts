@@ -57,10 +57,10 @@ export const paymentReducer = (
                 ...state,
                 fetchState: ActionState.done,
                 page: page,
-                entities:
-                    page.currentPage === 1
-                        ? payments
-                        : [...state.entities, ...payments],
+                entities: [],
+                // page.currentPage === 1
+                //     ? payments
+                //     : [...state.entities, ...payments],
             };
         case Type.FETCH_PAYMENTS_FAIL:
             return {

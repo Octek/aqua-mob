@@ -13,6 +13,7 @@ import { setCartCustomer } from "../../orders/redux/actions/cart.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { setPaymentCustomer } from "../../payments/redux/actions/new.payment.actions";
 import { cleanupCustomer } from "../redux/actions/customer.actions";
+import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
 
 type Props = {
     route: RouteProp<ParamList, "customersNavigator">;
@@ -79,8 +80,13 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
 
     return (
         <FlatList<User>
-            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1 }}
             data={customersState.entities}
+            ListEmptyComponent={
+                customersState.fetchState !== ActionState.inProgress ? (
+                    <EmptyListItemComponent />
+                ) : null
+            }
             keyExtractor={(customer) => customer.id.toString()}
             onRefresh={() => {
                 setPage(0);
@@ -100,24 +106,26 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                 fetchNext();
             }}
             ListHeaderComponent={
-                <SearchBar
-                    showLoading={
-                        customersState.fetchState === ActionState.inProgress &&
-                        !showRefreshControl
-                    }
-                    autoCapitalize={"none"}
-                    // @ts-ignore
-                    onChangeText={(t: string) => {
-                        setShowRefreshControl(false);
-                        setText(t);
-                        clearTimeout(timeoutHandle);
-                        setTimeoutHandle(
-                            setTimeout(() => setSearchTerm(t), 300),
-                        );
-                    }}
-                    value={text}
-                    placeholder={"Search"}
-                />
+                customersState.entities.length > 0 ? (
+                    <SearchBar
+                        showLoading={
+                            customersState.fetchState ===
+                                ActionState.inProgress && !showRefreshControl
+                        }
+                        autoCapitalize={"none"}
+                        // @ts-ignore
+                        onChangeText={(t: string) => {
+                            setShowRefreshControl(false);
+                            setText(t);
+                            clearTimeout(timeoutHandle);
+                            setTimeoutHandle(
+                                setTimeout(() => setSearchTerm(t), 300),
+                            );
+                        }}
+                        value={text}
+                        placeholder={"Search"}
+                    />
+                ) : null
             }
             renderItem={({ item }) => (
                 <CustomerItemComponent

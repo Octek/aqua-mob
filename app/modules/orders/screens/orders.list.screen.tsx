@@ -12,6 +12,7 @@ import { OrderItemComponent } from "./components/order.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { OrderFilters } from "../dtos/order.item.dto";
 import { cleanupCartCustomer } from "../redux/actions/cart.actions";
+import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
 
 type Props = {
     route: RouteProp<ParamList, "ordersNavigator">;
@@ -67,28 +68,36 @@ export const OrdersListScreen: React.FC<Props> = ({ navigation }) => {
     };
     return (
         <FlatList<Order>
-            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1 }}
             data={ordersState.entities}
+            ListEmptyComponent={
+                ordersState.fetchState !== ActionState.inProgress ? (
+                    <EmptyListItemComponent />
+                ) : null
+            }
             ListHeaderComponent={
-                <ListItem.ButtonGroup
-                    containerStyle={{
-                        backgroundColor: "#383838",
-                    }}
-                    buttons={groupButtons}
-                    selectedIndex={currentIndex}
-                    selectedButtonStyle={{
-                        backgroundColor: Order.orderFiltersColor(currentIndex),
-                    }}
-                    onPress={(selected) => {
-                        setPage(1);
-                        setCurrentIndex(selected);
-                        setSelectedIndex(
-                            selected > 2
-                                ? OrderFilters.CancelledByUser
-                                : selected,
-                        );
-                    }}
-                />
+                ordersState.entities.length > 0 ? (
+                    <ListItem.ButtonGroup
+                        containerStyle={{
+                            backgroundColor: "#383838",
+                        }}
+                        buttons={groupButtons}
+                        selectedIndex={currentIndex}
+                        selectedButtonStyle={{
+                            backgroundColor:
+                                Order.orderFiltersColor(currentIndex),
+                        }}
+                        onPress={(selected) => {
+                            setPage(1);
+                            setCurrentIndex(selected);
+                            setSelectedIndex(
+                                selected > 2
+                                    ? OrderFilters.CancelledByUser
+                                    : selected,
+                            );
+                        }}
+                    />
+                ) : null
             }
             onRefresh={() => {
                 setPage(0);
