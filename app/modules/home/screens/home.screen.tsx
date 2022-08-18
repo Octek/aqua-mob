@@ -2,18 +2,13 @@ import React from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import {
-    ImageBackground,
-    SafeAreaView,
-    TouchableOpacity,
-    View,
-    Text,
-} from "react-native";
+import { ImageBackground, View, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MenuBox } from "./components/menu.box.component";
 import { Icon } from "react-native-elements";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../common/redux/common.actions";
+import { store } from "../../../common/redux/store";
 
 type Props = {
     route: RouteProp<ParamList, "home">;
@@ -23,7 +18,7 @@ type Props = {
 export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
     const safeAreaInsets = useSafeAreaInsets();
     const dispatch = useDispatch();
-
+    const companyName = store.getState().authState?.loggedInUser?.company.name;
     return (
         <>
             <ImageBackground
@@ -44,7 +39,31 @@ export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
                     flex: 1,
                 }}
             >
-                <View style={{ paddingHorizontal: 5, paddingBottom: 10 }}>
+                <View
+                    style={{
+                        paddingHorizontal: 10,
+                        backgroundColor: "#6D98BA",
+                        height: 90,
+                        justifyContent: "center",
+                    }}
+                >
+                    <Text
+                        style={{
+                            fontSize: 23,
+                            textAlign: "center",
+                            color: "white",
+                        }}
+                    >
+                        {companyName}
+                    </Text>
+                </View>
+                <View
+                    style={{
+                        paddingHorizontal: 5,
+                        paddingBottom: 10,
+                        paddingTop: 90,
+                    }}
+                >
                     <View style={{ flexDirection: "row" }}>
                         <MenuBox
                             backgroundColor={"#BCD979"}

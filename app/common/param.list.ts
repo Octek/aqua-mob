@@ -24,6 +24,9 @@ export type ParamList = {
     addPayment: any;
     userList: any;
     addUser: any;
+    showLedger: {
+        customer: User;
+    };
     placeOrder: {
         customer?: User;
         selectCustomerDisable: boolean;

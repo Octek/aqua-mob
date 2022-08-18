@@ -5,21 +5,27 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { Badge, Icon, ListItem } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import { StaticListItemComponent } from "../../../common/components/static.list.item.component";
-import { ActivityIndicator, FlatList, View } from "react-native";
+import {
+    ActivityIndicator,
+    FlatList,
+    View,
+    Linking,
+    Platform,
+} from "react-native";
 import { cleanCustomerPayments } from "../redux/actions/customer.payment.action";
 import { User } from "../../../common/entities/user.entity";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import {
     blockCustomer,
-    cleanupCustomer,
     unblockCustomer,
 } from "../redux/actions/customer.actions";
 import { refreshCustomer } from "../redux/actions/customers.actions";
 import { CompanyStatus } from "../../../common/entities/company.entity";
 import { cleanupCustomerOrders } from "../redux/actions/customer.order.actions";
-import { cleanupCartCustomer } from "../../orders/redux/actions/cart.actions";
 import { cleanupOrders } from "../../orders/redux/actions/order.actions";
+import { showMessage } from "react-native-flash-message";
+import { cleanCustomerLedger } from "../redux/actions/custom.ledger.actions";
 
 type Props = {
     route: RouteProp<ParamList, "showCustomer">;
@@ -31,6 +37,35 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
     const customerState = useSelector(
         (state: ApplicationStateInterface) => state.customerState,
     );
+
+    const openCallDialogWithMobileNumber = (number: number) => {
+        let phoneNumber = "";
+        if (Platform.OS === "android") {
+            phoneNumber = `tel:+${number}`;
+        } else {
+            phoneNumber = `telprompt:${number}`;
+        }
+
+        Linking.openURL(phoneNumber);
+    };
+
+    const openMailBox = (email: string, description: string) => {
+        Linking.openURL(`mailto:${email}?subject=SendMail&body=${description}`);
+    };
+
+    const openWhatsAppChat = async (whatsApp: number, message: string) => {
+        let url = `whatsapp://send?text=${message}&phone=${whatsApp}`;
+        const res = await Linking.canOpenURL(url);
+        console.log("response===", res);
+        if (res) {
+            await Linking.openURL(url);
+        } else {
+            showMessage({
+                message: "Make sure WhatsApp is installed",
+            });
+        }
+    };
+
     const [customer, setCustomer] = useState<User>(route.params.customer);
     useEffect(() => {
         navigation.setOptions({
@@ -99,18 +134,60 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
             value={customer.name}
             showChevron={false}
         />,
-        <StaticListItemComponent
-            title="Mobile"
-            value={customer.mobile || "Not Available"}
-        />,
-        <StaticListItemComponent
-            title="WhatsApp"
-            value={customer.whatsApp || "Not Available"}
-        />,
-        <StaticListItemComponent
-            title="Email"
-            value={customer.email || "Not Available"}
-        />,
+        // @ts-ignore
+        <ListItem
+            bottomDivider
+            onPress={() => {
+                openCallDialogWithMobileNumber(Number(customer.mobile));
+            }}
+        >
+            <ListItem.Content>
+                <ListItem.Title>
+                    {customer.mobile || "Not Available"}
+                </ListItem.Title>
+                <ListItem.Subtitle>Mobile</ListItem.Subtitle>
+            </ListItem.Content>
+            <ListItem.Chevron tvParallaxProperties={undefined} />
+        </ListItem>,
+        // @ts-ignore
+        <ListItem
+            bottomDivider
+            onPress={() => {
+                customer.whatsApp !== "" &&
+                    customer.whatsApp !== undefined &&
+                    openWhatsAppChat(
+                        Number(customer.whatsApp),
+                        "this is dummy message",
+                    );
+            }}
+        >
+            <ListItem.Content>
+                <ListItem.Title>
+                    {customer.whatsApp || "Not Available"}
+                </ListItem.Title>
+                <ListItem.Subtitle>WhatsApp</ListItem.Subtitle>
+            </ListItem.Content>
+            <ListItem.Chevron tvParallaxProperties={undefined} />
+        </ListItem>,
+        // @ts-ignoree
+        <ListItem
+            bottomDivider
+            onPress={() => {
+                openMailBox(
+                    customer.email,
+                    "this is the dummy description for email",
+                );
+            }}
+        >
+            <ListItem.Content>
+                <ListItem.Title>
+                    {customer.email || "Not Available"}
+                </ListItem.Title>
+                <ListItem.Subtitle>Email</ListItem.Subtitle>
+            </ListItem.Content>
+            <ListItem.Chevron tvParallaxProperties={undefined} />
+        </ListItem>,
+
         // @ts-ignore
         <ListItem
             bottomDivider
@@ -139,6 +216,21 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         >
             <ListItem.Content>
                 <ListItem.Title>Payments</ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron tvParallaxProperties={undefined} />
+        </ListItem>,
+        // @ts-ignore
+        <ListItem
+            bottomDivider
+            onPress={() => {
+                dispatch(cleanCustomerLedger());
+                navigation.push("showLedger", {
+                    customer: customer,
+                });
+            }}
+        >
+            <ListItem.Content>
+                <ListItem.Title>Show Ledger</ListItem.Title>
             </ListItem.Content>
             <ListItem.Chevron tvParallaxProperties={undefined} />
         </ListItem>,

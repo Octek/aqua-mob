@@ -1,3 +1,5 @@
+import { Company } from "./company.entity";
+
 export class User {
     constructor(
         public id: number,
@@ -12,6 +14,7 @@ export class User {
         public whatsappVerified: boolean,
         public address: string,
         public status: number,
+        public company: Company,
     ) {}
 
     get mobileWithoutPrefix(): string {

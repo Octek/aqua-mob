@@ -64,10 +64,6 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
         });
     });
 
-    // useEffect(() => {
-    //     dispatch(fetchCustomerPayments(customer.id));
-    // }, []);
-
     useEffect(() => {
         console.log("paymentState.addState:", paymentsState.addState);
         if (paymentsState.addState === ActionState.done) {

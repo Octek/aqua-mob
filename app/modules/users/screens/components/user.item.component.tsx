@@ -10,7 +10,7 @@ export const UserItemComponent: React.FC<Props> = (props) => {
     console.log("createAt", props.user.createdAt);
     return (
         // @ts-ignore
-        <ListItem>
+        <ListItem bottomDivider={true}>
             <ListItem.Content>
                 <ListItem.Title>{props.user.username}</ListItem.Title>
                 <ListItem.Subtitle>
