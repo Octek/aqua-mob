@@ -53,28 +53,16 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
         Linking.openURL(`mailto:${email}?subject=SendMail&body=${description}`);
     };
 
-    const openWhatsAppChat = (whatsApp: number, message: string) => {
+    const openWhatsAppChat = async (whatsApp: number, message: string) => {
         let url = `whatsapp://send?text=${message}&phone=${whatsApp}`;
-        if (Platform.OS === "android") {
-            Linking.canOpenURL(url)
-                .then((supported) => {
-                    if (!supported) {
-                        console.log("Can't handle url: " + url);
-
-                        showMessage({
-                            message: "Make sure WhatsApp is installed",
-                        });
-                    } else {
-                        return Linking.openURL(url);
-                    }
-                })
-                .catch((err) => {
-                    showMessage({
-                        message: "An error occurred" + err,
-                    });
-                });
+        const res = await Linking.canOpenURL(url);
+        console.log("response===", res);
+        if (res) {
+            await Linking.openURL(url);
         } else {
-            Linking.openURL(url);
+            showMessage({
+                message: "Make sure WhatsApp is installed",
+            });
         }
     };
 

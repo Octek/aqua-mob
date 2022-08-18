@@ -2,12 +2,12 @@ import {
     ActionState,
     MultipleEntitiesStateInterface,
 } from "../../../../common/redux/entity.state.interface";
-import { Ledger } from "../../../../common/entities/ledger.entity";
+import { LedgerItem } from "../../../../common/entities/ledger.entity";
 import * as Types from "../types/customer.ledger.types";
 import { plainToInstance } from "class-transformer";
 import { PageInfo } from "../../../../common/entities/page.info.entity";
 
-const initialState: MultipleEntitiesStateInterface<Ledger> = {
+const initialState: MultipleEntitiesStateInterface<LedgerItem> = {
     fetchState: ActionState.notStarted,
     addState: ActionState.notStarted,
     updateState: ActionState.notStarted,
@@ -18,7 +18,7 @@ const initialState: MultipleEntitiesStateInterface<Ledger> = {
 export const customerLedgerReducer = (
     state = initialState,
     action: any,
-): MultipleEntitiesStateInterface<Ledger> => {
+): MultipleEntitiesStateInterface<LedgerItem> => {
     switch (action.type) {
         case Types.CLEANUP_LEDGER:
             return initialState;
@@ -31,8 +31,8 @@ export const customerLedgerReducer = (
                 <PageInfo>action.payload.data.transactions.meta,
             );
             const ledgerData = plainToInstance(
-                Ledger,
-                <Ledger[]>action.payload.data.transactions.data,
+                LedgerItem,
+                <LedgerItem[]>action.payload.data.transactions.data,
             );
             return {
                 ...state,

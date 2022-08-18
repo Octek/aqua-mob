@@ -1,10 +1,10 @@
 import React from "react";
 import { Badge, ListItem } from "react-native-elements";
-import { Ledger } from "../../../../common/entities/ledger.entity";
+import { LedgerItem } from "../../../../common/entities/ledger.entity";
 import moment from "moment";
 
 type Props = {
-    ledgerItem: Ledger;
+    ledgerItem: LedgerItem;
 };
 
 export const CustomerLedgerItemComponent: React.FC<Props> = (props) => {

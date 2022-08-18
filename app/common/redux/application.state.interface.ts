@@ -10,7 +10,7 @@ import { CartItemInterface } from "../../modules/orders/redux/reducers/cart.redu
 import { User } from "../entities/user.entity";
 import { Payment } from "../entities/payment.entity";
 import { NewPaymentInterface } from "../../modules/payments/redux/reducers/new.payment.reducer";
-import { Ledger } from "../entities/ledger.entity";
+import { LedgerItem } from "../entities/ledger.entity";
 
 export interface ApplicationStateInterface {
     authState: AuthStateInterface;
@@ -21,7 +21,7 @@ export interface ApplicationStateInterface {
     customerOrdersState: MultipleEntitiesStateInterface<Order>;
     customerPaymentsState: MultipleEntitiesStateInterface<Payment>;
     paymentsState: MultipleEntitiesStateInterface<Payment>;
-    ledgerState: MultipleEntitiesStateInterface<Ledger>;
+    ledgerState: MultipleEntitiesStateInterface<LedgerItem>;
     newPaymentState: NewPaymentInterface;
     usersState: MultipleEntitiesStateInterface<User>;
     productsState: MultipleEntitiesStateInterface<Product>;

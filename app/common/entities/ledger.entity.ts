@@ -1,4 +1,4 @@
-export class Ledger {
+export class LedgerItem {
     constructor(
         public id: number,
         public createdAt: string,

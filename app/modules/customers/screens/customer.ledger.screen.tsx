@@ -8,7 +8,7 @@ import { fetchCustomerLedger } from "../redux/actions/custom.ledger.actions";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 
 import { ActionState } from "../../../common/redux/entity.state.interface";
-import { Ledger } from "../../../common/entities/ledger.entity";
+import { LedgerItem } from "../../../common/entities/ledger.entity";
 import { CustomerLedgerItemComponent } from "./components/customer.ledger.item.component";
 import { ListItem } from "react-native-elements";
 
@@ -47,7 +47,7 @@ export const CustomerLedgerScreen: React.FC<Props> = ({
     };
     return (
         // @ts-ignore //
-        <FlatList<Ledger>
+        <FlatList<LedgerItem>
             style={{ flex: 1 }}
             onRefresh={() => {
                 console.log("page=== onRefresh", page);
