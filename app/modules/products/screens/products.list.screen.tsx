@@ -13,6 +13,7 @@ import { OrderItemDto } from "../../orders/dtos/order.item.dto";
 import { Icon } from "react-native-elements";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { SearchBar } from "react-native-elements";
+import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
 
 type Props = {
     route: RouteProp<ParamList, "productsNavigator">;
@@ -79,7 +80,7 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
 
     return (
         <FlatList<Product>
-            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1 }}
             data={productsState.entities}
             onRefresh={() => {
                 setPage(0);
@@ -92,24 +93,31 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
             }
             onEndReachedThreshold={0.7}
             onEndReached={() => fetchNext()}
+            ListEmptyComponent={
+                productsState.fetchState !== ActionState.inProgress ? (
+                    <EmptyListItemComponent />
+                ) : null
+            }
             ListHeaderComponent={
-                <SearchBar
-                    showLoading={
-                        productsState.fetchState === ActionState.inProgress &&
-                        !showRefreshControl
-                    }
-                    autoCapitalize={"none"}
-                    onChangeText={(t: string) => {
-                        setShowRefreshControl(false);
-                        setText(t);
-                        clearTimeout(timeoutHandle);
-                        setTimeoutHandle(
-                            setTimeout(() => setSearchTerm(t), 300),
-                        );
-                    }}
-                    value={text}
-                    placeholder={"Search"}
-                />
+                productsState.entities.length > 0 ? (
+                    <SearchBar
+                        showLoading={
+                            productsState.fetchState ===
+                                ActionState.inProgress && !showRefreshControl
+                        }
+                        autoCapitalize={"none"}
+                        onChangeText={(t: string) => {
+                            setShowRefreshControl(false);
+                            setText(t);
+                            clearTimeout(timeoutHandle);
+                            setTimeoutHandle(
+                                setTimeout(() => setSearchTerm(t), 300),
+                            );
+                        }}
+                        value={text}
+                        placeholder={"Search"}
+                    />
+                ) : null
             }
             renderItem={({ item }) => (
                 <ProductItemComponent
