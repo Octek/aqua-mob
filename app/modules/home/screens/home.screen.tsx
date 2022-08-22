@@ -120,6 +120,10 @@ export const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
                             name={"person-circle-sharp"}
                             size={40}
                             tvParallaxProperties={undefined}
+                            onPress={() => {
+                                console.log("profile login button is called");
+                                navigation.push("profileNavigator");
+                            }}
                         />
                         <Icon
                             type={"ionicon"}
