@@ -11,7 +11,7 @@ export const EmptyListItemComponent = () => {
                 backgroundColor: "#ddd",
             }}
         >
-            <Text style={{ fontSize: 20 }}>NO ITEMS FOUND</Text>
+            <Text style={{ fontSize: 20 }}>No Items Found</Text>
         </View>
     );
 };
