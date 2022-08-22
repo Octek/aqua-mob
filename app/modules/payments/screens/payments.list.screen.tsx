@@ -15,6 +15,7 @@ import { PaymentItemComponent } from "./components/payment.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { FilterSegment } from "../dtos/payment.dto";
 import { cleanupNewPayment } from "../redux/actions/new.payment.actions";
+import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
 
 type Props = {
     route: RouteProp<ParamList, "paymentsNavigator">;
@@ -68,6 +69,7 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
 
     return (
         <FlatList<Payment>
+            contentContainerStyle={{ flexGrow: 1 }}
             onRefresh={() => {
                 setPage(0);
                 setPage(1);
@@ -80,23 +82,30 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
                 }
                 fetchNext();
             }}
+            ListEmptyComponent={
+                paymentState.fetchState !== ActionState.inProgress ? (
+                    <EmptyListItemComponent />
+                ) : null
+            }
             ListHeaderComponent={
-                <ListItem.ButtonGroup
-                    containerStyle={{
-                        backgroundColor: "#383838",
-                    }}
-                    selectedButtonStyle={{
-                        backgroundColor:
-                            Payment.buttonBackgroundColor(selectedIndex),
-                    }}
-                    buttons={buttons}
-                    selectedIndex={currentIndex}
-                    onPress={(selected) => {
-                        setCurrentIndex(selected);
-                        setPage(1);
-                        setSelectedIndex(selected - 1);
-                    }}
-                />
+                paymentState.entities.length > 0 ? (
+                    <ListItem.ButtonGroup
+                        containerStyle={{
+                            backgroundColor: "#383838",
+                        }}
+                        selectedButtonStyle={{
+                            backgroundColor:
+                                Payment.buttonBackgroundColor(selectedIndex),
+                        }}
+                        buttons={buttons}
+                        selectedIndex={currentIndex}
+                        onPress={(selected) => {
+                            setCurrentIndex(selected);
+                            setPage(1);
+                            setSelectedIndex(selected - 1);
+                        }}
+                    />
+                ) : null
             }
             style={{ flex: 1 }}
             data={paymentState.entities}

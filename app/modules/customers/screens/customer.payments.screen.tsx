@@ -16,6 +16,7 @@ import { setPaymentCustomer } from "../../payments/redux/actions/new.payment.act
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { showMessage } from "react-native-flash-message";
 import { CompanyStatus } from "../../../common/entities/company.entity";
+import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
 
 type Props = {
     route: RouteProp<ParamList, "customerPayments">;
@@ -97,7 +98,7 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
     return (
         // @ts-ignore //
         <FlatList<Payment>
-            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1 }}
             onRefresh={() => {
                 console.log("page=== onRefresh", page);
                 setPage(0);
@@ -113,6 +114,11 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
                 }
                 fetchNext();
             }}
+            ListEmptyComponent={
+                customerPaymentState.fetchState !== ActionState.inProgress ? (
+                    <EmptyListItemComponent />
+                ) : null
+            }
             data={customerPaymentState.entities}
             renderItem={({ item }) => {
                 return (

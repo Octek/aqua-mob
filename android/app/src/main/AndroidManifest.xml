@@ -21,15 +21,13 @@
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
-
         </intent-filter>
-
       </activity>
     </application>
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="https" android:host="*" />
+            <data android:scheme="https" android:host="*" />f
         </intent>
     </queries>
 </manifest>

@@ -11,6 +11,7 @@ import { ActionState } from "../../../common/redux/entity.state.interface";
 import { LedgerItem } from "../../../common/entities/ledger.entity";
 import { CustomerLedgerItemComponent } from "./components/customer.ledger.item.component";
 import { ListItem } from "react-native-elements";
+import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
 
 type Props = {
     route: RouteProp<ParamList, "showLedger">;
@@ -48,55 +49,67 @@ export const CustomerLedgerScreen: React.FC<Props> = ({
     return (
         // @ts-ignore //
         <FlatList<LedgerItem>
-            style={{ flex: 1 }}
+            // style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1 }}
             onRefresh={() => {
                 console.log("page=== onRefresh", page);
                 setPage(0);
                 setPage(1);
             }}
+            ListEmptyComponent={
+                ledgerState.fetchState !== ActionState.inProgress ? (
+                    <EmptyListItemComponent />
+                ) : null
+            }
             ListHeaderComponent={
-                // @ts-ignore
-                <ListItem bottomDivider={true}>
-                    <ListItem.Content
-                        style={{
-                            flex: 6,
-                            alignItems: "center",
-                            margin: 0,
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <ListItem.Content style={{ flex: 2 }}>
-                            <ListItem.Title
-                                numberOfLines={1}
-                                style={{ fontWeight: "bold" }}
-                            >
-                                Description
-                            </ListItem.Title>
-                        </ListItem.Content>
-                        <ListItem.Content style={{ flex: 1 }} />
+                ledgerState.entities.length > 0 ? (
+                    // @ts-ignore
+                    <ListItem bottomDivider={true}>
                         <ListItem.Content
                             style={{
-                                flex: 3,
+                                flex: 6,
                                 alignItems: "center",
                                 margin: 0,
                                 flexDirection: "row",
                                 justifyContent: "space-between",
                             }}
                         >
-                            <ListItem.Content>
-                                <ListItem.Title style={{ fontWeight: "bold" }}>
-                                    Amount
+                            <ListItem.Content style={{ flex: 2 }}>
+                                <ListItem.Title
+                                    numberOfLines={1}
+                                    style={{ fontWeight: "bold" }}
+                                >
+                                    Description
                                 </ListItem.Title>
                             </ListItem.Content>
-                            <ListItem.Content>
-                                <ListItem.Title style={{ fontWeight: "bold" }}>
-                                    Balance
-                                </ListItem.Title>
+                            <ListItem.Content style={{ flex: 1 }} />
+                            <ListItem.Content
+                                style={{
+                                    flex: 3,
+                                    alignItems: "center",
+                                    margin: 0,
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <ListItem.Content>
+                                    <ListItem.Title
+                                        style={{ fontWeight: "bold" }}
+                                    >
+                                        Amount
+                                    </ListItem.Title>
+                                </ListItem.Content>
+                                <ListItem.Content>
+                                    <ListItem.Title
+                                        style={{ fontWeight: "bold" }}
+                                    >
+                                        Balance
+                                    </ListItem.Title>
+                                </ListItem.Content>
                             </ListItem.Content>
                         </ListItem.Content>
-                    </ListItem.Content>
-                </ListItem>
+                    </ListItem>
+                ) : null
             }
             refreshing={ledgerState.fetchState === ActionState.inProgress}
             onEndReachedThreshold={0.5}
