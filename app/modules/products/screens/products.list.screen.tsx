@@ -78,6 +78,26 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
         }
     };
 
+    const listHeader = () => {
+        return (
+            <SearchBar
+                showLoading={
+                    productsState.fetchState === ActionState.inProgress &&
+                    !showRefreshControl
+                }
+                autoCapitalize={"none"}
+                onChangeText={(t: string) => {
+                    setShowRefreshControl(false);
+                    setText(t);
+                    clearTimeout(timeoutHandle);
+                    setTimeoutHandle(setTimeout(() => setSearchTerm(t), 300));
+                }}
+                value={text}
+                placeholder={"Search"}
+            />
+        );
+    };
+
     return (
         <FlatList<Product>
             contentContainerStyle={{ flexGrow: 1 }}
@@ -99,25 +119,11 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
                 ) : null
             }
             ListHeaderComponent={
-                productsState.entities.length > 0 ? (
-                    <SearchBar
-                        showLoading={
-                            productsState.fetchState ===
-                                ActionState.inProgress && !showRefreshControl
-                        }
-                        autoCapitalize={"none"}
-                        onChangeText={(t: string) => {
-                            setShowRefreshControl(false);
-                            setText(t);
-                            clearTimeout(timeoutHandle);
-                            setTimeoutHandle(
-                                setTimeout(() => setSearchTerm(t), 300),
-                            );
-                        }}
-                        value={text}
-                        placeholder={"Search"}
-                    />
-                ) : null
+                productsState.entities.length === 0
+                    ? searchTerm.length === 0
+                        ? null
+                        : listHeader()
+                    : listHeader()
             }
             renderItem={({ item }) => (
                 <ProductItemComponent

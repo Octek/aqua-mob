@@ -11,8 +11,9 @@ export const updateUserProfile = (
         type: Types.UPDATE_USER,
         payload: {
             request: {
-                method: "PUT",
-                url: `/users/${userId}`,
+                method: "PATCH",
+                // url: `/users/${userId}`,
+                url: "/profile",
                 data: instanceToPlain(profileDto),
             },
         },

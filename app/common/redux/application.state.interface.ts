@@ -11,8 +11,7 @@ import { User } from "../entities/user.entity";
 import { Payment } from "../entities/payment.entity";
 import { NewPaymentInterface } from "../../modules/payments/redux/reducers/new.payment.reducer";
 import { LedgerItem } from "../entities/ledger.entity";
-import { ChangePassword } from "../../modules/profile/redux/reducers/password.change.reducer";
-import { userProfileReducer } from "../../modules/profile/redux/reducers/user.profile.reducer";
+import { ChangePasswordInterface } from "../../modules/profile/redux/reducers/password.change.reducer";
 
 export interface ApplicationStateInterface {
     authState: AuthStateInterface;
@@ -21,7 +20,7 @@ export interface ApplicationStateInterface {
     customersState: MultipleEntitiesStateInterface<User>;
     customerState: EntityStateInterface<User>;
     userProfileReducer: EntityStateInterface<User>;
-    changePasswordState: EntityStateInterface<ChangePassword>;
+    changePasswordState: ChangePasswordInterface;
     customerOrdersState: MultipleEntitiesStateInterface<Order>;
     customerPaymentsState: MultipleEntitiesStateInterface<Payment>;
     paymentsState: MultipleEntitiesStateInterface<Payment>;

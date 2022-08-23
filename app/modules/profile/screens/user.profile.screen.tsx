@@ -8,11 +8,12 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { UserProfileDto } from "../dtos/user.profile.dto";
-import {
-    cleanUserProfile,
-    updateUserProfile,
-} from "../redux/actions/user.profile.actions";
+import { updateUserProfile } from "../redux/actions/user.profile.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import {
+    clearLoginState,
+    updateLoginUser,
+} from "../../auth/redux/actions/auth.actions";
 
 type Props = {
     route: RouteProp<ParamList, "showProfile">;
@@ -22,18 +23,19 @@ type Props = {
 export const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
     const loginUser = store.getState().authState?.loggedInUser;
     const [name, setName] = useState(loginUser?.name || "");
-    const [password, setPassword] = useState("password");
     const [email, setEmail] = useState(loginUser?.email || "");
     const [mobile, setMobile] = useState(loginUser?.mobile.substring(3) || "");
     const [whatsApp, setWhatsApp] = useState(
         loginUser?.whatsApp.substring(3) || "",
     );
-    const [role, setRole] = useState(loginUser?.role || -1);
-    const [address, setAddress] = useState(loginUser?.address || "");
+    const [nameInit, setNameInit] = useState("");
     const dispatch = useDispatch();
 
     const userProfileState = useSelector(
         (state: ApplicationStateInterface) => state.userProfileReducer,
+    );
+    const authState = useSelector(
+        (state: ApplicationStateInterface) => state.authState,
     );
 
     useEffect(() => {
@@ -55,15 +57,7 @@ export const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
                         onPress={() => {
                             dispatch(
                                 updateUserProfile(
-                                    new UserProfileDto(
-                                        name,
-                                        password,
-                                        mobile,
-                                        email,
-                                        whatsApp,
-                                        role,
-                                        address,
-                                    ),
+                                    new UserProfileDto(name),
                                     loginUser?.id!,
                                 ),
                             );
@@ -72,22 +66,38 @@ export const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
                 ),
         });
     });
-    useEffect(() => {
-        if (userProfileState.updateState === ActionState.done) {
-            navigation.goBack();
-            dispatch(cleanUserProfile());
-        }
-    }, [userProfileState.updateState]);
 
     const initials = () => {
         const components = loginUser!.name.split(" ");
         if (components.length === 1) {
-            return loginUser!.name.substring(0, 2);
+            const nameInitials = loginUser!.name.substring(0, 2);
+            setNameInit(nameInitials);
+            return nameInitials;
         } else if (components.length >= 2) {
-            return components[0][0] + components[1][0];
+            const nameInitials = components[0][0] + components[1][0];
+            setNameInit(nameInitials);
+            return nameInitials;
         }
         return "";
     };
+    useEffect(() => {
+        initials();
+    }, []);
+
+    useEffect(() => {
+        if (userProfileState.updateState === ActionState.done) {
+            dispatch(updateLoginUser(userProfileState.entity!));
+            // initials();
+        }
+    }, [userProfileState.updateState]);
+
+    useEffect(() => {
+        if (authState.updateState === ActionState.done) {
+            // dispatch(updateLoginUser(userProfileState.entity!));
+            initials();
+            dispatch(clearLoginState());
+        }
+    }, [authState.updateState]);
 
     let rows = [
         // @ts-ignore
@@ -103,8 +113,8 @@ export const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
                     size={80}
                     rounded
                     containerStyle={{ backgroundColor: "red" }}
-                    title={initials()}
-                    // title={loginUser!.initials}
+                    // title={initials()}
+                    title={nameInit}
                 />
             </ListItem.Content>
         </ListItem>,
@@ -144,16 +154,6 @@ export const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
                     // paddingLeft: "10",
                 }}
             >
-                {/*<ListItem.Input*/}
-                {/*    style={{ fontSize: 17 }}*/}
-                {/*    autoCompleteType={""}*/}
-                {/*    disabled={true}*/}
-                {/*    secureTextEntry={true}*/}
-                {/*    textAlign="left"*/}
-                {/*    placeholder={"password"}*/}
-                {/*    value={password}*/}
-                {/*    onChangeText={(value) => setPassword(value)}*/}
-                {/*/>*/}
                 <ListItem.Title style={{ paddingLeft: 10, color: "#89CFDD" }}>
                     Change Password
                 </ListItem.Title>

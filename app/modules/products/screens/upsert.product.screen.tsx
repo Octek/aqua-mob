@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ActivityIndicator, FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, View, Keyboard } from "react-native";
 import { Icon, ListItem } from "react-native-elements";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,6 +46,7 @@ export const UpsertProductScreen: React.FC<Props> = ({ route, navigation }) => {
                         color="black"
                         tvParallaxProperties={undefined}
                         onPress={() => {
+                            Keyboard.dismiss();
                             product === undefined
                                 ? dispatch(
                                       addProduct(
