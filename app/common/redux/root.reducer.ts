@@ -15,13 +15,17 @@ import { customerPaymentsReducer } from "../../modules/customers/redux/reducers/
 import { customerOrdersReducer } from "../../modules/customers/redux/reducers/customer.orders.reducer";
 import { usersReducer } from "../../modules/users/redux/reducers/users.reducer";
 import { customerLedgerReducer } from "../../modules/customers/redux/reducers/customer.ledger.reducer";
+import { passwordChangeReducer } from "../../modules/profile/redux/reducers/password.change.reducer";
+import { userProfileReducer } from "../../modules/profile/redux/reducers/user.profile.reducer";
 
 const appReducer = combineReducers<ApplicationStateInterface>({
     authState: authReducer,
     ordersState: ordersReducer,
     orderState: orderReducer,
     customersState: customersReducer,
+    userProfileReducer: userProfileReducer,
     customerState: customerReducer,
+    changePasswordState: passwordChangeReducer,
     customerOrdersState: customerOrdersReducer,
     customerPaymentsState: customerPaymentsReducer,
     usersState: usersReducer,

@@ -78,6 +78,27 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
         }
     };
 
+    const listHeader = () => {
+        return (
+            <SearchBar
+                showLoading={
+                    customersState.fetchState === ActionState.inProgress &&
+                    !showRefreshControl
+                }
+                autoCapitalize={"none"}
+                // @ts-ignore
+                onChangeText={(t: string) => {
+                    setShowRefreshControl(false);
+                    setText(t);
+                    clearTimeout(timeoutHandle);
+                    setTimeoutHandle(setTimeout(() => setSearchTerm(t), 300));
+                }}
+                value={text}
+                placeholder={"Search"}
+            />
+        );
+    };
+    console.log("searchText===", searchTerm);
     return (
         <FlatList<User>
             contentContainerStyle={{ flexGrow: 1 }}
@@ -106,26 +127,11 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                 fetchNext();
             }}
             ListHeaderComponent={
-                customersState.entities.length > 0 ? (
-                    <SearchBar
-                        showLoading={
-                            customersState.fetchState ===
-                                ActionState.inProgress && !showRefreshControl
-                        }
-                        autoCapitalize={"none"}
-                        // @ts-ignore
-                        onChangeText={(t: string) => {
-                            setShowRefreshControl(false);
-                            setText(t);
-                            clearTimeout(timeoutHandle);
-                            setTimeoutHandle(
-                                setTimeout(() => setSearchTerm(t), 300),
-                            );
-                        }}
-                        value={text}
-                        placeholder={"Search"}
-                    />
-                ) : null
+                customersState.entities.length === 0
+                    ? searchTerm.length === 0
+                        ? null
+                        : listHeader()
+                    : listHeader()
             }
             renderItem={({ item }) => (
                 <CustomerItemComponent

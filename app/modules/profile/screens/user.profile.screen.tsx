@@ -1,15 +1,83 @@
-import React, { useState } from "react";
-import { Avatar, ListItem } from "react-native-elements";
+import React, { useEffect, useState } from "react";
+import { Avatar, Icon, ListItem } from "react-native-elements";
 import { store } from "../../../common/redux/store";
-import { FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
+import { RouteProp } from "@react-navigation/native";
+import { ParamList } from "../../../common/param.list";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useDispatch, useSelector } from "react-redux";
+import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
+import { UserProfileDto } from "../dtos/user.profile.dto";
+import {
+    cleanUserProfile,
+    updateUserProfile,
+} from "../redux/actions/user.profile.actions";
+import { ActionState } from "../../../common/redux/entity.state.interface";
 
-export const UserProfileScreen = () => {
+type Props = {
+    route: RouteProp<ParamList, "showProfile">;
+    navigation: StackNavigationProp<ParamList, "showProfile">;
+};
+
+export const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
     const loginUser = store.getState().authState?.loggedInUser;
     const [name, setName] = useState(loginUser?.name || "");
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("password");
     const [email, setEmail] = useState(loginUser?.email || "");
-    const [mobile, setMobile] = useState(loginUser?.mobile || "");
-    const [whatsApp, setWhatsApp] = useState(loginUser?.whatsApp || "");
+    const [mobile, setMobile] = useState(loginUser?.mobile.substring(3) || "");
+    const [whatsApp, setWhatsApp] = useState(
+        loginUser?.whatsApp.substring(3) || "",
+    );
+    const [role, setRole] = useState(loginUser?.role || -1);
+    const [address, setAddress] = useState(loginUser?.address || "");
+    const dispatch = useDispatch();
+
+    const userProfileState = useSelector(
+        (state: ApplicationStateInterface) => state.userProfileReducer,
+    );
+
+    useEffect(() => {
+        navigation.setOptions({
+            // headerTitle: "",
+            headerRight: () =>
+                userProfileState.updateState == ActionState.inProgress ? (
+                    <ActivityIndicator
+                        style={{ marginRight: 10 }}
+                        color={"white"}
+                    />
+                ) : (
+                    <Icon
+                        containerStyle={{ marginRight: 10 }}
+                        size={28}
+                        name="save"
+                        color="black"
+                        tvParallaxProperties={undefined}
+                        onPress={() => {
+                            dispatch(
+                                updateUserProfile(
+                                    new UserProfileDto(
+                                        name,
+                                        password,
+                                        mobile,
+                                        email,
+                                        whatsApp,
+                                        role,
+                                        address,
+                                    ),
+                                    loginUser?.id!,
+                                ),
+                            );
+                        }}
+                    />
+                ),
+        });
+    });
+    useEffect(() => {
+        if (userProfileState.updateState === ActionState.done) {
+            navigation.goBack();
+            dispatch(cleanUserProfile());
+        }
+    }, [userProfileState.updateState]);
 
     const initials = () => {
         const components = loginUser!.name.split(" ");
@@ -32,15 +100,16 @@ export const UserProfileScreen = () => {
                 }}
             >
                 <Avatar
-                    size={60}
+                    size={80}
                     rounded
                     containerStyle={{ backgroundColor: "red" }}
                     title={initials()}
+                    // title={loginUser!.initials}
                 />
             </ListItem.Content>
         </ListItem>,
         // @ts-ignore
-        <ListItem bottomDivider onPress={() => console.log(initials())}>
+        <ListItem bottomDivider>
             <ListItem.Content
                 style={{
                     alignItems: "center",
@@ -61,22 +130,34 @@ export const UserProfileScreen = () => {
             </ListItem.Content>
         </ListItem>,
         // @ts-ignore
-        <ListItem bottomDivider>
+        <ListItem
+            bottomDivider
+            onPress={() => {
+                navigation.push("changePassword");
+            }}
+        >
             <ListItem.Content
                 style={{
-                    alignItems: "center",
+                    // alignItems: "center",
+                    justifyContent: "space-between",
                     flexDirection: "row",
+                    // paddingLeft: "10",
                 }}
             >
-                <ListItem.Input
-                    style={{ fontSize: 17 }}
-                    autoCompleteType={""}
-                    secureTextEntry={true}
-                    textAlign="left"
-                    placeholder={"password"}
-                    value={password}
-                    onChangeText={(value) => setPassword(value)}
-                />
+                {/*<ListItem.Input*/}
+                {/*    style={{ fontSize: 17 }}*/}
+                {/*    autoCompleteType={""}*/}
+                {/*    disabled={true}*/}
+                {/*    secureTextEntry={true}*/}
+                {/*    textAlign="left"*/}
+                {/*    placeholder={"password"}*/}
+                {/*    value={password}*/}
+                {/*    onChangeText={(value) => setPassword(value)}*/}
+                {/*/>*/}
+                <ListItem.Title style={{ paddingLeft: 10, color: "#89CFDD" }}>
+                    Change Password
+                </ListItem.Title>
+
                 <ListItem.Subtitle style={{ paddingLeft: 5 }}>
                     Password
                 </ListItem.Subtitle>
@@ -112,6 +193,7 @@ export const UserProfileScreen = () => {
                     flexDirection: "row",
                 }}
             >
+                <ListItem.Title>+92</ListItem.Title>
                 <ListItem.Input
                     style={{ fontSize: 17 }}
                     disabled={true}
@@ -134,6 +216,7 @@ export const UserProfileScreen = () => {
                     flexDirection: "row",
                 }}
             >
+                <ListItem.Title>+92</ListItem.Title>
                 <ListItem.Input
                     style={{ fontSize: 17 }}
                     disabled={true}
