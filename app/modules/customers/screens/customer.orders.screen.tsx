@@ -81,6 +81,13 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
         });
     });
 
+    const orderItemPress = (order: Order) => {
+        navigation.push("showOrder", {
+            order: order,
+            pushed: true,
+        });
+    };
+
     useEffect(() => {
         if (ordersState.addState === ActionState.done) {
             console.log("i'm done with id", ordersState.entities[0]);
@@ -128,15 +135,7 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
             }}
             data={customerOrdersState.entities}
             renderItem={({ item }) => (
-                <OrderItemComponent
-                    order={item}
-                    onPress={(order) => {
-                        navigation.push("showOrder", {
-                            order: order,
-                            pushed: true,
-                        });
-                    }}
-                />
+                <OrderItemComponent order={item} onPress={orderItemPress} />
             )}
         />
     );

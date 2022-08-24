@@ -109,6 +109,17 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
         );
     };
 
+    const onItemPress = (product: Product) => {
+        if (route.params && route.params.selectable) {
+            dispatch(addItem(new OrderItemDto(product, 1, product.price)));
+            navigation.goBack();
+        } else {
+            navigation.push("upsertProduct", {
+                product: product,
+            });
+        }
+    };
+
     return (
         <FlatList<Product>
             contentContainerStyle={{ flexGrow: 1 }}
@@ -137,23 +148,7 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
                     : listHeader()
             }
             renderItem={({ item }) => (
-                <ProductItemComponent
-                    product={item}
-                    onPress={(product) => {
-                        if (route.params && route.params.selectable) {
-                            dispatch(
-                                addItem(
-                                    new OrderItemDto(product, 1, product.price),
-                                ),
-                            );
-                            navigation.goBack();
-                        } else {
-                            navigation.push("upsertProduct", {
-                                product: product,
-                            });
-                        }
-                    }}
-                />
+                <ProductItemComponent product={item} onPress={onItemPress} />
             )}
         />
     );
