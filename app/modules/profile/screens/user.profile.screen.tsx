@@ -154,7 +154,7 @@ export const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
                     // paddingLeft: "10",
                 }}
             >
-                <ListItem.Title style={{ paddingLeft: 10, color: "#89CFDD" }}>
+                <ListItem.Title style={{ paddingLeft: 10 }}>
                     Change Password
                 </ListItem.Title>
 
