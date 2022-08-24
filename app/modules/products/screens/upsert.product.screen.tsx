@@ -13,6 +13,7 @@ import {
     updateProduct,
 } from "../redux/actions/product.actions";
 import { ProductDto } from "../dtos/product.dto";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "upsertProduct">;
@@ -28,6 +29,14 @@ export const UpsertProductScreen: React.FC<Props> = ({ route, navigation }) => {
     const productsState = useSelector(
         (state: ApplicationStateInterface) => state.productsState,
     );
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
 
     useEffect(() => {
         navigation.setOptions({

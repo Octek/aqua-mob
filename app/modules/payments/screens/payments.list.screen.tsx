@@ -16,6 +16,7 @@ import { ActionState } from "../../../common/redux/entity.state.interface";
 import { FilterSegment } from "../dtos/payment.dto";
 import { cleanupNewPayment } from "../redux/actions/new.payment.actions";
 import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "paymentsNavigator">;
@@ -31,6 +32,15 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
     );
     const buttons = ["All", "Cash", "Online"];
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (

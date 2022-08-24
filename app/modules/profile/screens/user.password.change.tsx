@@ -12,6 +12,7 @@ import {
 import { ChangePasswordDto } from "../dtos/change.password.dto";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "showProfile">;
@@ -26,6 +27,14 @@ export const UserPasswordChange: React.FC<Props> = ({ navigation }) => {
     const changePasswordState = useSelector(
         (state: ApplicationStateInterface) => state.changePasswordState,
     );
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
 
     useEffect(() => {
         navigation.setOptions({

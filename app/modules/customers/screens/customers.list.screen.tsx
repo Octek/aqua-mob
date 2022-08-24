@@ -14,6 +14,7 @@ import { ActionState } from "../../../common/redux/entity.state.interface";
 import { setPaymentCustomer } from "../../payments/redux/actions/new.payment.actions";
 import { cleanupCustomer } from "../redux/actions/customer.actions";
 import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "customersNavigator">;
@@ -30,6 +31,14 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
         (state: ApplicationStateInterface) => state.customersState,
     );
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
 
     useEffect(() => {
         navigation.setOptions({

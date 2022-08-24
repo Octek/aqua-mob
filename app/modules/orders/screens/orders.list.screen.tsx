@@ -13,6 +13,7 @@ import { ActionState } from "../../../common/redux/entity.state.interface";
 import { OrderFilters } from "../dtos/order.item.dto";
 import { cleanupCartCustomer } from "../redux/actions/cart.actions";
 import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "ordersNavigator">;
@@ -28,6 +29,15 @@ export const OrdersListScreen: React.FC<Props> = ({ navigation }) => {
     );
     const dispatch = useDispatch();
     const groupButtons = ["New", "On the way", " Done", "Cancelled"];
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (

@@ -18,6 +18,7 @@ import { OrderItemComponent } from "../../orders/screens/components/order.item.c
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { cleanupOrders } from "../../orders/redux/actions/order.actions";
 import { customerOrdersReducer } from "../redux/reducers/customer.orders.reducer";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "customerOrders">;
@@ -37,6 +38,14 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
     const ordersState = useSelector(
         (state: ApplicationStateInterface) => state.ordersState,
     );
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
 
     useEffect(() => {
         navigation.setOptions({

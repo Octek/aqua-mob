@@ -14,6 +14,7 @@ import { Icon } from "react-native-elements";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { SearchBar } from "react-native-elements";
 import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "productsNavigator">;
@@ -30,6 +31,14 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
         (state: ApplicationStateInterface) => state.productsState,
     );
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
 
     useEffect(() => {
         navigation.setOptions({

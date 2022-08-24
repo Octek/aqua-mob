@@ -25,6 +25,7 @@ import {
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import moment from "moment";
 import { ReactNativeModal } from "react-native-modal";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "showOrder">;
@@ -39,6 +40,14 @@ export const ShowOrderScreen: React.FC<Props> = ({ route, navigation }) => {
         (state: ApplicationStateInterface) => state.orderState,
     );
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
 
     useEffect(() => {
         navigation.setOptions({

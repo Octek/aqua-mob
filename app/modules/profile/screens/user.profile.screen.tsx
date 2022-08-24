@@ -14,6 +14,7 @@ import {
     clearLoginState,
     updateLoginUser,
 } from "../../auth/redux/actions/auth.actions";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "showProfile">;
@@ -37,6 +38,14 @@ export const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
     const authState = useSelector(
         (state: ApplicationStateInterface) => state.authState,
     );
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
 
     useEffect(() => {
         navigation.setOptions({
