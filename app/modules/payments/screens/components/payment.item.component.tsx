@@ -2,6 +2,7 @@ import React from "react";
 import { Badge, ListItem } from "react-native-elements";
 import { Payment } from "../../../../common/entities/payment.entity";
 import moment from "moment";
+import { FilterSegment } from "../../dtos/payment.dto";
 
 type Props = {
     payment: Payment;

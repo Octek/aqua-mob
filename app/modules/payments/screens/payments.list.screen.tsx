@@ -13,7 +13,7 @@ import { ApplicationStateInterface } from "../../../common/redux/application.sta
 import { Payment } from "../../../common/entities/payment.entity";
 import { PaymentItemComponent } from "./components/payment.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
-import { FilterSegment } from "../dtos/payment.dto";
+import { FilterSegment, PaymentMode } from "../dtos/payment.dto";
 import { cleanupNewPayment } from "../redux/actions/new.payment.actions";
 import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
 import { HeaderBackComponent } from "../../../common/components/header.back.component";

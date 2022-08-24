@@ -44,7 +44,7 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({

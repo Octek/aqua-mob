@@ -34,7 +34,7 @@ export const UserPasswordChange: React.FC<Props> = ({ navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -65,7 +65,7 @@ export const UserPasswordChange: React.FC<Props> = ({ navigation }) => {
                     />
                 ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         if (changePasswordState.updateState === ActionState.done) {

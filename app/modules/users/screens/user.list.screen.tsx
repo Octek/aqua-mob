@@ -25,7 +25,7 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -44,7 +44,7 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
                 />
             ),
         });
-    });
+    }, []);
 
     const usersState = useSelector(
         (state: ApplicationStateInterface) => state.usersState,

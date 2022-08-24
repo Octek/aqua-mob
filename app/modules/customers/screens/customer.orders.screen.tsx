@@ -45,7 +45,7 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({

@@ -45,7 +45,7 @@ export const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -74,7 +74,7 @@ export const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
                     />
                 ),
         });
-    });
+    }, []);
 
     const initials = () => {
         const components = loginUser!.name.split(" ");

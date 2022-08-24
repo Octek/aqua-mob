@@ -32,13 +32,20 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
     );
     const dispatch = useDispatch();
 
+    const changeText = (t: string) => {
+        setShowRefreshControl(false);
+        setText(t);
+        clearTimeout(timeoutHandle);
+        setTimeoutHandle(setTimeout(() => setSearchTerm(t), 300));
+    };
+
     useEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -60,7 +67,7 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
                     // </View>
                 ),
         });
-    });
+    }, []);
 
     useEffect(() => setPage(1), []);
 
@@ -95,12 +102,7 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
                     !showRefreshControl
                 }
                 autoCapitalize={"none"}
-                onChangeText={(t: string) => {
-                    setShowRefreshControl(false);
-                    setText(t);
-                    clearTimeout(timeoutHandle);
-                    setTimeoutHandle(setTimeout(() => setSearchTerm(t), 300));
-                }}
+                onChangeText={changeText}
                 value={text}
                 placeholder={"Search"}
             />

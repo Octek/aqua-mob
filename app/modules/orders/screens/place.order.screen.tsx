@@ -41,7 +41,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -77,7 +77,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                     />
                 ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         console.log("orderAction===", ordersState.addState);

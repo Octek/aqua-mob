@@ -48,7 +48,7 @@ export const PaymentDetailScreen: React.FC<Props> = ({ route, navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -73,7 +73,7 @@ export const PaymentDetailScreen: React.FC<Props> = ({ route, navigation }) => {
                     )
                 ) : null,
         });
-    });
+    }, []);
 
     const buildData = () => {
         let data = [];

@@ -38,7 +38,15 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
+
+    const changeText = (t: string) => {
+        console.log("change text====", t);
+        setShowRefreshControl(false);
+        setText(t);
+        clearTimeout(timeoutHandle);
+        setTimeoutHandle(setTimeout(() => setSearchTerm(t), 300));
+    };
 
     useEffect(() => {
         navigation.setOptions({
@@ -57,7 +65,7 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                 />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => setPage(1), []);
 
@@ -96,12 +104,7 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                 }
                 autoCapitalize={"none"}
                 // @ts-ignore
-                onChangeText={(t: string) => {
-                    setShowRefreshControl(false);
-                    setText(t);
-                    clearTimeout(timeoutHandle);
-                    setTimeoutHandle(setTimeout(() => setSearchTerm(t), 300));
-                }}
+                onChangeText={changeText}
                 value={text}
                 placeholder={"Search"}
             />

@@ -43,7 +43,7 @@ export const UpsertCustomerScreen: React.FC<Props> = ({
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({

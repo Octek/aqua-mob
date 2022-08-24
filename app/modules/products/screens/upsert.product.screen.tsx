@@ -36,7 +36,7 @@ export const UpsertProductScreen: React.FC<Props> = ({ route, navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -80,7 +80,7 @@ export const UpsertProductScreen: React.FC<Props> = ({ route, navigation }) => {
                     />
                 ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         if (

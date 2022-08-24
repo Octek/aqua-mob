@@ -47,7 +47,7 @@ export const ShowOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -98,7 +98,7 @@ export const ShowOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                     </View>
                 )),
         });
-    });
+    }, []);
 
     useEffect(() => {
         if (!route.params.pushed) {
