@@ -67,6 +67,8 @@ export const ordersReducer = (
                 ...state,
                 addState: ActionState.done,
                 entities: [
+                    // plainToInstance(Order, <Order>action.payload.data),
+
                     plainToInstance(Order, <Order>action.payload.data),
                     ...state.entities,
                 ],

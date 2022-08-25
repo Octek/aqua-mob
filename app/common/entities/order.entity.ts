@@ -25,6 +25,7 @@ export class Order {
         public status: OrderStatus,
         public cancelReason: string,
         public createdAt: Date,
+        public isNew: boolean,
     ) {}
 
     get total(): number {
