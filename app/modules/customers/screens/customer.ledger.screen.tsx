@@ -26,10 +26,9 @@ export const CustomerLedgerScreen: React.FC<Props> = ({
     const ledgerState = useSelector(
         (state: ApplicationStateInterface) => state.ledgerState,
     );
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const dispatch = useDispatch();
     const customer = route.params.customer;
-    useEffect(() => setPage(1), []);
 
     useEffect(() => {
         navigation.setOptions({

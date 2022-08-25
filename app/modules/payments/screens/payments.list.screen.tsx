@@ -24,7 +24,7 @@ type Props = {
 };
 
 export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedIndex, setSelectedIndex] = useState(FilterSegment.All);
     const paymentState = useSelector(
@@ -60,7 +60,7 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
             ),
         });
     });
-    useEffect(() => setPage(1), []);
+
     useEffect(() => {
         if (page > 0) {
             fetch();

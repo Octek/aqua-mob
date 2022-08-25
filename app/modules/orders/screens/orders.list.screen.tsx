@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const OrdersListScreen: React.FC<Props> = ({ navigation }) => {
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [selectedIndex, setSelectedIndex] = useState(OrderFilters.New);
     const [currentIndex, setCurrentIndex] = useState(0);
     const ordersState = useSelector(
@@ -57,8 +57,6 @@ export const OrdersListScreen: React.FC<Props> = ({ navigation }) => {
             ),
         });
     }, []);
-
-    useEffect(() => setPage(1), []);
 
     useEffect(() => {
         if (page > 0) {

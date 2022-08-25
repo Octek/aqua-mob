@@ -35,7 +35,7 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
         (state: ApplicationStateInterface) => state.paymentsState,
     );
     const dispatch = useDispatch();
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const customer = route.params.customer;
 
     useEffect(() => {
@@ -82,8 +82,6 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
             dispatch(addCustomerPayment(paymentsState.entities[0]));
         }
     }, [paymentsState.addState]);
-
-    useEffect(() => setPage(1), []);
 
     useEffect(() => {
         console.log("page===", page);

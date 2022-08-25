@@ -17,7 +17,6 @@ import { Order } from "../../../common/entities/order.entity";
 import { OrderItemComponent } from "../../orders/screens/components/order.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { cleanupOrders } from "../../orders/redux/actions/order.actions";
-import { customerOrdersReducer } from "../redux/reducers/customer.orders.reducer";
 import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
@@ -31,7 +30,7 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
 }) => {
     const dispatch = useDispatch();
     const customer = route.params.customer;
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const customerOrdersState = useSelector(
         (state: ApplicationStateInterface) => state.customerOrdersState,
     );
@@ -94,8 +93,6 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
             dispatch(addCustomerOrder(ordersState.entities[0]));
         }
     }, [ordersState.addState]);
-
-    useEffect(() => setPage(1), []);
 
     useEffect(() => {
         console.log("page===", page);

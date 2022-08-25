@@ -26,7 +26,7 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
     const [showRefreshControl, setShowRefreshControl] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [text, setText] = useState("");
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const customersState = useSelector(
         (state: ApplicationStateInterface) => state.customersState,
     );
@@ -66,8 +66,6 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
             ),
         });
     }, []);
-
-    useEffect(() => setPage(1), []);
 
     useEffect(() => {
         if (page > 0) {
