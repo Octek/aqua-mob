@@ -14,6 +14,7 @@ import { ActionState } from "../../../common/redux/entity.state.interface";
 import { setPaymentCustomer } from "../../payments/redux/actions/new.payment.actions";
 import { cleanupCustomer } from "../redux/actions/customer.actions";
 import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "customersNavigator">;
@@ -33,6 +34,22 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
 
     useEffect(() => {
         navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    }, []);
+
+    const changeText = (t: string) => {
+        console.log("change text====", t);
+        setShowRefreshControl(false);
+        setText(t);
+        clearTimeout(timeoutHandle);
+        setTimeoutHandle(setTimeout(() => setSearchTerm(t), 300));
+    };
+
+    useEffect(() => {
+        navigation.setOptions({
             headerRight: () => (
                 <Icon
                     containerStyle={{ marginRight: 10 }}
@@ -48,7 +65,7 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                 />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => setPage(1), []);
 
@@ -78,6 +95,22 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
         }
     };
 
+    const listHeader = () => {
+        return (
+            <SearchBar
+                showLoading={
+                    customersState.fetchState === ActionState.inProgress &&
+                    !showRefreshControl
+                }
+                autoCapitalize={"none"}
+                // @ts-ignore
+                onChangeText={changeText}
+                value={text}
+                placeholder={"Search"}
+            />
+        );
+    };
+    console.log("searchText===", searchTerm);
     return (
         <FlatList<User>
             contentContainerStyle={{ flexGrow: 1 }}
@@ -106,26 +139,11 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                 fetchNext();
             }}
             ListHeaderComponent={
-                customersState.entities.length > 0 ? (
-                    <SearchBar
-                        showLoading={
-                            customersState.fetchState ===
-                                ActionState.inProgress && !showRefreshControl
-                        }
-                        autoCapitalize={"none"}
-                        // @ts-ignore
-                        onChangeText={(t: string) => {
-                            setShowRefreshControl(false);
-                            setText(t);
-                            clearTimeout(timeoutHandle);
-                            setTimeoutHandle(
-                                setTimeout(() => setSearchTerm(t), 300),
-                            );
-                        }}
-                        value={text}
-                        placeholder={"Search"}
-                    />
-                ) : null
+                customersState.entities.length === 0
+                    ? searchTerm.length === 0
+                        ? null
+                        : listHeader()
+                    : listHeader()
             }
             renderItem={({ item }) => (
                 <CustomerItemComponent

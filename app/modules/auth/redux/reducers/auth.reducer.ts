@@ -6,6 +6,7 @@ import { Device } from "../../../../common/entities/device.entity";
 export interface AuthStateInterface {
     authState: ActionState;
     deviceState: ActionState;
+    updateState: ActionState;
     loggedInUser?: User;
     device?: Device;
 }
@@ -13,6 +14,7 @@ export interface AuthStateInterface {
 const initialState: AuthStateInterface = {
     authState: ActionState.notStarted,
     deviceState: ActionState.notStarted,
+    updateState: ActionState.notStarted,
     loggedInUser: undefined,
     device: undefined,
 };
@@ -23,6 +25,8 @@ export const authReducer = (
 ): AuthStateInterface => {
     console.log(action.state);
     switch (action.type) {
+        case Types.CLEAR_AUTH_STATE:
+            return { ...state, updateState: ActionState.notStarted };
         case Types.LOGIN:
             return {
                 ...state,
@@ -38,6 +42,13 @@ export const authReducer = (
             return {
                 ...state,
                 authState: ActionState.failed,
+            };
+        case Types.UPDATE_LOGIN_USER:
+            console.log("update login User===", action.payload.user);
+            return {
+                ...state,
+                updateState: ActionState.done,
+                loggedInUser: action.payload.user,
             };
         case Types.REGISTER_DEVICE:
             console.log("registering device ...");

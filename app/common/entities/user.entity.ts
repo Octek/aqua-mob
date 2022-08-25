@@ -13,6 +13,7 @@ export class User {
         public whatsApp: string,
         public whatsappVerified: boolean,
         public address: string,
+        public role: number,
         public status: number,
         public company: Company,
     ) {}

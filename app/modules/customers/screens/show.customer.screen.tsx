@@ -26,6 +26,7 @@ import { cleanupCustomerOrders } from "../redux/actions/customer.order.actions";
 import { cleanupOrders } from "../../orders/redux/actions/order.actions";
 import { showMessage } from "react-native-flash-message";
 import { cleanCustomerLedger } from "../redux/actions/custom.ledger.actions";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "showCustomer">;
@@ -37,6 +38,14 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
     const customerState = useSelector(
         (state: ApplicationStateInterface) => state.customerState,
     );
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    }, []);
 
     const openCallDialogWithMobileNumber = (number: number) => {
         let phoneNumber = "";

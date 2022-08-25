@@ -19,6 +19,7 @@ import {
     voidCart,
 } from "../redux/actions/cart.actions";
 import { CartItemDeliveryChargesComponent } from "./components/cart.item.dc.component";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "placeOrder">;
@@ -33,6 +34,14 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
         (state: ApplicationStateInterface) => state.cartState,
     );
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -68,7 +77,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                     />
                 ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         console.log("orderAction===", ordersState.addState);

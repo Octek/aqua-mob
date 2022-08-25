@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ActivityIndicator, FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, View, Keyboard } from "react-native";
 import { Icon, ListItem } from "react-native-elements";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import {
     updateProduct,
 } from "../redux/actions/product.actions";
 import { ProductDto } from "../dtos/product.dto";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "upsertProduct">;
@@ -31,6 +32,14 @@ export const UpsertProductScreen: React.FC<Props> = ({ route, navigation }) => {
 
     useEffect(() => {
         navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    }, []);
+
+    useEffect(() => {
+        navigation.setOptions({
             headerRight: () =>
                 productsState.addState === ActionState.inProgress ||
                 productsState.updateState === ActionState.inProgress ? (
@@ -46,6 +55,7 @@ export const UpsertProductScreen: React.FC<Props> = ({ route, navigation }) => {
                         color="black"
                         tvParallaxProperties={undefined}
                         onPress={() => {
+                            Keyboard.dismiss();
                             product === undefined
                                 ? dispatch(
                                       addProduct(
@@ -70,7 +80,7 @@ export const UpsertProductScreen: React.FC<Props> = ({ route, navigation }) => {
                     />
                 ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         if (

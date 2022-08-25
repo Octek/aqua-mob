@@ -14,6 +14,7 @@ import { AddCustomerDto } from "../dtos/add.customer.dto";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { UpdateCustomerDto } from "../dtos/update.customer.dto";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "upsertCustomer">;
@@ -35,6 +36,14 @@ export const UpsertCustomerScreen: React.FC<Props> = ({
         (state: ApplicationStateInterface) => state.customersState,
     );
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({

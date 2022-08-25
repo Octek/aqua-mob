@@ -20,6 +20,7 @@ import { Badge, Icon } from "react-native-elements";
 import { reversePayment } from "../redux/actions/payment.actions";
 import { ReactNativeModal } from "react-native-modal";
 import { cancelOrder } from "../../orders/redux/actions/order.actions";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "showPaymentDetail">;
@@ -40,6 +41,14 @@ export const PaymentDetailScreen: React.FC<Props> = ({ route, navigation }) => {
             navigation.goBack();
         }
     }, [paymentState.addState]);
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -64,7 +73,7 @@ export const PaymentDetailScreen: React.FC<Props> = ({ route, navigation }) => {
                     )
                 ) : null,
         });
-    });
+    }, []);
 
     const buildData = () => {
         let data = [];
