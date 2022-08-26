@@ -80,7 +80,7 @@ export const UpsertProductScreen: React.FC<Props> = ({ route, navigation }) => {
                     />
                 ),
         });
-    }, []);
+    });
 
     useEffect(() => {
         if (

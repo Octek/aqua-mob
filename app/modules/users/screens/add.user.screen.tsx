@@ -76,7 +76,7 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     />
                 ),
         });
-    }, []);
+    });
 
     useEffect(() => {
         if (usersState.addState === ActionState.done) {

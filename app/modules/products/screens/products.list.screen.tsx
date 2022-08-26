@@ -67,7 +67,7 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
                     // </View>
                 ),
         });
-    }, []);
+    });
 
     useEffect(() => {
         if (page > 0) {

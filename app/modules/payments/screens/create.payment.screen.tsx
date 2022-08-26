@@ -81,7 +81,7 @@ export const CreatePaymentScreen: React.FC<Props> = ({ route, navigation }) => {
                     />
                 ),
         });
-    }, []);
+    });
 
     useEffect(() => {
         if (paymentsState.addState === ActionState.done) {

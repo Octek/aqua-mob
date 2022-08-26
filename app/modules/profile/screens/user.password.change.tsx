@@ -65,7 +65,7 @@ export const UserPasswordChange: React.FC<Props> = ({ navigation }) => {
                     />
                 ),
         });
-    }, []);
+    });
 
     useEffect(() => {
         if (changePasswordState.updateState === ActionState.done) {

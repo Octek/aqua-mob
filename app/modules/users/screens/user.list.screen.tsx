@@ -44,7 +44,7 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
                 />
             ),
         });
-    }, []);
+    });
 
     const usersState = useSelector(
         (state: ApplicationStateInterface) => state.usersState,

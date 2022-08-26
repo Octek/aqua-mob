@@ -45,7 +45,7 @@ export const ShowCustomerScreen: React.FC<Props> = ({ route, navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    }, []);
+    });
 
     const openCallDialogWithMobileNumber = (number: number) => {
         let phoneNumber = "";

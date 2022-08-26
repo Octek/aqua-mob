@@ -36,7 +36,7 @@ export const CustomerLedgerScreen: React.FC<Props> = ({
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    }, []);
+    });
 
     useEffect(() => {
         console.log("page===", page);

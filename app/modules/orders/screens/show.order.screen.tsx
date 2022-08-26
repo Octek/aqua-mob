@@ -98,7 +98,7 @@ export const ShowOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                     </View>
                 )),
         });
-    }, []);
+    });
 
     useEffect(() => {
         if (!route.params.pushed) {

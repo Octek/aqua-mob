@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { ParamList, SelectCustomerReason } from "../../../common/param.list";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -41,7 +41,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    }, []);
+    });
 
     useEffect(() => {
         navigation.setOptions({
@@ -77,7 +77,7 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                     />
                 ),
         });
-    }, []);
+    });
 
     useEffect(() => {
         console.log("orderAction===", ordersState.addState);

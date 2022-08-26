@@ -74,7 +74,7 @@ export const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
                     />
                 ),
         });
-    }, []);
+    });
 
     const initials = () => {
         const components = loginUser!.name.split(" ");

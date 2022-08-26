@@ -38,7 +38,7 @@ export const CustomersListScreen: React.FC<Props> = ({ route, navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    }, []);
+    });
 
     const changeText = (t: string) => {
         console.log("change text====", t);
