@@ -12,6 +12,7 @@ import { LedgerItem } from "../../../common/entities/ledger.entity";
 import { CustomerLedgerItemComponent } from "./components/customer.ledger.item.component";
 import { ListItem } from "react-native-elements";
 import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "showLedger">;
@@ -25,10 +26,17 @@ export const CustomerLedgerScreen: React.FC<Props> = ({
     const ledgerState = useSelector(
         (state: ApplicationStateInterface) => state.ledgerState,
     );
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const dispatch = useDispatch();
     const customer = route.params.customer;
-    useEffect(() => setPage(1), []);
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
 
     useEffect(() => {
         console.log("page===", page);

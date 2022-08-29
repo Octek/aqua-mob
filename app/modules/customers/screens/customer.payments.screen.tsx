@@ -17,6 +17,7 @@ import { ActionState } from "../../../common/redux/entity.state.interface";
 import { showMessage } from "react-native-flash-message";
 import { CompanyStatus } from "../../../common/entities/company.entity";
 import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "customerPayments">;
@@ -34,8 +35,17 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
         (state: ApplicationStateInterface) => state.paymentsState,
     );
     const dispatch = useDispatch();
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const customer = route.params.customer;
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    }, []);
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -72,8 +82,6 @@ export const CustomerPaymentsScreen: React.FC<Props> = ({
             dispatch(addCustomerPayment(paymentsState.entities[0]));
         }
     }, [paymentsState.addState]);
-
-    useEffect(() => setPage(1), []);
 
     useEffect(() => {
         console.log("page===", page);

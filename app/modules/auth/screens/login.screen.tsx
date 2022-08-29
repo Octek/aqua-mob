@@ -33,6 +33,11 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
         dispatch(login(loginDto));
     };
 
+    const setUserName = (name: string) => {
+        let userName = name.replace(" ", "");
+        setUsername(userName);
+    };
+
     return (
         <View
             style={{
@@ -72,7 +77,7 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
                     autoCorrect={false}
                     editable={authState.authState !== ActionState.inProgress}
                     value={username}
-                    onChangeText={(value) => setUsername(value)}
+                    onChangeText={setUserName}
                     placeholder={"Username"}
                 />
                 <TextInput

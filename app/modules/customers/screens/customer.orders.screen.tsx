@@ -17,7 +17,7 @@ import { Order } from "../../../common/entities/order.entity";
 import { OrderItemComponent } from "../../orders/screens/components/order.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { cleanupOrders } from "../../orders/redux/actions/order.actions";
-import { customerOrdersReducer } from "../redux/reducers/customer.orders.reducer";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "customerOrders">;
@@ -30,13 +30,21 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
 }) => {
     const dispatch = useDispatch();
     const customer = route.params.customer;
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const customerOrdersState = useSelector(
         (state: ApplicationStateInterface) => state.customerOrdersState,
     );
     const ordersState = useSelector(
         (state: ApplicationStateInterface) => state.ordersState,
     );
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
 
     useEffect(() => {
         navigation.setOptions({
@@ -72,14 +80,19 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
         });
     });
 
+    const orderItemPress = (order: Order) => {
+        navigation.push("showOrder", {
+            order: order,
+            pushed: true,
+        });
+    };
+
     useEffect(() => {
         if (ordersState.addState === ActionState.done) {
             console.log("i'm done with id", ordersState.entities[0]);
             dispatch(addCustomerOrder(ordersState.entities[0]));
         }
     }, [ordersState.addState]);
-
-    useEffect(() => setPage(1), []);
 
     useEffect(() => {
         console.log("page===", page);
@@ -119,15 +132,7 @@ export const CustomerOrdersScreen: React.FC<Props> = ({
             }}
             data={customerOrdersState.entities}
             renderItem={({ item }) => (
-                <OrderItemComponent
-                    order={item}
-                    onPress={(order) => {
-                        navigation.push("showOrder", {
-                            order: order,
-                            pushed: true,
-                        });
-                    }}
-                />
+                <OrderItemComponent order={item} onPress={orderItemPress} />
             )}
         />
     );

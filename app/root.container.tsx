@@ -22,6 +22,7 @@ import {
     cleanupOrderState,
     getOrderDetails,
 } from "./modules/orders/redux/actions/order.actions";
+import { ProfileNavigator } from "./modules/profile/screens/profile.navigator";
 
 export enum PushNotificationTypes {
     NewOrder = "NEW-ORDER",
@@ -132,6 +133,10 @@ export const RootContainer = () => {
                 <Stack.Screen
                     name="usersNavigator"
                     component={UsersNavigator}
+                />
+                <Stack.Screen
+                    name="profileNavigator"
+                    component={ProfileNavigator}
                 />
             </Stack.Navigator>
         </NavigationContainer>

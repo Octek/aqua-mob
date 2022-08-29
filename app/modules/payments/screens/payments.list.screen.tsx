@@ -13,9 +13,10 @@ import { ApplicationStateInterface } from "../../../common/redux/application.sta
 import { Payment } from "../../../common/entities/payment.entity";
 import { PaymentItemComponent } from "./components/payment.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
-import { FilterSegment } from "../dtos/payment.dto";
+import { FilterSegment, PaymentMode } from "../dtos/payment.dto";
 import { cleanupNewPayment } from "../redux/actions/new.payment.actions";
 import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "paymentsNavigator">;
@@ -23,7 +24,7 @@ type Props = {
 };
 
 export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedIndex, setSelectedIndex] = useState(FilterSegment.All);
     const paymentState = useSelector(
@@ -31,6 +32,15 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
     );
     const buttons = ["All", "Cash", "Online"];
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -50,7 +60,7 @@ export const PaymentsListScreen: React.FC<Props> = ({ navigation }) => {
             ),
         });
     });
-    useEffect(() => setPage(1), []);
+
     useEffect(() => {
         if (page > 0) {
             fetch();

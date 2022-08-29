@@ -10,6 +10,7 @@ import { addPayment, cleanupPayments } from "../redux/actions/payment.actions";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { cleanupNewPayment } from "../redux/actions/new.payment.actions";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "createPayment">;
@@ -39,6 +40,13 @@ export const CreatePaymentScreen: React.FC<Props> = ({ route, navigation }) => {
             setMode(PaymentMode.Online);
         }
     };
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({

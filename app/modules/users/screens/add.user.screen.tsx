@@ -14,6 +14,7 @@ import { addUser } from "../redux/actions/users.actions";
 import { UserRoles, UsersDto } from "../dtos/users.dto";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { ActionState } from "../../../common/redux/entity.state.interface";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "addUser">;
@@ -32,6 +33,15 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
     const usersState = useSelector(
         (state: ApplicationStateInterface) => state.usersState,
     );
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    }, []);
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () =>
@@ -67,6 +77,11 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                 ),
         });
     });
+
+    const setusername = (username: string) => {
+        let uname = username.replace(" ", "");
+        setUserName(uname);
+    };
 
     useEffect(() => {
         if (usersState.addState === ActionState.done) {
@@ -108,7 +123,8 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"User Name"}
                     value={userName}
-                    onChangeText={(value) => setUserName(value)}
+                    // onChangeText={(value) => setUserName(value)}
+                    onChangeText={setusername}
                 />
                 <ListItem.Subtitle>User Name</ListItem.Subtitle>
             </ListItem.Content>

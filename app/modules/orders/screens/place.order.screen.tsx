@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { ParamList, SelectCustomerReason } from "../../../common/param.list";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -19,6 +19,7 @@ import {
     voidCart,
 } from "../redux/actions/cart.actions";
 import { CartItemDeliveryChargesComponent } from "./components/cart.item.dc.component";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "placeOrder">;
@@ -33,6 +34,14 @@ export const PlaceOrderScreen: React.FC<Props> = ({ route, navigation }) => {
         (state: ApplicationStateInterface) => state.cartState,
     );
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    });
 
     useEffect(() => {
         navigation.setOptions({

@@ -14,6 +14,7 @@ import { Icon } from "react-native-elements";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { SearchBar } from "react-native-elements";
 import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "productsNavigator">;
@@ -25,11 +26,26 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
     const [showRefreshControl, setShowRefreshControl] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [text, setText] = useState("");
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const productsState = useSelector(
         (state: ApplicationStateInterface) => state.productsState,
     );
     const dispatch = useDispatch();
+
+    const changeText = (t: string) => {
+        setShowRefreshControl(false);
+        setText(t);
+        clearTimeout(timeoutHandle);
+        setTimeoutHandle(setTimeout(() => setSearchTerm(t), 300));
+    };
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -52,8 +68,6 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
                 ),
         });
     });
-
-    useEffect(() => setPage(1), []);
 
     useEffect(() => {
         if (page > 0) {
@@ -78,6 +92,32 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
         }
     };
 
+    const listHeader = () => {
+        return (
+            <SearchBar
+                showLoading={
+                    productsState.fetchState === ActionState.inProgress &&
+                    !showRefreshControl
+                }
+                autoCapitalize={"none"}
+                onChangeText={changeText}
+                value={text}
+                placeholder={"Search"}
+            />
+        );
+    };
+
+    const onItemPress = (product: Product) => {
+        if (route.params && route.params.selectable) {
+            dispatch(addItem(new OrderItemDto(product, 1, product.price)));
+            navigation.goBack();
+        } else {
+            navigation.push("upsertProduct", {
+                product: product,
+            });
+        }
+    };
+
     return (
         <FlatList<Product>
             contentContainerStyle={{ flexGrow: 1 }}
@@ -99,44 +139,14 @@ export const ProductsListScreen: React.FC<Props> = ({ route, navigation }) => {
                 ) : null
             }
             ListHeaderComponent={
-                productsState.entities.length > 0 ? (
-                    <SearchBar
-                        showLoading={
-                            productsState.fetchState ===
-                                ActionState.inProgress && !showRefreshControl
-                        }
-                        autoCapitalize={"none"}
-                        onChangeText={(t: string) => {
-                            setShowRefreshControl(false);
-                            setText(t);
-                            clearTimeout(timeoutHandle);
-                            setTimeoutHandle(
-                                setTimeout(() => setSearchTerm(t), 300),
-                            );
-                        }}
-                        value={text}
-                        placeholder={"Search"}
-                    />
-                ) : null
+                productsState.entities.length === 0
+                    ? searchTerm.length === 0
+                        ? null
+                        : listHeader()
+                    : listHeader()
             }
             renderItem={({ item }) => (
-                <ProductItemComponent
-                    product={item}
-                    onPress={(product) => {
-                        if (route.params && route.params.selectable) {
-                            dispatch(
-                                addItem(
-                                    new OrderItemDto(product, 1, product.price),
-                                ),
-                            );
-                            navigation.goBack();
-                        } else {
-                            navigation.push("upsertProduct", {
-                                product: product,
-                            });
-                        }
-                    }}
-                />
+                <ProductItemComponent product={item} onPress={onItemPress} />
             )}
         />
     );

@@ -10,6 +10,7 @@ import { Icon } from "react-native-elements";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { HeaderBackComponent } from "../../../common/components/header.back.component";
 
 type Props = {
     route: RouteProp<ParamList, "productsNavigator">;
@@ -20,7 +21,15 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
 
     useEffect(() => {
         navigation.setOptions({
-            headerTitle: "Products",
+            headerLeft: () => (
+                <HeaderBackComponent onPress={() => navigation.goBack()} />
+            ),
+        });
+    }, []);
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerTitle: "Users",
             headerRight: () => (
                 <Icon
                     containerStyle={{ marginRight: 10 }}
@@ -40,9 +49,11 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
     const usersState = useSelector(
         (state: ApplicationStateInterface) => state.usersState,
     );
+
     useEffect(() => {
         dispatch(fetchUsers());
     }, []);
+
     useEffect(() => {
         if (usersState.fetchState === ActionState.done) {
             console.log("userData===", usersState.entities);

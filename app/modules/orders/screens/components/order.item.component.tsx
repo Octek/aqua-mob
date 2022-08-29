@@ -27,17 +27,17 @@ export const OrderItemComponent: React.FC<Props> = (props) => {
                     <ListItem.Content style={{ marginLeft: 10 }}>
                         <ListItem.Title>
                             <Text>{props.order.customer.name}</Text>
-                            <Badge
-                                containerStyle={{ padding: 1 }}
-                                textStyle={{
-                                    color: props.order.statusInfo.textColor,
-                                }}
-                                value={props.order.statusInfo.text}
-                                badgeStyle={{
-                                    backgroundColor:
-                                        props.order.statusInfo.backgroundColor,
-                                }}
-                            />
+                            {/*<Badge*/}
+                            {/*    containerStyle={{ padding: 1 }}*/}
+                            {/*    textStyle={{*/}
+                            {/*        color: props.order.statusInfo.textColor,*/}
+                            {/*    }}*/}
+                            {/*    value={props.order.statusInfo.text}*/}
+                            {/*    badgeStyle={{*/}
+                            {/*        backgroundColor:*/}
+                            {/*            props.order.statusInfo.backgroundColor,*/}
+                            {/*    }}*/}
+                            {/*/>*/}
                         </ListItem.Title>
                         <ListItem.Subtitle>
                             {moment(props.order.createdAt).fromNow()}
