@@ -29,7 +29,7 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
 
     useEffect(() => {
         navigation.setOptions({
-            headerTitle: "Products",
+            headerTitle: "Users",
             headerRight: () => (
                 <Icon
                     containerStyle={{ marginRight: 10 }}
@@ -49,9 +49,11 @@ export const UserListScreen: React.FC<Props> = ({ route, navigation }) => {
     const usersState = useSelector(
         (state: ApplicationStateInterface) => state.usersState,
     );
+
     useEffect(() => {
         dispatch(fetchUsers());
     }, []);
+
     useEffect(() => {
         if (usersState.fetchState === ActionState.done) {
             console.log("userData===", usersState.entities);

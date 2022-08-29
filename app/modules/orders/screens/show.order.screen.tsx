@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Icon, Badge } from "react-native-elements";
+import { Badge, Icon } from "react-native-elements";
 import { StaticListItemComponent } from "../../../common/components/static.list.item.component";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
@@ -16,6 +16,7 @@ import {
 import { Order, OrderStatus } from "../../../common/entities/order.entity";
 import {
     ActivityIndicator,
+    Keyboard,
     SectionList,
     Text,
     TextInput,
@@ -26,6 +27,7 @@ import { ActionState } from "../../../common/redux/entity.state.interface";
 import moment from "moment";
 import { ReactNativeModal } from "react-native-modal";
 import { HeaderBackComponent } from "../../../common/components/header.back.component";
+import { showMessage } from "react-native-flash-message";
 
 type Props = {
     route: RouteProp<ParamList, "showOrder">;
@@ -87,14 +89,16 @@ export const ShowOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                             }}
                         />
 
-                        <Icon
-                            containerStyle={{ marginRight: 10 }}
-                            size={28}
-                            name="cancel"
-                            color="black"
-                            tvParallaxProperties={undefined}
-                            onPress={() => toggleCancelOrder(true)}
-                        />
+                        {currentOrder.status !== OrderStatus.OnTheWay && (
+                            <Icon
+                                containerStyle={{ marginRight: 10 }}
+                                size={28}
+                                name="cancel"
+                                color="black"
+                                tvParallaxProperties={undefined}
+                                onPress={() => toggleCancelOrder(true)}
+                            />
+                        )}
                     </View>
                 )),
         });
@@ -266,11 +270,20 @@ export const ShowOrderScreen: React.FC<Props> = ({ route, navigation }) => {
                             numberOfLines={2}
                         />
                         <TouchableOpacity
-                            onPress={() =>
-                                dispatch(
-                                    cancelOrder(currentOrder.id, cancelReason),
-                                )
-                            }
+                            onPress={() => {
+                                Keyboard.dismiss();
+                                cancelReason !== ""
+                                    ? dispatch(
+                                          cancelOrder(
+                                              currentOrder.id,
+                                              cancelReason,
+                                          ),
+                                      )
+                                    : showMessage({
+                                          message:
+                                              "Please Add The Cancel Reason",
+                                      });
+                            }}
                             style={{
                                 borderRadius: 5,
                                 alignItems: "center",

@@ -78,6 +78,11 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
         });
     });
 
+    const setusername = (username: string) => {
+        let uname = username.replace(" ", "");
+        setUserName(uname);
+    };
+
     useEffect(() => {
         if (usersState.addState === ActionState.done) {
             navigation.goBack();
@@ -118,7 +123,8 @@ export const AddUserScreen: React.FC<Props> = ({ route, navigation }) => {
                     textAlign="left"
                     placeholder={"User Name"}
                     value={userName}
-                    onChangeText={(value) => setUserName(value)}
+                    // onChangeText={(value) => setUserName(value)}
+                    onChangeText={setusername}
                 />
                 <ListItem.Subtitle>User Name</ListItem.Subtitle>
             </ListItem.Content>

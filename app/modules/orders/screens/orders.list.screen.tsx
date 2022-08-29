@@ -36,7 +36,7 @@ export const OrdersListScreen: React.FC<Props> = ({ navigation }) => {
                 <HeaderBackComponent onPress={() => navigation.goBack()} />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -56,7 +56,7 @@ export const OrdersListScreen: React.FC<Props> = ({ navigation }) => {
                 />
             ),
         });
-    });
+    }, []);
 
     useEffect(() => {
         if (page > 0) {
