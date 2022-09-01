@@ -17,7 +17,6 @@ import { Order } from "../../../common/entities/order.entity";
 import { OrderItemComponent } from "../../orders/screens/components/order.item.component";
 import { ActionState } from "../../../common/redux/entity.state.interface";
 import { cleanupOrders } from "../../orders/redux/actions/order.actions";
-import { customerOrdersReducer } from "../redux/reducers/customer.orders.reducer";
 
 type Props = {
     route: RouteProp<ParamList, "customerOrders">;

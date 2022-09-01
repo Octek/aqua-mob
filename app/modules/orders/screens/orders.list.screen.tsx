@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { ParamList } from "../../../common/param.list";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ActivityIndicator, FlatList } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationStateInterface } from "../../../common/redux/application.state.interface";
 import { Icon, ListItem } from "react-native-elements";
@@ -13,6 +13,7 @@ import { ActionState } from "../../../common/redux/entity.state.interface";
 import { OrderFilters } from "../dtos/order.item.dto";
 import { cleanupCartCustomer } from "../redux/actions/cart.actions";
 import { EmptyListItemComponent } from "../../../common/components/empty.list.item.component";
+import { StaticDropdownComponent } from "../../../common/components/static.dropdown.component";
 
 type Props = {
     route: RouteProp<ParamList, "ordersNavigator">;
@@ -27,23 +28,67 @@ export const OrdersListScreen: React.FC<Props> = ({ navigation }) => {
         (state: ApplicationStateInterface) => state.ordersState,
     );
     const dispatch = useDispatch();
+    const countries = ["New", "On the way", " Done", "Cancelled", "Clear All"];
     const groupButtons = ["New", "On the way", " Done", "Cancelled"];
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <Icon
-                    containerStyle={{ marginRight: 10 }}
-                    size={28}
-                    name="add-circle"
-                    color="black"
-                    tvParallaxProperties={undefined}
-                    onPress={() => {
-                        dispatch(cleanupCartCustomer());
-                        navigation.push("placeOrder", {
-                            selectCustomerDisable: false,
-                        });
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        // paddingRight: 10,
+                        marginBottom: -15,
+                        zIndex: 1,
                     }}
-                />
+                >
+                    <StaticDropdownComponent />
+                    {/*<SelectDropdown*/}
+                    {/*    selectedRowStyle={{ backgroundColor: "grey" }}*/}
+                    {/*    defaultValue={"test"}*/}
+                    {/*    defaultButtonText={"New"}*/}
+                    {/*    buttonStyle={{*/}
+                    {/*        height: 40,*/}
+                    {/*        width: 90,*/}
+                    {/*        paddingBottom: 10,*/}
+                    {/*        // marginBottom: 10,*/}
+                    {/*        backgroundColor: "white",*/}
+                    {/*    }}*/}
+                    {/*    buttonTextStyle={{ fontSize: 12 }}*/}
+                    {/*    dropdownStyle={{*/}
+                    {/*        width: 120,*/}
+                    {/*        justifyContent: "flex-start",*/}
+                    {/*    }}*/}
+                    {/*    data={countries}*/}
+                    {/*    onSelect={(selectedItem, index) => {*/}
+                    {/*        console.log(selectedItem, index);*/}
+                    {/*    }}*/}
+                    {/*    buttonTextAfterSelection={(selectedItem, index) => {*/}
+                    {/*        // text represented after item is selected*/}
+                    {/*        // if data array is an array of objects then return selectedItem.property to render after item is selected*/}
+                    {/*        return selectedItem;*/}
+                    {/*    }}*/}
+                    {/*    rowTextForSelection={(item, index) => {*/}
+                    {/*        // text represented for each item in dropdown*/}
+                    {/*        // if data array is an array of objects then return item.property to represent item in dropdown*/}
+                    {/*        return item;*/}
+                    {/*    }}*/}
+                    {/*/>*/}
+
+                    <Icon
+                        containerStyle={{ marginRight: 10 }}
+                        size={28}
+                        name="add-circle"
+                        color="black"
+                        tvParallaxProperties={undefined}
+                        onPress={() => {
+                            dispatch(cleanupCartCustomer());
+                            navigation.push("placeOrder", {
+                                selectCustomerDisable: false,
+                            });
+                        }}
+                    />
+                </View>
             ),
         });
     });
